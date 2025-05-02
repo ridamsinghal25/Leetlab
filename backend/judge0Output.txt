@@ -59,7 +59,7 @@ data in pollBatchResults: {
       token: '06ee2052-e976-45fc-97fe-cc265294ba02',
       compile_output: null,
       message: null,
-      status: [Object]
+      status: { id: 3, description: 'Accepted' }
     },
     {
       stdout: '-1100\n',
@@ -69,7 +69,7 @@ data in pollBatchResults: {
       token: 'c70e85a3-f041-465a-9718-959265c771df',
       compile_output: null,
       message: null,
-      status: [Object]
+      status: { id: 3, description: 'Accepted' }
     },
     {
       stdout: '0\n',
@@ -79,10 +79,12 @@ data in pollBatchResults: {
       token: '1fbdaa35-d2e2-44f4-87fa-80c94c236146',
       compile_output: null,
       message: null,
-      status: [Object]
+      status: { id: 3, description: 'Accepted' }
     }
   ]
 }
+
+
 
 language: PYTHON
 solutionCode: import sys
@@ -133,7 +135,7 @@ data in pollBatchResults: {
       token: '89406f69-0ee5-4018-8eff-34350957ad13',
       compile_output: null,
       message: null,
-      status: [Object]
+      status: { id: 3, description: 'Accepted' }
     },
     {
       stdout: '-1100\n',
@@ -143,7 +145,7 @@ data in pollBatchResults: {
       token: 'e7637899-ccde-4797-8ef3-fe0476578f5f',
       compile_output: null,
       message: null,
-      status: [Object]
+      status: { id: 3, description: 'Accepted' }
     },
     {
       stdout: '0\n',
@@ -153,7 +155,7 @@ data in pollBatchResults: {
       token: '5efdf46d-af4f-4c03-b901-4263f7b5884f',
       compile_output: null,
       message: null,
-      status: [Object]
+      status: { id: 3, description: 'Accepted' }
     }
   ]
 }
@@ -231,7 +233,7 @@ data in pollBatchResults: {
       token: '478979fb-84aa-4ee6-9142-ecb6a7ebb6e3',
       compile_output: null,
       message: null,
-      status: [Object]
+      status: { id: 3, description: 'Accepted' }
     },
     {
       stdout: '-1100\n',
@@ -241,7 +243,7 @@ data in pollBatchResults: {
       token: 'e0f95dec-1056-46bf-9391-38ebf7859f6c',
       compile_output: null,
       message: null,
-      status: [Object]
+      status: { id: 3, description: 'Accepted' }
     },
     {
       stdout: '0\n',
@@ -251,7 +253,7 @@ data in pollBatchResults: {
       token: '3e780b7f-b4ef-4818-bc45-9901e5bfe31c',
       compile_output: null,
       message: null,
-      status: [Object]
+      status: { id: 3, description: 'Accepted' }
     }
   ]
 }
