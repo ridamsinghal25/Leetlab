@@ -109,6 +109,12 @@ export const updateProblem = async (req, res) => {
 
     const { id } = req.params;
 
+    if (req.user.role !== "ADMIN") {
+      return res
+        .status(403)
+        .json({ error: "Forbidden: Only admin can update problems" });
+    }
+
     const isProblemExists = await db.problem.findUnique({
       where: {
         id,
