@@ -157,3 +157,46 @@ export const check = async (req, res) => {
     });
   }
 };
+
+export const getSubmissions = async (req, res) => {
+  try {
+    const submissions = await db.submission.findMany({
+      where: {
+        userId: req.user.id,
+      },
+    });
+    res.status(200).json({
+      success: true,
+      message: "Submissions fetched successfully",
+      submissions,
+    });
+  } catch (error) {
+    console.error("Fetch Submissions Error:", error);
+    res.status(500).json({ error: "Failed to fetch submissions" });
+  }
+};
+
+export const getUserPlaylists = async (req, res) => {
+  try {
+    const playLists = await db.playlist.findMany({
+      where: {
+        userId: req.user.id,
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        createdAt: true,
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Playlists fetched successfully",
+      playLists,
+    });
+  } catch (error) {
+    console.error("Fetch Playlists Error:", error);
+    res.status(500).json({ error: "Failed to fetch playlists" });
+  }
+};
