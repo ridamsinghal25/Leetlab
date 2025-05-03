@@ -19,6 +19,7 @@ export const getAllSubmissions = async (req, res) => {
     console.error("Error fetching submissions:", error);
     res.status(500).json({
       error: "Error fetching submissions",
+      success: false,
     });
   }
 };
@@ -43,13 +44,6 @@ export const getSubmissionsForProblem = async (req, res) => {
       },
     });
 
-    if (!submission) {
-      return res.status(404).json({
-        success: false,
-        message: "Submission not found",
-      });
-    }
-
     return res.status(200).json({
       success: true,
       message: "Submission fetched successfully",
@@ -59,6 +53,7 @@ export const getSubmissionsForProblem = async (req, res) => {
     console.error("Error fetching submissions:", error);
     res.status(500).json({
       error: "Error fetching submissions",
+      success: false,
     });
   }
 };
@@ -87,6 +82,9 @@ export const getAllTheSubmissionsForProblem = async (req, res) => {
     });
   } catch (error) {
     console.error("Fetch Submissions Error:", error);
-    res.status(500).json({ error: "Failed to fetch submissions" });
+    res.status(500).json({
+      error: "Failed to fetch submissions",
+      success: false,
+    });
   }
 };

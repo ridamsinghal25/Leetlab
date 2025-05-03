@@ -19,7 +19,17 @@ export const executeCode = async (req, res) => {
       !Array.isArray(expected_outputs) ||
       expected_outputs.length !== stdin.length
     ) {
-      return res.status(400).json({ error: "Invalid or Missing test cases" });
+      return res.status(400).json({
+        error: "Invalid or Missing test cases",
+        success: false,
+      });
+    }
+
+    if (!source_code || !language_id || !problemId) {
+      return res.status(400).json({
+        error: "Invalid or Missing fields",
+        success: false,
+      });
     }
 
     const isProblemExists = await db.problem.findUnique({
@@ -29,7 +39,10 @@ export const executeCode = async (req, res) => {
     });
 
     if (!isProblemExists) {
-      return res.status(404).json({ error: "Problem not found" });
+      return res.status(404).json({
+        error: "Problem not found",
+        success: false,
+      });
     }
 
     // 2. Prepare each test cases for judge0 batch submission
@@ -139,7 +152,10 @@ export const executeCode = async (req, res) => {
     });
 
     if (!submissionWithTestCases) {
-      return res.status(404).json({ error: "Submission not found" });
+      return res.status(404).json({
+        error: "Submission not found",
+        success: false,
+      });
     }
 
     return res.status(200).json({
@@ -149,6 +165,9 @@ export const executeCode = async (req, res) => {
     });
   } catch (error) {
     console.error("Error executing code:", error);
-    res.status(500).json({ error: "Failed to execute code" });
+    res.status(500).json({
+      error: "Failed to execute code",
+      success: false,
+    });
   }
 };

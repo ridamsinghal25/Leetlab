@@ -26,6 +26,23 @@ export const createProblem = async (req, res) => {
     });
   }
 
+  if (
+    !title ||
+    !description ||
+    !difficulty ||
+    !tags ||
+    !examples ||
+    !constraints ||
+    !testcases ||
+    !codeSnippets ||
+    !referenceSolutions
+  ) {
+    return res.status(400).json({
+      error: "All fields are required",
+      success: false,
+    });
+  }
+
   try {
     for (const [language, solutionCode] of Object.entries(referenceSolutions)) {
       const languageId = getJudge0Language(language);
@@ -54,6 +71,7 @@ export const createProblem = async (req, res) => {
         if (result.status.id !== 3) {
           return res.status(400).json({
             error: `Testcase ${i + 1} failed for language ${language}`,
+            success: false,
           });
         }
       }
@@ -87,6 +105,7 @@ export const createProblem = async (req, res) => {
     console.error("Error creating problem:", error);
     res.status(500).json({
       error: "Error creating problem",
+      success: false,
     });
   }
 };
@@ -115,6 +134,23 @@ export const updateProblem = async (req, res) => {
         .json({ error: "Forbidden: Only admin can update problems" });
     }
 
+    if (
+      !title ||
+      !description ||
+      !difficulty ||
+      !tags ||
+      !examples ||
+      !constraints ||
+      !testcases ||
+      !codeSnippets ||
+      !referenceSolutions
+    ) {
+      return res.status(400).json({
+        error: "All fields are required",
+        success: false,
+      });
+    }
+
     const isProblemExists = await db.problem.findUnique({
       where: {
         id,
@@ -124,6 +160,7 @@ export const updateProblem = async (req, res) => {
     if (!isProblemExists) {
       return res.status(404).json({
         error: "Problem not found",
+        success: false,
       });
     }
 
@@ -133,6 +170,7 @@ export const updateProblem = async (req, res) => {
       if (!languageId) {
         return res.status(400).json({
           error: `Language ${language} is not supported`,
+          success: false,
         });
       }
 
@@ -155,6 +193,7 @@ export const updateProblem = async (req, res) => {
         if (result.status.id !== 3) {
           return res.status(400).json({
             error: `Testcase ${i + 1} failed for language ${language}`,
+            success: false,
           });
         }
       }
@@ -183,6 +222,7 @@ export const updateProblem = async (req, res) => {
     if (!updatedProblem) {
       return res.status(404).json({
         error: "Problem not found",
+        success: false,
       });
     }
 
@@ -195,6 +235,7 @@ export const updateProblem = async (req, res) => {
     console.error("Error updating problem:", error);
     res.status(500).json({
       error: "Error updating problem",
+      success: false,
     });
   }
 };
@@ -206,6 +247,7 @@ export const getAllProblems = async (req, res) => {
     if (!problems) {
       return res.status(404).json({
         error: "No problems found",
+        success: false,
       });
     }
 
@@ -218,6 +260,7 @@ export const getAllProblems = async (req, res) => {
     console.error("Error fetching problems:", error);
     res.status(500).json({
       error: "Error fetching problems",
+      success: false,
     });
   }
 };
@@ -235,6 +278,7 @@ export const getProblemById = async (req, res) => {
     if (!problem) {
       return res.status(404).json({
         error: "Problem not found",
+        success: false,
       });
     }
 
@@ -247,6 +291,7 @@ export const getProblemById = async (req, res) => {
     console.error("Error fetching problem:", error);
     res.status(500).json({
       error: "Error fetching problem",
+      success: false,
     });
   }
 };
@@ -264,6 +309,7 @@ export const deleteProblem = async (req, res) => {
     if (!problem) {
       return res.status(404).json({
         error: "Problem not found",
+        success: false,
       });
     }
 
@@ -281,6 +327,7 @@ export const deleteProblem = async (req, res) => {
     console.error("Error deleting problem:", error);
     res.status(500).json({
       error: "Error deleting problem",
+      success: false,
     });
   }
 };
@@ -313,6 +360,9 @@ export const getAllProblemsSolvedByUser = async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching problems:", error);
-    res.status(500).json({ error: "Failed to fetch problems" });
+    res.status(500).json({
+      error: "Failed to fetch problems",
+      success: false,
+    });
   }
 };

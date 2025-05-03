@@ -6,6 +6,13 @@ export const createPlayList = async (req, res) => {
 
     const userId = req.user.id;
 
+    if (!name || !description) {
+      return res.status(400).json({
+        error: "All fields are required",
+        success: false,
+      });
+    }
+
     const playlist = await db.playlist.create({
       data: {
         name,
@@ -117,9 +124,10 @@ export const addProblemToPlaylist = async (req, res) => {
     }
 
     if (!Array.isArray(problemIds) || problemIds.length === 0) {
-      return res
-        .status(400)
-        .json({ error: "Invalid or missing problemIds", success: false });
+      return res.status(400).json({
+        error: "Invalid or missing problemIds",
+        success: false,
+      });
     }
 
     const problemInPlaylist = await db.problemInPlaylist.createMany({
