@@ -24,6 +24,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useSubmissionStore } from "@/store/useSubmissionStore";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 function ProfileSubmission() {
   const { submissions, getAllSubmissionsByUser } = useSubmissionStore();
@@ -96,39 +98,40 @@ function ProfileSubmission() {
         <h2 className="text-2xl font-bold">My Submissions</h2>
 
         <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="flex items-center gap-2">
-                <Filter size={16} />
-                {filter === "all" ? "All Submissions" : filter}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => setFilter("all")}>
-                All Submissions
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setFilter("Accepted")}>
-                Accepted
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setFilter("Wrong Answer")}>
-                Wrong Answer
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => setFilter("Time Limit Exceeded")}
-              >
-                Time Limit Exceeded
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
+          <div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="flex items-center gap-2">
+                  <Filter size={16} />
+                  {filter === "all" ? "All Submissions" : filter}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => setFilter("all")}>
+                  All Submissions
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setFilter("Accepted")}>
+                  Accepted
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setFilter("Wrong Answer")}>
+                  Wrong Answer
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => setFilter("Time Limit Exceeded")}
+                >
+                  Time Limit Exceeded
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
           <div className="flex gap-2">
-            <Card className="w-24">
+            <Card className="w-24 h-24">
               <CardContent className="p-3">
                 <div className="text-xs text-muted-foreground">Total</div>
                 <div className="text-xl font-bold">{submissions.length}</div>
               </CardContent>
             </Card>
-            <Card className="w-24">
+            <Card className="w-24 h-24">
               <CardContent className="p-3">
                 <div className="text-xs text-muted-foreground">Accepted</div>
                 <div className="text-xl font-bold text-green-600">
@@ -187,9 +190,12 @@ function ProfileSubmission() {
                           Solution Code
                         </h3>
                         <div className="relative rounded-md bg-muted p-4 overflow-x-auto">
-                          <pre className="text-sm">
-                            <code>{submission.sourceCode}</code>
-                          </pre>
+                          <SyntaxHighlighter
+                            language={submission.language}
+                            style={docco}
+                          >
+                            {submission.sourceCode}
+                          </SyntaxHighlighter>
                         </div>
                       </div>
 

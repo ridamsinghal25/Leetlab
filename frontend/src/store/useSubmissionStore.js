@@ -32,7 +32,7 @@ export const useSubmissionStore = create((set, get) => ({
       );
 
       if (res.data.success) {
-        set({ submission: res.data.submissions });
+        set({ submission: res.data.submission });
       }
     } catch (error) {
       toast.error("Error getting submissions for problem");

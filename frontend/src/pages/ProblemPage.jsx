@@ -51,6 +51,7 @@ import { useProblemStore } from "@/store/useProblemStore";
 import { useSubmissionStore } from "@/store/useSubmissionStore";
 import { useExecutionStore } from "@/store/useExecution";
 import SubmissionsList from "@/components/views/SubmissionList";
+import { getLanguageId } from "@/lib/getLanguageInfo";
 
 const ProblemPage = () => {
   const { id } = useParams();
@@ -65,7 +66,7 @@ const ProblemPage = () => {
 
   const [code, setCode] = useState("");
   const [activeTab, setActiveTab] = useState("description");
-  const [selectedLanguage, setSelectedLanguage] = useState("javascript");
+  const [selectedLanguage, setSelectedLanguage] = useState("JAVASCRIPT");
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [testCases, setTestCases] = useState([]);
 
@@ -82,7 +83,7 @@ const ProblemPage = () => {
         problem.codeSnippets?.[selectedLanguage] || submission?.sourceCode || ""
       );
       setTestCases(
-        problem.testCases?.map((tc) => ({
+        problem.testcases?.map((tc) => ({
           input: tc.input,
           output: tc.output,
         })) || []
@@ -283,11 +284,6 @@ const ProblemPage = () => {
                 </div>
 
                 <Separator orientation="vertical" className="h-4" />
-
-                <div className="flex items-center gap-1">
-                  <ThumbsUp className="w-4 h-4" />
-                  <span>95% Success</span>
-                </div>
               </div>
 
               <div className="flex items-center gap-2">
@@ -389,6 +385,8 @@ const ProblemPage = () => {
                   theme="vs-dark"
                   value={code}
                   onChange={(value) => setCode(value || "")}
+                  defaultLanguage="javascript"
+                  defaultValue={code}
                   options={{
                     minimap: { enabled: false },
                     fontSize: 16,
