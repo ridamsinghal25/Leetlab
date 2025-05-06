@@ -26,13 +26,13 @@ import {
 import { useSubmissionStore } from "@/store/useSubmissionStore";
 
 function ProfileSubmission() {
-  const { submissions, getAllSubmissions } = useSubmissionStore();
+  const { submissions, getAllSubmissionsByUser } = useSubmissionStore();
   const [expandedSubmission, setExpandedSubmission] = useState(null);
   const [filter, setFilter] = useState("all");
 
   useEffect(() => {
-    getAllSubmissions();
-  }, [getAllSubmissions]);
+    getAllSubmissionsByUser();
+  }, [getAllSubmissionsByUser]);
 
   const getStatusBadge = (status) => {
     switch (status) {

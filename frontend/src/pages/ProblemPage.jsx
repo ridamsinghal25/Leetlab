@@ -58,7 +58,7 @@ const ProblemPage = () => {
   const {
     submission: submissions,
     isLoading: isSubmissionsLoading,
-    getSubmissionForProblem,
+    getSubmissionForProblemByUser,
     getSubmissionCountForProblem,
     submissionCount,
   } = useSubmissionStore();
@@ -92,7 +92,7 @@ const ProblemPage = () => {
 
   useEffect(() => {
     if (activeTab === "submissions" && id) {
-      getSubmissionForProblem(id);
+      getSubmissionForProblemByUser(id);
     }
   }, [activeTab, id]);
 

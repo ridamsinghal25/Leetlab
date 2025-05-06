@@ -32,7 +32,7 @@ export const usePlaylistStore = create((set, get) => ({
     }
   },
 
-  getAllPlaylists: async () => {
+  getAllPlayListDetailsOfUser: async () => {
     try {
       set({ isLoading: true });
       const response = await axiosInstance.get("/playlist");
@@ -47,7 +47,7 @@ export const usePlaylistStore = create((set, get) => ({
     }
   },
 
-  getPlaylistDetails: async (playlistId) => {
+  getPlaylistDetail: async (playlistId) => {
     try {
       set({ isLoading: true });
       const response = await axiosInstance.get(`/playlist/${playlistId}`);

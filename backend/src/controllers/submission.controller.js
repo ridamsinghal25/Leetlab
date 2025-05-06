@@ -58,7 +58,7 @@ export const getSubmissionForProblemByUser = async (req, res) => {
   }
 };
 
-export const getAllTheSubmissionsForProblem = async (req, res) => {
+export const getSubmissionCountForProblem = async (req, res) => {
   try {
     const problemId = req.params.problemId;
 

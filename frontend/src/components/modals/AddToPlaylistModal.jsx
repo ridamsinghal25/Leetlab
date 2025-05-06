@@ -20,15 +20,19 @@ import { Label } from "@/components/ui/label";
 import { usePlaylistStore } from "@/store/usePlaylistStore";
 
 export const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
-  const { playlists, getAllPlaylists, addProblemToPlaylist, isLoading } =
-    usePlaylistStore();
+  const {
+    playlists,
+    getAllPlayListDetailsOfUser,
+    addProblemToPlaylist,
+    isLoading,
+  } = usePlaylistStore();
   const [selectedPlaylist, setSelectedPlaylist] = useState("");
 
   useEffect(() => {
     if (isOpen) {
-      getAllPlaylists();
+      getAllPlayListDetailsOfUser();
     }
-  }, [isOpen, getAllPlaylists]);
+  }, [isOpen, getAllPlayListDetailsOfUser]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

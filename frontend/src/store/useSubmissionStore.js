@@ -8,7 +8,7 @@ export const useSubmissionStore = create((set, get) => ({
   submission: null,
   submissionCount: null,
 
-  getAllSubmissions: async () => {
+  getAllSubmissionsByUser: async () => {
     try {
       set({ isLoading: true });
       const res = await axiosInstance.get("/submissions/get-all-submissions");
@@ -25,7 +25,7 @@ export const useSubmissionStore = create((set, get) => ({
     }
   },
 
-  getSubmissionForProblem: async (problemId) => {
+  getSubmissionForProblemByUser: async (problemId) => {
     try {
       const res = await axiosInstance.get(
         `/submissions/get-submission/${problemId}`

@@ -1,7 +1,7 @@
 import express from "express";
 import {
   getAllSubmissionsByUser,
-  getAllTheSubmissionsForProblem,
+  getSubmissionCountForProblem,
   getSubmissionForProblemByUser,
 } from "../controllers/submission.controller.js";
 import { authMiddleware } from "../middleware/auth.middleware.js";
@@ -19,7 +19,7 @@ router.get(
 router.get(
   "/get-submissions-count/:problemId",
   authMiddleware,
-  getAllTheSubmissionsForProblem
+  getSubmissionCountForProblem
 );
 
 export default router;

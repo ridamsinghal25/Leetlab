@@ -21,12 +21,13 @@ import {
 import { usePlaylistStore } from "@/store/usePlaylistStore";
 
 function PlaylistProfile() {
-  const { getAllPlaylists, playlists, deletePlaylist } = usePlaylistStore();
+  const { getAllPlayListDetailsOfUser, playlists, deletePlaylist } =
+    usePlaylistStore();
   const [expandedPlaylist, setExpandedPlaylist] = useState(null);
 
   useEffect(() => {
-    getAllPlaylists();
-  }, [getAllPlaylists]);
+    getAllPlayListDetailsOfUser();
+  }, [getAllPlayListDetailsOfUser]);
 
   const togglePlaylist = (id) => {
     if (expandedPlaylist === id) {
