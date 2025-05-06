@@ -1,2 +1,2 @@
-1. Zod Validation
-2. Validation checks like problemId and userId
+1. yup Validation
+2. Rate limiter

@@ -6,10 +6,18 @@ import problemRoutes from "./src/routes/problem.routes.js";
 import executionRoute from "./src/routes/execute-code.routes.js";
 import submissionRoutes from "./src/routes/submission.routes.js";
 import playlistRoutes from "./src/routes/playlist.routes.js";
+import cors from "cors";
 
 dotenv.config();
 
 const app = express();
+
+app.use(
+  cors({
+    origin: process.env.ORIGIN,
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());
