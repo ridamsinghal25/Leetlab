@@ -42,7 +42,7 @@ export const createPlayList = async (req, res) => {
   }
 };
 
-export const getAllPlayListDetails = async (req, res) => {
+export const getAllPlayListDetailsOfUser = async (req, res) => {
   try {
     const userId = req.user.id;
 
@@ -73,7 +73,7 @@ export const getAllPlayListDetails = async (req, res) => {
   }
 };
 
-export const getPlayListDetails = async (req, res) => {
+export const getPlayListDetail = async (req, res) => {
   const { playlistId } = req.params;
 
   try {

@@ -16,6 +16,7 @@ export const register = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({
         error: "User already exists",
+        success: false,
       });
     }
 
@@ -56,6 +57,7 @@ export const register = async (req, res) => {
     console.error("Error creating user:", error);
     res.status(500).json({
       error: "Error creating user",
+      success: false,
     });
   }
 };
@@ -73,6 +75,7 @@ export const login = async (req, res) => {
     if (!isUserExists) {
       return res.status(401).json({
         error: "User does not exists",
+        success: false,
       });
     }
 
@@ -84,6 +87,7 @@ export const login = async (req, res) => {
     if (!isPasswordCorrect) {
       return res.status(400).json({
         error: "Invalid credentials",
+        success: false,
       });
     }
 
@@ -119,6 +123,7 @@ export const login = async (req, res) => {
     console.error("Error logging user:", error);
     res.status(500).json({
       error: "Error logging user",
+      success: false,
     });
   }
 };
@@ -131,7 +136,7 @@ export const logout = async (req, res) => {
       secure: process.env.NODE_ENV !== "development",
     });
 
-    res.status(204).json({
+    res.status(201).json({
       message: "User logout successfully",
       success: true,
     });
@@ -139,6 +144,7 @@ export const logout = async (req, res) => {
     console.error("Error logging out user:", error);
     res.status(500).json({
       error: "Error logging out user",
+      success: false,
     });
   }
 };
@@ -154,17 +160,19 @@ export const check = async (req, res) => {
     console.error("Error checking user:", error);
     res.status(500).json({
       error: "Error checking user",
+      success: false,
     });
   }
 };
 
-export const getSubmissions = async (req, res) => {
+export const getSubmissionsOfUser = async (req, res) => {
   try {
     const submissions = await db.submission.findMany({
       where: {
         userId: req.user.id,
       },
     });
+
     res.status(200).json({
       success: true,
       message: "Submissions fetched successfully",
@@ -172,7 +180,10 @@ export const getSubmissions = async (req, res) => {
     });
   } catch (error) {
     console.error("Fetch Submissions Error:", error);
-    res.status(500).json({ error: "Failed to fetch submissions" });
+    res.status(500).json({
+      error: "Failed to fetch submissions",
+      success: false,
+    });
   }
 };
 
@@ -197,6 +208,9 @@ export const getUserPlaylists = async (req, res) => {
     });
   } catch (error) {
     console.error("Fetch Playlists Error:", error);
-    res.status(500).json({ error: "Failed to fetch playlists" });
+    res.status(500).json({
+      error: "Failed to fetch playlists",
+      success: false,
+    });
   }
 };

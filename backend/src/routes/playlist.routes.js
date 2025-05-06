@@ -4,8 +4,8 @@ import {
   addProblemToPlaylist,
   createPlayList,
   deletePlayList,
-  getAllPlayListDetails,
-  getPlayListDetails,
+  getAllPlayListDetailsOfUser,
+  getPlayListDetail,
   removeProblemFromPlaylist,
 } from "../controllers/playlist.controller.js";
 
@@ -13,9 +13,9 @@ const router = express.Router();
 
 router.post("/create-playlist", authMiddleware, createPlayList);
 
-router.get("/:playlistId", authMiddleware, getPlayListDetails);
+router.get("/:playlistId", authMiddleware, getPlayListDetail);
 
-router.get("/", authMiddleware, getAllPlayListDetails);
+router.get("/", authMiddleware, getAllPlayListDetailsOfUser);
 
 router.post("/:playlistId/add-problem", authMiddleware, addProblemToPlaylist);
 

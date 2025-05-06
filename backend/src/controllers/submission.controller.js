@@ -1,6 +1,6 @@
 import { db } from "../libs/db.js";
 
-export const getAllSubmissions = async (req, res) => {
+export const getAllSubmissionsByUser = async (req, res) => {
   try {
     const userId = req.user.id;
 
@@ -24,7 +24,7 @@ export const getAllSubmissions = async (req, res) => {
   }
 };
 
-export const getSubmissionsForProblem = async (req, res) => {
+export const getSubmissionForProblemByUser = async (req, res) => {
   try {
     const problemId = req.params.problemId;
 

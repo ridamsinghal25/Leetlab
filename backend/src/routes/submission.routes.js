@@ -1,19 +1,19 @@
 import express from "express";
 import {
-  getAllSubmissions,
+  getAllSubmissionsByUser,
   getAllTheSubmissionsForProblem,
-  getSubmissionsForProblem,
+  getSubmissionForProblemByUser,
 } from "../controllers/submission.controller.js";
 import { authMiddleware } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.get("/get-all-submissions", authMiddleware, getAllSubmissions);
+router.get("/get-all-submissions", authMiddleware, getAllSubmissionsByUser);
 
 router.get(
   "/get-submission/:problemId",
   authMiddleware,
-  getSubmissionsForProblem
+  getSubmissionForProblemByUser
 );
 
 router.get(

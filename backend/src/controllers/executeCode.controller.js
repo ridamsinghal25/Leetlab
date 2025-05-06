@@ -60,27 +60,26 @@ export const executeCode = async (req, res) => {
     // 4. Poll judge0 for results of all submitted test cases
     const results = await pollBatchResults(tokens);
 
-    const detailedResults = [];
     let allPassed = true;
 
-    results.forEach((result, i) => {
-      const stdout = result.stdout?.trim();
+    const detailedResults = results.map((result, i) => {
+      const stdout = result.stdout?.trim() || null;
       const expected_output = expected_outputs[i]?.trim();
       const passed = stdout === expected_output;
 
       if (!passed) allPassed = false;
 
-      detailedResults.push({
+      return {
         testCase: i + 1,
         passed,
-        stdout: result.stdout || null,
+        stdout,
         expected: expected_output,
         stderr: result.stderr || null,
         compile_output: result.compile_output || null,
         status: result.status.description,
         memory: result.memory ? `${result.memory} KB` : undefined,
         time: result.time ? `${result.time} s` : undefined,
-      });
+      };
     });
 
     const submission = await db.submission.create({
@@ -123,24 +122,20 @@ export const executeCode = async (req, res) => {
       });
     }
 
-    await Promise.all(
-      detailedResults.map((result, index) =>
-        db.testCaseResult.create({
-          data: {
-            submissionId: submission.id,
-            testCase: index + 1,
-            passed: result.passed,
-            stdout: result.stdout,
-            expected: result.expected,
-            stderr: result.stderr,
-            compileOutput: result.compile_output,
-            status: result.status,
-            memory: result.memory,
-            time: result.time,
-          },
-        })
-      )
-    );
+    const testCaseResults = detailedResults.map((result) => ({
+      submissionId: submission.id,
+      testCase: result.testCase,
+      passed: result.passed,
+      stdout: result.stdout,
+      expected: result.expected,
+      stderr: result.stderr,
+      compileOutput: result.compile_output,
+      status: result.status,
+      memory: result.memory,
+      time: result.time,
+    }));
+
+    await db.testCaseResult.createMany({ data: testCaseResults });
 
     const submissionWithTestCases = await db.submission.findUnique({
       where: {

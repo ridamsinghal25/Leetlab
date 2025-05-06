@@ -23,6 +23,7 @@ export const createProblem = async (req, res) => {
   if (req.user.role !== "ADMIN") {
     return res.status(403).json({
       message: "You are not allowed to create a problem",
+      success: false,
     });
   }
 
@@ -50,6 +51,7 @@ export const createProblem = async (req, res) => {
       if (!languageId) {
         return res.status(400).json({
           error: `Language ${language} is not supported`,
+          success: false,
         });
       }
 
@@ -242,7 +244,16 @@ export const updateProblem = async (req, res) => {
 
 export const getAllProblems = async (req, res) => {
   try {
-    const problems = await db.problem.findMany();
+    // Get all the problem and also check that this is solved by current user or not
+    const problems = await db.problem.findMany({
+      include: {
+        solvedBy: {
+          where: {
+            userId: req.user.id,
+          },
+        },
+      },
+    });
 
     if (!problems) {
       return res.status(404).json({

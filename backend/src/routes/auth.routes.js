@@ -1,7 +1,7 @@
 import express from "express";
 import {
   check,
-  getSubmissions,
+  getSubmissionsOfUser,
   getUserPlaylists,
   login,
   logout,
@@ -19,7 +19,7 @@ authRoutes.post("/logout", authMiddleware, logout);
 
 authRoutes.get("/check", authMiddleware, check);
 
-authRoutes.get("/get-submissions", authMiddleware, getSubmissions);
+authRoutes.get("/get-submissions", authMiddleware, getSubmissionsOfUser);
 
 authRoutes.get("/get-playlists", authMiddleware, getUserPlaylists);
 
