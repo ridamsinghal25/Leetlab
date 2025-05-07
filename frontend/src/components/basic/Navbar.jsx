@@ -1,79 +1,101 @@
-import React from "react";
-import { User, Code, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
-import LogoutButton from "./LogoutButton";
 import { useAuthStore } from "@/store/useAuthStore";
+import { Code, LogOut, User, PlusCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-const Navbar = () => {
-  const { authUser } = useAuthStore();
+export default function Navbar() {
+  const { authUser, logout } = useAuthStore();
 
   return (
-    <nav className="sticky top-0 z-50 w-full py-5">
-      <div className="flex w-full justify-between mx-auto max-w-4xl bg-black/15 shadow-lg shadow-neutral-600/5 backdrop-blur-lg border border-gray-200/10 p-4 rounded-2xl">
+    <nav className="sticky top-0 z-50 w-full py-3 transition-all duration-300">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 flex items-center justify-between rounded-xl backdrop-blur-lg border bg-background/60 border-transparent">
         {/* Logo Section */}
-        <Link to="/" className="flex items-center gap-3 cursor-pointer">
-          <Code className="h-18 w-18 bg-primary/20 text-primary border-none px-2 py-2 rounded-full" />
-          <span className="text-lg md:text-2xl font-bold tracking-tight text-white hidden md:block">
-            Leetlab
+        <Link to="/" className="flex items-center gap-2 py-3 group">
+          <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+            <Code className="h-5 w-5 text-primary" />
+          </div>
+          <span className="text-xl font-bold tracking-tight hidden sm:block">
+            LeetLab
           </span>
         </Link>
 
-        {/* User Profile and Dropdown */}
-        <div className="flex items-center gap-8">
-          <div className="dropdown dropdown-end">
-            <label
-              tabIndex={0}
-              className="btn btn-ghost btn-circle avatar flex flex-row "
-            >
-              <div className="w-10 rounded-full ">
-                <img
-                  src={authUser?.image || "https://github.com/shadcn.png"}
-                  alt="User Avatar"
-                  className="object-cover"
-                />
-              </div>
-            </label>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 space-y-3"
-            >
-              <li>
-                <p className="text-base font-semibold">{authUser?.name}</p>
-                <hr className="border-gray-200/10" />
-              </li>
-              <li>
-                <Link
-                  to="/profile"
-                  className="hover:bg-primary hover:text-white text-base font-semibold"
+        {/* User Menu & Mobile Menu */}
+        <div className="flex items-center gap-2">
+          {/* User Dropdown */}
+          {authUser && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="relative h-9 w-9 rounded-full p-0 sm:h-10 sm:w-10"
                 >
-                  <User className="w-4 h-4 mr-2" />
-                  My Profile
-                </Link>
-              </li>
-
-              {authUser?.role === "ADMIN" && (
-                <li>
-                  <Link
-                    to="/add-problem"
-                    className="hover:bg-primary hover:text-white text-base font-semibold"
-                  >
-                    <Code className="w-4 h-4 mr-1" />
-                    Add Problem
-                  </Link>
-                </li>
-              )}
-              <li>
-                <LogoutButton className="hover:bg-primary hover:text-white">
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Logout
-                </LogoutButton>
-              </li>
-            </ul>
-          </div>
+                  <Avatar className="h-9 w-9 sm:h-10 sm:w-10 border-2 border-primary/20 hover:border-primary/40 transition-colors">
+                    <AvatarImage
+                      src={authUser?.image}
+                      alt={authUser?.name || "User"}
+                    />
+                    <AvatarFallback className="bg-primary/10 text-primary">
+                      {authUser?.name ? authUser.name.charAt(0) : "U"}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuLabel>
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">
+                      {authUser.name}
+                    </p>
+                    <p className="text-xs leading-none text-muted-foreground">
+                      {authUser.email}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem asChild>
+                    <Link to="/profile" className="cursor-pointer">
+                      <User className="mr-2 h-4 w-4" />
+                      <span>My Profile</span>
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                {authUser?.role === "ADMIN" && (
+                  <>
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem asChild>
+                        <Link to="/add-problem" className="cursor-pointer">
+                          <PlusCircle className="mr-2 h-4 w-4" />
+                          <span>Add Problem</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                  </>
+                )}
+                <DropdownMenuItem
+                  onClick={() => logout()}
+                  className="text-destructive focus:text-destructive cursor-pointer"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
       </div>
     </nav>
   );
-};
-
-export default Navbar;
+}
