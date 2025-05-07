@@ -11,7 +11,6 @@ import {
 import { useAuthStore } from "../../store/useAuthStore";
 import { useActions } from "../../store/useActions";
 import { usePlaylistStore } from "../../store/usePlaylistStore";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -40,6 +39,11 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CreatePlaylistModal } from "../modals/CreatePlaylistModal";
 import { AddToPlaylistModal } from "../modals/AddToPlaylistModal";
+import {
+  difficultiesArray,
+  EASY_DIFFICULTY,
+  MEDIUM_DIFFICULTY,
+} from "@/constants/constants";
 
 export const ProblemsTable = ({ problems }) => {
   const { authUser } = useAuthStore();
@@ -63,9 +67,6 @@ export const ProblemsTable = ({ problems }) => {
     return Array.from(tagsSet);
   }, [problems]);
 
-  // Define allowed difficulties
-  const difficulties = ["EASY", "MEDIUM", "HARD"];
-
   // Filter problems based on search, difficulty, and tags
   const filteredProblems = useMemo(() => {
     return (problems || [])
@@ -82,7 +83,9 @@ export const ProblemsTable = ({ problems }) => {
 
   // Pagination logic
   const itemsPerPage = 5;
+
   const totalPages = Math.ceil(filteredProblems.length / itemsPerPage);
+
   const paginatedProblems = useMemo(() => {
     return filteredProblems.slice(
       (currentPage - 1) * itemsPerPage,
@@ -101,19 +104,6 @@ export const ProblemsTable = ({ problems }) => {
   const handleAddToPlaylist = (problemId) => {
     setSelectedProblemId(problemId);
     setIsAddToPlaylistModalOpen(true);
-  };
-
-  const getDifficultyColor = (difficulty) => {
-    switch (difficulty) {
-      case "EASY":
-        return "bg-emerald-500 hover:bg-emerald-500";
-      case "MEDIUM":
-        return "bg-amber-500 hover:bg-amber-500";
-      case "HARD":
-        return "bg-rose-500 hover:bg-rose-500";
-      default:
-        return "bg-slate-500 hover:bg-slate-500";
-    }
   };
 
   return (
@@ -144,7 +134,7 @@ export const ProblemsTable = ({ problems }) => {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="ALL">All Difficulties</SelectItem>
-              {difficulties.map((diff) => (
+              {difficultiesArray.map((diff) => (
                 <SelectItem key={diff} value={diff}>
                   {diff.charAt(0).toUpperCase() + diff.slice(1).toLowerCase()}
                 </SelectItem>
@@ -178,11 +168,19 @@ export const ProblemsTable = ({ problems }) => {
                   <CardContent className="p-4 space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Checkbox checked={isSolved} disabled />
+                        <Checkbox
+                          checked={isSolved}
+                          disabled
+                          className="data-[state=checked]:bg-green-900 data-[state=checked]:border-green-900"
+                        />
                         <Badge
-                          className={`${getDifficultyColor(
-                            problem.difficulty
-                          )} text-white`}
+                          variant={
+                            problem.difficulty === EASY_DIFFICULTY
+                              ? "success"
+                              : problem.difficulty === MEDIUM_DIFFICULTY
+                              ? "warning"
+                              : "destructive"
+                          }
                         >
                           {problem.difficulty}
                         </Badge>
@@ -271,7 +269,11 @@ export const ProblemsTable = ({ problems }) => {
                     return (
                       <TableRow key={problem.id}>
                         <TableCell>
-                          <Checkbox checked={isSolved} disabled />
+                          <Checkbox
+                            checked={isSolved}
+                            disabled
+                            className="data-[state=checked]:bg-green-900 data-[state=checked]:border-green-900"
+                          />
                         </TableCell>
                         <TableCell>
                           <Link
@@ -296,9 +298,13 @@ export const ProblemsTable = ({ problems }) => {
                         </TableCell>
                         <TableCell>
                           <Badge
-                            className={`${getDifficultyColor(
-                              problem.difficulty
-                            )} text-white`}
+                            variant={
+                              problem.difficulty === EASY_DIFFICULTY
+                                ? "success"
+                                : problem.difficulty === MEDIUM_DIFFICULTY
+                                ? "warning"
+                                : "destructive"
+                            }
                           >
                             {problem.difficulty}
                           </Badge>
@@ -327,11 +333,7 @@ export const ProblemsTable = ({ problems }) => {
                                 <TooltipProvider>
                                   <Tooltip>
                                     <TooltipTrigger asChild>
-                                      <Button
-                                        variant="secondary"
-                                        size="icon"
-                                        disabled
-                                      >
+                                      <Button variant="secondary" size="icon">
                                         <Pencil className="h-4 w-4" />
                                       </Button>
                                     </TooltipTrigger>

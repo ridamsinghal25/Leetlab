@@ -11,6 +11,12 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const playlistSchema = z.object({
+  name: z.string().min(3, "Playlist name must be at least 3 characters"),
+});
 
 export const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }) => {
   const {
@@ -18,7 +24,13 @@ export const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }) => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm();
+  } = useForm({
+    resolver: zodResolver(playlistSchema),
+    defaultValues: {
+      name: "",
+      description: "",
+    },
+  });
 
   const handleFormSubmit = async (data) => {
     await onSubmit(data);
@@ -44,7 +56,7 @@ export const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }) => {
             <Input
               id="name"
               placeholder="Enter playlist name"
-              {...register("name", { required: "Playlist name is required" })}
+              {...register("name")}
             />
             {errors.name && (
               <p className="text-sm text-destructive">{errors.name.message}</p>
@@ -61,7 +73,7 @@ export const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }) => {
             />
           </div>
 
-          <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:gap-0">
+          <DialogFooter className="flex flex-col sm:flex-row gap-2">
             <Button
               type="button"
               variant="outline"
