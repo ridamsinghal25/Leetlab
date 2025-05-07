@@ -1,13 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  Clock,
-  Code,
-  Terminal,
-  HardDrive,
-  Check,
-  X,
-  Filter,
-} from "lucide-react";
+import { Clock, Code, Terminal, HardDrive, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -26,47 +18,15 @@ import {
 import { useSubmissionStore } from "@/store/useSubmissionStore";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { ACCEPTED } from "@/constants/constants";
 
 function ProfileSubmission() {
   const { submissions, getAllSubmissionsByUser } = useSubmissionStore();
-  const [expandedSubmission, setExpandedSubmission] = useState(null);
   const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     getAllSubmissionsByUser();
   }, [getAllSubmissionsByUser]);
-
-  const getStatusBadge = (status) => {
-    switch (status) {
-      case "Accepted":
-        return (
-          <Badge className="bg-green-100 text-green-800 hover:bg-green-100 flex items-center gap-1">
-            <Check size={14} />
-            {status}
-          </Badge>
-        );
-      case "Wrong Answer":
-        return (
-          <Badge className="bg-red-100 text-red-800 hover:bg-red-100 flex items-center gap-1">
-            <X size={14} />
-            {status}
-          </Badge>
-        );
-      case "Time Limit Exceeded":
-        return (
-          <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100 flex items-center gap-1">
-            <Clock size={14} />
-            {status}
-          </Badge>
-        );
-      default:
-        return (
-          <Badge variant="outline" className="flex items-center gap-1">
-            {status}
-          </Badge>
-        );
-    }
-  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -79,14 +39,6 @@ function ProfileSubmission() {
     }).format(date);
   };
 
-  const toggleExpand = (id) => {
-    if (expandedSubmission === id) {
-      setExpandedSubmission(null);
-    } else {
-      setExpandedSubmission(id);
-    }
-  };
-
   const filteredSubmissions = submissions.filter((submission) => {
     if (filter === "all") return true;
     return submission.status === filter;
@@ -97,43 +49,49 @@ function ProfileSubmission() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
         <h2 className="text-2xl font-bold">My Submissions</h2>
 
-        <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-          <div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="flex items-center gap-2">
-                  <Filter size={16} />
-                  {filter === "all" ? "All Submissions" : filter}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => setFilter("all")}>
-                  All Submissions
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setFilter("Accepted")}>
-                  Accepted
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setFilter("Wrong Answer")}>
-                  Wrong Answer
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => setFilter("Time Limit Exceeded")}
-                >
-                  Time Limit Exceeded
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-          <div className="flex gap-2">
-            <Card className="w-24 h-24">
-              <CardContent className="p-3">
-                <div className="text-xs text-muted-foreground">Total</div>
+        <div className="flex flex-col sm:flex-row md:items-center gap-4 w-full md:w-auto">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                className="flex items-center gap-2 w-full sm:w-auto"
+              >
+                <Filter size={16} />
+                {filter === "all" ? "All Submissions" : filter}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => setFilter("all")}>
+                All Submissions
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFilter("Accepted")}>
+                Accepted
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFilter("Wrong Answer")}>
+                Wrong Answer
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => setFilter("Time Limit Exceeded")}
+              >
+                Time Limit Exceeded
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* Submission Stats */}
+          <div className="flex gap-3">
+            <Card className="w-24 h-20 flex items-center justify-center shadow-sm">
+              <CardContent className="p-2 flex flex-col items-center justify-center text-center">
+                <div className="text-xs text-muted-foreground mb-1">Total</div>
                 <div className="text-xl font-bold">{submissions.length}</div>
               </CardContent>
             </Card>
-            <Card className="w-24 h-24">
-              <CardContent className="p-3">
-                <div className="text-xs text-muted-foreground">Accepted</div>
+
+            <Card className="w-24 h-20 flex items-center justify-center shadow-sm">
+              <CardContent className="p-2 flex flex-col items-center justify-center text-center">
+                <div className="text-xs text-muted-foreground mb-1">
+                  Accepted
+                </div>
                 <div className="text-xl font-bold text-green-600">
                   {submissions.filter((s) => s.status === "Accepted").length}
                 </div>
@@ -157,13 +115,25 @@ function ProfileSubmission() {
         <div className="space-y-6">
           <Accordion type="single" collapsible className="w-full">
             {filteredSubmissions.map((submission) => (
-              <AccordionItem key={submission.id} value={submission.id}>
+              <AccordionItem
+                key={submission.id}
+                value={submission.id}
+                className="mt-3"
+              >
                 <Card>
                   <CardContent className="p-0">
                     <AccordionTrigger className="px-6 py-4 hover:no-underline">
                       <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full gap-3">
                         <div className="flex flex-wrap items-center gap-3">
-                          {getStatusBadge(submission.status)}
+                          <Badge
+                            className={`flex items-center gap-1 ${
+                              submission.status === ACCEPTED
+                                ? "bg-green-100 text-green-800 hover:bg-green-100"
+                                : "bg-red-100 text-red-800 hover:bg-red-100"
+                            }`}
+                          >
+                            {submission.status}
+                          </Badge>
 
                           <div className="flex items-center gap-2">
                             <Code size={16} />
@@ -223,9 +193,9 @@ function ProfileSubmission() {
                           <div className="relative rounded-md bg-muted p-4">
                             <pre className="text-sm">
                               <code>
-                                {Array.isArray(JSON.parse(submission.stdout))
-                                  ? JSON.parse(submission.stdout).join("")
-                                  : submission.stdout || "No output"}
+                                {JSON.parse(submission.stdout)
+                                  ? JSON.parse(submission.stdout)
+                                  : "No output"}
                               </code>
                             </pre>
                           </div>
@@ -245,8 +215,13 @@ function ProfileSubmission() {
                               </p>
                               <p className="text-lg font-medium">
                                 {Array.isArray(JSON.parse(submission.time))
-                                  ? JSON.parse(submission.time)[0]
-                                  : submission.time || "N/A"}
+                                  ? JSON.parse(submission.time)
+                                      .reduce(
+                                        (a, b) => parseFloat(a) + parseFloat(b),
+                                        0
+                                      )
+                                      .toFixed(2)
+                                  : submission.time || "—"}
                               </p>
                             </div>
                           </CardContent>
@@ -263,8 +238,13 @@ function ProfileSubmission() {
                               </p>
                               <p className="text-lg font-medium">
                                 {Array.isArray(JSON.parse(submission.memory))
-                                  ? JSON.parse(submission.memory)[0]
-                                  : submission.memory || "N/A"}
+                                  ? JSON.parse(submission.memory)
+                                      .reduce(
+                                        (a, b) => parseFloat(a) + parseFloat(b),
+                                        0
+                                      )
+                                      .toFixed()
+                                  : submission.memory || "—"}
                               </p>
                             </div>
                           </CardContent>

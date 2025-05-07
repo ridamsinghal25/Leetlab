@@ -16,6 +16,32 @@ import ProfileSubmission from "@/components/views/ProfileSubmission";
 export default function ProfilePage() {
   const { authUser } = useAuthStore();
 
+  const userInfo = [
+    {
+      label: "Email",
+      value: authUser?.email,
+      icon: <Mail className="h-5 w-5 text-primary" />,
+    },
+    {
+      label: "User ID",
+      value: authUser?.id,
+      icon: <User className="h-5 w-5 text-primary" />,
+    },
+    {
+      label: "Role",
+      value: authUser?.role,
+      icon: <Shield className="h-5 w-5 text-primary" />,
+      subtext:
+        authUser?.role === "ADMIN" ? "Full system access" : "Limited access",
+    },
+    {
+      label: "Profile Image",
+      value: authUser?.image ? "Uploaded" : "Not Set",
+      icon: <ImageIcon className="h-5 w-5 text-primary" />,
+      subtext: authUser?.image ? "Image available" : "Upload a profile picture",
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-background lg:w-3/4">
       <div className="mx-auto py-6 px-4 space-y-8">
@@ -70,72 +96,21 @@ export default function ProfilePage() {
             {/* User Information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Email */}
-              <Card>
-                <CardContent className="p-4 flex items-center gap-4">
-                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Mail className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Email</p>
-                    <p className="font-medium break-all">{authUser?.email}</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* User ID */}
-              <Card>
-                <CardContent className="p-4 flex items-center gap-4">
-                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <User className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">User ID</p>
-                    <p className="font-medium text-xs break-all">
-                      {authUser.id}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Role Status */}
-              <Card>
-                <CardContent className="p-4 flex items-center gap-4">
-                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Shield className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Role</p>
-                    <p className="font-medium">{authUser.role}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {authUser.role === "ADMIN"
-                        ? "Full system access"
-                        : "Limited access"}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Profile Image Status */}
-              <Card>
-                <CardContent className="p-4 flex items-center gap-4">
-                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <ImageIcon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">
-                      Profile Image
-                    </p>
-                    <p className="font-medium">
-                      {authUser.image ? "Uploaded" : "Not Set"}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {authUser.image
-                        ? "Image available"
-                        : "Upload a profile picture"}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
+              {userInfo.map((item) => (
+                <Card key={item.label}>
+                  <CardContent className="p-4 flex items-center gap-4">
+                    <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      {item.icon}
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">
+                        {item.label}
+                      </p>
+                      <p className="font-medium break-all">{item.value}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
 
             {/* Action Buttons */}

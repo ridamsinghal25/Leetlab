@@ -1,12 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  Tag,
-  ExternalLink,
-  AlertTriangle,
-  CheckCircle,
-  Circle,
-} from "lucide-react";
+import { Tag, ExternalLink, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -19,6 +13,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useProblemStore } from "@/store/useProblemStore";
+import {
+  difficultiesArray,
+  EASY_DIFFICULTY,
+  MEDIUM_DIFFICULTY,
+} from "@/constants/constants";
 
 function ProblemSolvedByUser() {
   const { getSolvedProblemByUser, solvedProblems } = useProblemStore();
@@ -26,44 +25,6 @@ function ProblemSolvedByUser() {
   useEffect(() => {
     getSolvedProblemByUser();
   }, [getSolvedProblemByUser]);
-
-  // Function to get difficulty badge styling
-  const getDifficultyBadge = (difficulty) => {
-    switch (difficulty) {
-      case "EASY":
-        return (
-          <Badge
-            variant="outline"
-            className="bg-green-100 text-green-800 hover:bg-green-100 flex items-center gap-1"
-          >
-            <CheckCircle size={12} />
-            Easy
-          </Badge>
-        );
-      case "MEDIUM":
-        return (
-          <Badge
-            variant="outline"
-            className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100 flex items-center gap-1"
-          >
-            <Circle size={12} />
-            Medium
-          </Badge>
-        );
-      case "HARD":
-        return (
-          <Badge
-            variant="outline"
-            className="bg-red-100 text-red-800 hover:bg-red-100 flex items-center gap-1"
-          >
-            <AlertTriangle size={12} />
-            Hard
-          </Badge>
-        );
-      default:
-        return <Badge variant="outline">Unknown</Badge>;
-    }
-  };
 
   return (
     <div>
@@ -102,7 +63,18 @@ function ProblemSolvedByUser() {
                       {problem.title}
                     </TableCell>
                     <TableCell>
-                      {getDifficultyBadge(problem.difficulty)}
+                      <Badge
+                        variant={
+                          problem.difficulty === EASY_DIFFICULTY
+                            ? "success"
+                            : problem.difficulty === MEDIUM_DIFFICULTY
+                            ? "warning"
+                            : "destructive"
+                        }
+                      >
+                        <CheckCircle size={12} />
+                        {problem.difficulty}
+                      </Badge>
                     </TableCell>
                     <TableCell>
                       <div className="flex flex-wrap gap-1">
@@ -121,7 +93,7 @@ function ProblemSolvedByUser() {
                     </TableCell>
                     <TableCell className="text-right">
                       <Button variant="outline" size="sm" asChild>
-                        <Link href={`/problem/${problem.id}`}>
+                        <Link to={`/problem/${problem.id}`}>
                           <ExternalLink size={14} className="mr-1" />
                           View
                         </Link>
@@ -138,7 +110,7 @@ function ProblemSolvedByUser() {
                   <span className="font-bold">{solvedProblems.length}</span>
                 </span>
                 <Button size="sm" asChild>
-                  <Link href="/problems">Solve more problems</Link>
+                  <Link to="/">Solve more problems</Link>
                 </Button>
               </div>
             </CardFooter>
@@ -146,45 +118,23 @@ function ProblemSolvedByUser() {
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex flex-col">
-                  <span className="text-sm text-muted-foreground">Easy</span>
-                  <span className="text-3xl font-bold text-green-600">
-                    {
-                      solvedProblems.filter((p) => p.difficulty === "EASY")
-                        .length
-                    }
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex flex-col">
-                  <span className="text-sm text-muted-foreground">Medium</span>
-                  <span className="text-3xl font-bold text-yellow-600">
-                    {
-                      solvedProblems.filter((p) => p.difficulty === "MEDIUM")
-                        .length
-                    }
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex flex-col">
-                  <span className="text-sm text-muted-foreground">Hard</span>
-                  <span className="text-3xl font-bold text-red-600">
-                    {
-                      solvedProblems.filter((p) => p.difficulty === "HARD")
-                        .length
-                    }
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
+            {difficultiesArray?.map((item) => (
+              <Card key={item}>
+                <CardContent className="p-6">
+                  <div className="flex flex-col">
+                    <span className="text-sm text-muted-foreground">
+                      {item}
+                    </span>
+                    <span className="text-3xl font-bold text-green-600">
+                      {
+                        solvedProblems.filter((p) => p.difficulty === item)
+                          .length
+                      }
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </>
       )}

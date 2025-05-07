@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Tag, ExternalLink, BookOpen, Clock, List } from "lucide-react";
+import {
+  Tag,
+  ExternalLink,
+  BookOpen,
+  Clock,
+  List,
+  CheckCircle,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -19,51 +26,18 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { usePlaylistStore } from "@/store/usePlaylistStore";
+import { EASY_DIFFICULTY, MEDIUM_DIFFICULTY } from "@/constants/constants";
 
 function PlaylistProfile() {
   const { getAllPlayListDetailsOfUser, playlists, deletePlaylist } =
     usePlaylistStore();
-  const [expandedPlaylist, setExpandedPlaylist] = useState(null);
 
   useEffect(() => {
     getAllPlayListDetailsOfUser();
   }, [getAllPlayListDetailsOfUser]);
 
-  const togglePlaylist = (id) => {
-    if (expandedPlaylist === id) {
-      setExpandedPlaylist(null);
-    } else {
-      setExpandedPlaylist(id);
-    }
-  };
-
   const handleDelete = async (id) => {
     await deletePlaylist(id);
-  };
-
-  const getDifficultyBadge = (difficulty) => {
-    switch (difficulty) {
-      case "EASY":
-        return (
-          <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
-            Easy
-          </Badge>
-        );
-      case "MEDIUM":
-        return (
-          <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">
-            Medium
-          </Badge>
-        );
-      case "HARD":
-        return (
-          <Badge className="bg-red-100 text-red-800 hover:bg-red-100">
-            Hard
-          </Badge>
-        );
-      default:
-        return <Badge variant="outline">Unknown</Badge>;
-    }
   };
 
   const formatDate = (dateString) => {
@@ -157,9 +131,19 @@ function PlaylistProfile() {
                                     {item.problem.title}
                                   </TableCell>
                                   <TableCell>
-                                    {getDifficultyBadge(
-                                      item.problem.difficulty
-                                    )}
+                                    <Badge
+                                      variant={
+                                        item.problem.difficulty ===
+                                        EASY_DIFFICULTY
+                                          ? "success"
+                                          : item.problem.difficulty ===
+                                            MEDIUM_DIFFICULTY
+                                          ? "warning"
+                                          : "destructive"
+                                      }
+                                    >
+                                      {item.problem.difficulty}
+                                    </Badge>
                                   </TableCell>
                                   <TableCell>
                                     <div className="flex flex-wrap gap-1">
