@@ -4,7 +4,7 @@ export const sampledpData = {
   category: "dp", // Dynamic Programming
   description:
     "You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?",
-  difficulty: "EASY",
+  difficulty: "HARD",
   tags: ["Dynamic Programming", "Math", "Memoization"],
   constraints: "1 <= n <= 45",
   hints:
