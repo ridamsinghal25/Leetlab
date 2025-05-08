@@ -40,7 +40,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CreatePlaylistModal } from "../modals/CreatePlaylistModal";
 import { AddToPlaylistModal } from "../modals/AddToPlaylistModal";
 import {
-  difficultiesArray,
+  DIFFICULTIES_OPTIONS,
   EASY_DIFFICULTY,
   MEDIUM_DIFFICULTY,
 } from "@/constants/constants";
@@ -134,7 +134,7 @@ export const ProblemsTable = ({ problems }) => {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="ALL">All Difficulties</SelectItem>
-              {difficultiesArray.map((diff) => (
+              {DIFFICULTIES_OPTIONS.map((diff) => (
                 <SelectItem key={diff} value={diff}>
                   {diff.charAt(0).toUpperCase() + diff.slice(1).toLowerCase()}
                 </SelectItem>

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/table";
 import { useProblemStore } from "@/store/useProblemStore";
 import {
-  difficultiesArray,
+  DIFFICULTIES_OPTIONS,
   EASY_DIFFICULTY,
   MEDIUM_DIFFICULTY,
 } from "@/constants/constants";
@@ -118,7 +118,7 @@ function ProblemSolvedByUser() {
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-            {difficultiesArray?.map((item) => (
+            {DIFFICULTIES_OPTIONS?.map((item) => (
               <Card key={item}>
                 <CardContent className="p-6">
                   <div className="flex flex-col">

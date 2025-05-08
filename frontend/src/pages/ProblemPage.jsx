@@ -287,6 +287,9 @@ const ProblemPage = () => {
                     scrollBeyondLastLine: false,
                     readOnly: false,
                     automaticLayout: true,
+                    padding: {
+                      top: 10,
+                    },
                   }}
                 />
               </div>
