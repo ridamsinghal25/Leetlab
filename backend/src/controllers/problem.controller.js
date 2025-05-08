@@ -355,10 +355,15 @@ export const getAllProblemsSolvedByUser = async (req, res) => {
           },
         },
       },
-      include: {
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        difficulty: true,
+        tags: true,
         solvedBy: {
-          where: {
-            userId,
+          select: {
+            userId: true,
           },
         },
       },

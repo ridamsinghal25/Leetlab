@@ -42,6 +42,9 @@ export const getSubmissionForProblemByUser = async (req, res) => {
         problemId: problemId,
         userId: userId,
       },
+      include: {
+        testCases: true,
+      },
     });
 
     return res.status(200).json({
