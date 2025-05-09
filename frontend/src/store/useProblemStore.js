@@ -52,4 +52,8 @@ export const useProblemStore = create((set, get) => ({
       toast.error("Error getting solved problems");
     }
   },
+
+  getProblemByIdFromState: (id) => {
+    return get().problems.find((problem) => problem.id === id);
+  },
 }));
