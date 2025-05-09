@@ -11,12 +11,8 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-const playlistSchema = z.object({
-  name: z.string().min(3, "Playlist name must be at least 3 characters"),
-});
+import { playlistSchema } from "@/validations/zodValidations";
 
 export const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }) => {
   const {

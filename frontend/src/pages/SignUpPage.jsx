@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Link } from "react-router-dom";
 import { Code, Eye, EyeOff, Loader2, Lock, Mail, User } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -25,13 +23,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import AuthImagePattern from "@/components/views/AuthImagePattern";
-
-// ✅ Zod schema
-const signUpSchema = z.object({
-  email: z.string().email("Enter a valid email"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-  name: z.string().min(3, "Name must be at least 3 characters"),
-});
+import { signUpSchema } from "@/validations/zodValidations";
+import { ROUTES } from "@/constants/routes";
 
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -173,7 +166,10 @@ export default function SignUpPage() {
             <CardFooter className="flex justify-center">
               <p className="text-sm text-muted-foreground">
                 Already have an account?{" "}
-                <Link to="/login" className="text-primary hover:underline">
+                <Link
+                  to={ROUTES.SIGN_IN}
+                  className="text-primary hover:underline"
+                >
                   Sign in
                 </Link>
               </p>

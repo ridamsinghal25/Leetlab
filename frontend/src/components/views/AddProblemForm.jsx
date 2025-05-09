@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import Editor from "@monaco-editor/react";
@@ -40,61 +39,8 @@ import FormFieldInput from "../basic/FormFieldInput";
 import { Form } from "../ui/form";
 import FormFieldTextarea from "../basic/FormFieldTextarea";
 import FormFieldSelect from "../basic/FormFieldSelect";
-
-const problemSchema = z.object({
-  title: z.string().min(3, "Title must be at least 3 characters"),
-  description: z.string().min(10, "Description must be at least 10 characters"),
-  difficulty: z.enum(DIFFICULTIES_OPTIONS),
-  tags: z
-    .array(z.string().min(4, "Tag must be at least 4 characters"))
-    .min(1, "At least one tag is required"),
-  constraints: z.string().min(1, "Constraints are required"),
-  hints: z.string().optional(),
-  editorial: z.string().optional(),
-  testCases: z
-    .array(
-      z.object({
-        input: z.string().min(1, "Input is required"),
-        output: z.string().min(1, "Output is required"),
-      })
-    )
-    .min(1, "At least one test case is required"),
-  examples: z.object({
-    JAVASCRIPT: z.object({
-      input: z.string().min(1, "Input is required"),
-      output: z.string().min(1, "Output is required"),
-      explanation: z.string().optional(),
-    }),
-    PYTHON: z.object({
-      input: z.string().min(1, "Input is required"),
-      output: z.string().min(1, "Output is required"),
-      explanation: z.string().optional(),
-    }),
-    JAVA: z.object({
-      input: z.string().min(1, "Input is required"),
-      output: z.string().min(1, "Output is required"),
-      explanation: z.string().optional(),
-    }),
-  }),
-  codeSnippets: z.object({
-    JAVASCRIPT: z
-      .string()
-      .min(10, "JavaScript code snippet must be at least 10 characters"),
-    PYTHON: z
-      .string()
-      .min(10, "Python code snippet must be at least 10 characters"),
-    JAVA: z.string().min(10, "Java solution must be at least 10 characters"),
-  }),
-  referenceSolutions: z.object({
-    JAVASCRIPT: z
-      .string()
-      .min(10, "JavaScript solution must be at least 10 characters"),
-    PYTHON: z
-      .string()
-      .min(10, "Python solution must be at least 10 characters"),
-    JAVA: z.string().min(10, "Java solution must be at least 10 characters"),
-  }),
-});
+import { problemSchema } from "@/validations/zodValidations";
+import { ROUTES } from "@/constants/routes";
 
 const defaultValues = {
   title: "",
@@ -103,7 +49,8 @@ const defaultValues = {
   tags: ["Tag"],
   constraints: "",
   hints: "",
-  testCases: [
+  editorial: "",
+  testcases: [
     {
       input: "",
       output: "",
@@ -153,7 +100,7 @@ export default function AddProblemForm() {
     remove: removeTestCase,
   } = useFieldArray({
     control: addProblemForm.control,
-    name: "testCases",
+    name: "testcases",
   });
 
   const {
@@ -174,7 +121,7 @@ export default function AddProblemForm() {
       setIsLoading(true);
       const res = await axiosInstance.post("/problems/create-problem", value);
       toast.success(res.data.message);
-      navigation("/");
+      navigation(ROUTES.HOME);
     } catch (error) {
       console.log("Error creating problem", error);
       toast.error("Error creating problem");
@@ -200,7 +147,7 @@ export default function AddProblemForm() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div className="flex items-center gap-2">
               <Button variant="ghost" size="icon" asChild>
-                <Link to="/">
+                <Link to={ROUTES.HOME}>
                   <ArrowLeft className="h-5 w-5" />
                 </Link>
               </Button>
@@ -368,14 +315,14 @@ export default function AddProblemForm() {
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <FormFieldTextarea
                               form={addProblemForm}
-                              name={`testCases.${index}.input`}
+                              name={`testcases.${index}.input`}
                               placeholder="Enter test case input"
                               className="min-h-24 resize-y"
                             />
 
                             <FormFieldTextarea
                               form={addProblemForm}
-                              name={`testCases.${index}.output`}
+                              name={`testcases.${index}.output`}
                               placeholder="Enter expected output"
                               className="min-h-24 resize-y"
                             />
