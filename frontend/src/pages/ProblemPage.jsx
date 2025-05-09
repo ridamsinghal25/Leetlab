@@ -45,6 +45,7 @@ import { getLanguageId } from "@/lib/getLanguageInfo";
 import { ProblemPageTabs } from "@/components/views/ProblemPageTabs";
 import SubmissionResults from "@/components/views/SubmissionResults";
 import { EASY_DIFFICULTY, MEDIUM_DIFFICULTY } from "@/constants/constants";
+import { ROUTES } from "@/constants/routes";
 
 const ProblemPage = () => {
   const { id } = useParams();
@@ -124,7 +125,7 @@ const ProblemPage = () => {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               <Button variant="ghost" size="icon" asChild>
-                <Link to={"/"}>
+                <Link to={ROUTES.HOME}>
                   <Home className="w-5 h-5" />
                 </Link>
               </Button>
@@ -321,7 +322,7 @@ const ProblemPage = () => {
 
         <Card className="mt-6">
           <CardContent className="p-6">
-            {submissions.length > 0 ? (
+            {submissions?.length > 0 ? (
               <>
                 <h3 className="text-xl font-bold">Your Submissions</h3>
                 {submissions.map((submission) => (

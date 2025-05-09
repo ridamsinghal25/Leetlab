@@ -44,6 +44,7 @@ import {
   EASY_DIFFICULTY,
   MEDIUM_DIFFICULTY,
 } from "@/constants/constants";
+import { ROUTES } from "@/constants/routes";
 
 export const ProblemsTable = ({ problems }) => {
   const { authUser } = useAuthStore();
@@ -196,21 +197,27 @@ export const ProblemsTable = ({ problems }) => {
                             >
                               <Trash className="h-3.5 w-3.5" />
                             </Button>
-                            <Button
-                              variant="secondary"
-                              size="icon"
-                              disabled
-                              className="h-8 w-8"
+                            <Link
+                              to={ROUTES.UPDATE_PROBLEM.replace(
+                                ":id",
+                                problem.id
+                              )}
                             >
-                              <Pencil className="h-3.5 w-3.5" />
-                            </Button>
+                              <Button
+                                variant="secondary"
+                                size="icon"
+                                className="h-8 w-8"
+                              >
+                                <Pencil className="h-3.5 w-3.5" />
+                              </Button>
+                            </Link>
                           </>
                         )}
                       </div>
                     </div>
 
                     <Link
-                      to={`/problem/${problem.id}`}
+                      to={ROUTES.PROBLEM.replace(":id", problem.id)}
                       className="font-medium text-primary text-lg hover:underline block"
                     >
                       {problem.title}
@@ -277,7 +284,7 @@ export const ProblemsTable = ({ problems }) => {
                         </TableCell>
                         <TableCell>
                           <Link
-                            to={`/problem/${problem.id}`}
+                            to={ROUTES.PROBLEM.replace(":id", problem.id)}
                             className="font-medium hover:underline text-primary"
                           >
                             {problem.title}
@@ -333,9 +340,16 @@ export const ProblemsTable = ({ problems }) => {
                                 <TooltipProvider>
                                   <Tooltip>
                                     <TooltipTrigger asChild>
-                                      <Button variant="secondary" size="icon">
-                                        <Pencil className="h-4 w-4" />
-                                      </Button>
+                                      <Link
+                                        to={ROUTES.UPDATE_PROBLEM.replace(
+                                          ":id",
+                                          problem.id
+                                        )}
+                                      >
+                                        <Button variant="secondary" size="icon">
+                                          <Pencil className="h-4 w-4" />
+                                        </Button>
+                                      </Link>
                                     </TooltipTrigger>
                                     <TooltipContent>
                                       <p>Edit problem</p>

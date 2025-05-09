@@ -11,6 +11,7 @@ import { useAuthStore } from "@/store/useAuthStore";
 import ProblemSolvedByUser from "@/components/views/ProblemSolvedByUser";
 import PlaylistProfile from "@/components/views/PlaylistProfile";
 import ProfileSubmission from "@/components/views/ProfileSubmission";
+import { ROUTES } from "@/constants/routes";
 
 // Main Profile Component
 export default function ProfilePage() {
@@ -48,7 +49,7 @@ export default function ProfilePage() {
         {/* Header with back button */}
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="icon" asChild>
-            <Link to="/">
+            <Link to={ROUTES.HOME}>
               <ArrowLeft className="h-5 w-5" />
             </Link>
           </Button>

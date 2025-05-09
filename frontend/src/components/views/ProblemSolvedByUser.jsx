@@ -18,6 +18,7 @@ import {
   EASY_DIFFICULTY,
   MEDIUM_DIFFICULTY,
 } from "@/constants/constants";
+import { ROUTES } from "@/constants/routes";
 
 function ProblemSolvedByUser() {
   const { getSolvedProblemByUser, solvedProblems } = useProblemStore();
@@ -40,7 +41,7 @@ function ProblemSolvedByUser() {
               Start solving problems to see them listed here!
             </p>
             <Button className="mt-4" asChild>
-              <Link href="/problems">View Problems</Link>
+              <Link to={ROUTES.HOME}>View Problems</Link>
             </Button>
           </CardContent>
         </Card>
@@ -93,7 +94,7 @@ function ProblemSolvedByUser() {
                     </TableCell>
                     <TableCell className="text-right">
                       <Button variant="outline" size="sm" asChild>
-                        <Link to={`/problem/${problem.id}`}>
+                        <Link to={ROUTES.PROBLEM.replace(":id", problem.id)}>
                           <ExternalLink size={14} className="mr-1" />
                           View
                         </Link>
@@ -110,7 +111,7 @@ function ProblemSolvedByUser() {
                   <span className="font-bold">{solvedProblems.length}</span>
                 </span>
                 <Button size="sm" asChild>
-                  <Link to="/">Solve more problems</Link>
+                  <Link to={ROUTES.HOME}>Solve more problems</Link>
                 </Button>
               </div>
             </CardFooter>

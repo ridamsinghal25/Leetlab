@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ROUTES } from "@/constants/routes";
 
 export default function Navbar() {
   const { authUser, logout } = useAuthStore();
@@ -20,7 +21,7 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 w-full py-3 transition-all duration-300">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 flex items-center justify-between rounded-xl backdrop-blur-lg border bg-background/60 border-transparent">
         {/* Logo Section */}
-        <Link to="/" className="flex items-center gap-2 py-3 group">
+        <Link to={ROUTES.HOME} className="flex items-center gap-2 py-3 group">
           <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
             <Code className="h-5 w-5 text-primary" />
           </div>
@@ -64,7 +65,7 @@ export default function Navbar() {
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                   <DropdownMenuItem asChild>
-                    <Link to="/profile" className="cursor-pointer">
+                    <Link to={ROUTES.PROFILE} className="cursor-pointer">
                       <User className="mr-2 h-4 w-4" />
                       <span>My Profile</span>
                     </Link>
@@ -75,7 +76,10 @@ export default function Navbar() {
                   <>
                     <DropdownMenuGroup>
                       <DropdownMenuItem asChild>
-                        <Link to="/add-problem" className="cursor-pointer">
+                        <Link
+                          to={ROUTES.ADD_PROBLEM}
+                          className="cursor-pointer"
+                        >
                           <PlusCircle className="mr-2 h-4 w-4" />
                           <span>Add Problem</span>
                         </Link>

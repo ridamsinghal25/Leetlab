@@ -13,6 +13,8 @@ import Layout from "./protectedRoutes/Layout";
 import AddProblem from "./pages/AddProblem";
 import ProfilePage from "./pages/ProfilePage";
 import AdminRoute from "./protectedRoutes/AdminRoute";
+import UpdateProblem from "./pages/UpdateProblem";
+import { ROUTES } from "./constants/routes";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -32,36 +34,43 @@ const App = () => {
     <div className="flex flex-col items-center justify-start  ">
       <Toaster />
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path={ROUTES.HOME} element={<Layout />}>
           <Route
             index
-            element={authUser ? <HomePage /> : <Navigate to="/login" />}
+            element={authUser ? <HomePage /> : <Navigate to={ROUTES.LOGIN} />}
           />
         </Route>
 
         <Route
-          path="/signup"
-          element={!authUser ? <SignUpPage /> : <Navigate to="/" />}
+          path={ROUTES.SIGNUP}
+          element={!authUser ? <SignUpPage /> : <Navigate to={ROUTES.HOME} />}
         />
         <Route
-          path="/login"
-          element={!authUser ? <LoginPage /> : <Navigate to="/" />}
+          path={ROUTES.LOGIN}
+          element={!authUser ? <LoginPage /> : <Navigate to={ROUTES.HOME} />}
         />
 
         <Route
-          path="/problem/:id"
-          element={authUser ? <ProblemPage /> : <Navigate to="/login" />}
+          path={ROUTES.PROBLEM}
+          element={authUser ? <ProblemPage /> : <Navigate to={ROUTES.LOGIN} />}
         />
         <Route element={<AdminRoute />}>
           <Route
-            path="/add-problem"
-            element={authUser ? <AddProblem /> : <Navigate to="/login" />}
+            path={ROUTES.ADD_PROBLEM}
+            element={authUser ? <AddProblem /> : <Navigate to={ROUTES.LOGIN} />}
+          />
+
+          <Route
+            path={ROUTES.UPDATE_PROBLEM}
+            element={
+              authUser ? <UpdateProblem /> : <Navigate to={ROUTES.LOGIN} />
+            }
           />
         </Route>
 
         <Route
-          path="/profile"
-          element={authUser ? <ProfilePage /> : <Navigate to="/login" />}
+          path={ROUTES.PROFILE}
+          element={authUser ? <ProfilePage /> : <Navigate to={ROUTES.LOGIN} />}
         />
       </Routes>
     </div>

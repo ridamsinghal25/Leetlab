@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/accordion";
 import { usePlaylistStore } from "@/store/usePlaylistStore";
 import { EASY_DIFFICULTY, MEDIUM_DIFFICULTY } from "@/constants/constants";
+import { ROUTES } from "@/constants/routes";
 
 function PlaylistProfile() {
   const { getAllPlayListDetailsOfUser, playlists, deletePlaylist } =
@@ -163,7 +164,10 @@ function PlaylistProfile() {
                                   <TableCell className="text-right">
                                     <Button variant="outline" size="sm" asChild>
                                       <Link
-                                        href={`/problem/${item.problem.id}`}
+                                        to={ROUTES.PROBLEM.replace(
+                                          ":id",
+                                          item.problem.id
+                                        )}
                                       >
                                         <ExternalLink
                                           size={12}
