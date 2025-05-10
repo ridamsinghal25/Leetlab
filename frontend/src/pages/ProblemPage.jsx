@@ -119,21 +119,28 @@ const ProblemPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b bg-card shadow-sm">
-        <div className="container mx-auto px-4 py-3">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" asChild>
+    <div className="flex flex-col h-screen">
+      <header className="border-b bg-card shadow-sm h-16">
+        <div className="container mx-auto px-2 sm:px-4 h-full">
+          <div className="flex items-center justify-between h-full">
+            <div className="flex items-center gap-1 sm:gap-2 overflow-hidden">
+              <Button
+                variant="ghost"
+                size="icon"
+                asChild
+                className="flex-shrink-0"
+              >
                 <Link to={ROUTES.HOME}>
-                  <Home className="w-5 h-5" />
+                  <Home className="w-4 h-4 sm:w-5 sm:h-5" />
                 </Link>
               </Button>
-              <ChevronRight className="w-4 h-4 text-muted-foreground" />
-              <h1 className="text-xl font-bold">{problem.title}</h1>
+              <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground hidden xs:flex" />
+              <h1 className="text-sm sm:text-base md:text-xl font-bold truncate">
+                {problem.title}
+              </h1>
 
               <Badge
-                className="ml-2"
+                className="ml-1 sm:ml-2 flex-shrink-0"
                 variant={
                   problem.difficulty === EASY_DIFFICULTY
                     ? "success"
@@ -146,14 +153,14 @@ const ProblemPage = () => {
               </Badge>
             </div>
 
-            <div className="flex items-center gap-4 self-end md:self-auto">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+              <div className="hidden sm:flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-muted-foreground">
                 <div className="flex items-center gap-1">
-                  <Clock className="w-4 h-4 text-gray-700" />
-                  <span className="hidden sm:inline text-gray-700">
+                  <Clock className="w-3 h-3 sm:w-4 sm:h-4 text-gray-700" />
+                  <span className="hidden md:inline text-gray-700">
                     Updated
                   </span>
-                  <span className="text-gray-700">
+                  <span className="text-gray-700 truncate max-w-20 sm:max-w-none">
                     {new Date(problem.createdAt).toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "short",
@@ -162,173 +169,187 @@ const ProblemPage = () => {
                   </span>
                 </div>
 
-                <Separator orientation="vertical" className="h-4" />
+                <Separator
+                  orientation="vertical"
+                  className="h-3 sm:h-4 hidden sm:block"
+                />
 
-                <div className="flex items-center gap-1">
-                  <Users className="w-4 h-4 text-gray-700" />
+                <div className="hidden sm:flex items-center gap-1">
+                  <Users className="w-3 h-3 sm:w-4 sm:h-4 text-gray-700" />
                   <span className="text-gray-700">
                     {submissionCount} Submissions
                   </span>
                 </div>
-
-                <Separator orientation="vertical" className="h-4" />
               </div>
 
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setIsBookmarked(!isBookmarked)}
-                  className={isBookmarked ? "text-primary" : ""}
-                >
-                  <Bookmark className="w-5 h-5 " />
-                </Button>
-              </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsBookmarked(!isBookmarked)}
+                className={`${
+                  isBookmarked ? "text-primary" : ""
+                } flex-shrink-0`}
+              >
+                <Bookmark className="w-4 h-4 sm:w-5 sm:h-5" />
+              </Button>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card className="lg:order-1">
-            <CardContent className="p-0">
-              <Tabs
-                defaultValue="description"
-                value={activeTab}
-                onValueChange={setActiveTab}
-                className="w-full"
-              >
-                <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0">
-                  <TabsTrigger
-                    value="description"
-                    className="flex items-center gap-2 rounded-none border-b-2 border-transparent px-4 py-3 data-[state=active]:border-primary data-[state=active]:rounded"
-                  >
-                    <FileText className="w-4 h-4" />
-                    Description
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="submissions"
-                    className="flex items-center gap-2 rounded-none border-b-2 border-transparent px-4 py-3 data-[state=active]:border-primary"
-                  >
-                    <Code2 className="w-4 h-4" />
-                    Submissions
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="discussion"
-                    className="flex items-center gap-2 rounded-none border-b-2 border-transparent px-4 py-3 data-[state=active]:border-primary"
-                  >
-                    <MessageSquare className="w-4 h-4" />
-                    Discussion
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="hints"
-                    className="flex items-center gap-2 rounded-none border-b-2 border-transparent px-4 py-3 data-[state=active]:border-primary"
-                  >
-                    <Lightbulb className="w-4 h-4" />
-                    Hints
-                  </TabsTrigger>
-                </TabsList>
+      <main className="container mx-auto px-0 py-0 lg:w-screen h-[calc(100vh-64px)] flex flex-col">
+        <div className="flex flex-col h-[calc(100vh-4rem)] md:h-screen lg:flex-row">
+          {/* Left side - Problem description - Full width on mobile, 40% on large screens */}
+          <div className="w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r">
+            <Tabs
+              defaultValue="description"
+              value={activeTab}
+              onValueChange={setActiveTab}
+              className="h-full flex flex-col"
+            >
+              <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0 overflow-x-auto">
+                <TabsTrigger
+                  value="description"
+                  className="flex items-center gap-2 rounded-none border-b-2 border-transparent px-4 py-3 data-[state=active]:border-primary data-[state=active]:rounded"
+                >
+                  <FileText className="w-4 h-4" />
+                  <span className="whitespace-nowrap">Description</span>
+                </TabsTrigger>
+                <TabsTrigger
+                  value="submissions"
+                  className="flex items-center gap-2 rounded-none border-b-2 border-transparent px-4 py-3 data-[state=active]:border-primary data-[state=active]:rounded"
+                >
+                  <Code2 className="w-4 h-4" />
+                  <span className="whitespace-nowrap">Submissions</span>
+                </TabsTrigger>
+                <TabsTrigger
+                  value="discussion"
+                  className="flex items-center gap-2 rounded-none border-b-2 border-transparent px-4 py-3 data-[state=active]:border-primary data-[state=active]:rounded"
+                >
+                  <MessageSquare className="w-4 h-4" />
+                  <span className="whitespace-nowrap">Discussion</span>
+                </TabsTrigger>
+                <TabsTrigger
+                  value="hints"
+                  className="flex items-center gap-2 rounded-none border-b-2 border-transparent px-4 py-3 data-[state=active]:border-primary data-[state=active]:rounded"
+                >
+                  <Lightbulb className="w-4 h-4" />
+                  <span className="whitespace-nowrap">Hints</span>
+                </TabsTrigger>
+              </TabsList>
 
-                <TabsContent value={activeTab} className="p-6">
-                  <ScrollArea className="h-[calc(100vh-300px)] pr-4">
+              <TabsContent
+                value={activeTab}
+                className="flex-1 overflow-hidden w-full"
+              >
+                <ScrollArea className="h-full px-4 md:px-6 py-4 w-full">
+                  <div className="w-full">
                     <ProblemPageTabs
                       activeTab={activeTab}
                       problem={problem}
                       submissions={submissions}
                       isSubmissionsLoading={isSubmissionsLoading}
                     />
-                  </ScrollArea>
-                </TabsContent>
-              </Tabs>
-            </CardContent>
-          </Card>
+                  </div>
+                </ScrollArea>
+              </TabsContent>
+            </Tabs>
+          </div>
 
-          <Card className="lg:order-2">
-            <CardContent className="p-0">
-              <div className="flex justify-between px-4 py-2 border-b">
-                <div className="flex items-center">
-                  <Terminal className="w-4 h-4 mr-2" />
-                  <h2 className="font-medium">Code Editor</h2>
-                </div>
-                <div>
-                  <Select
-                    value={selectedLanguage}
-                    onValueChange={handleLanguageChange}
-                  >
-                    <SelectTrigger className="w-[140px]">
-                      <SelectValue placeholder="Select language" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {Object.keys(problem.codeSnippets || {}).map((lang) => (
-                        <SelectItem key={lang} value={lang}>
-                          {lang.charAt(0).toUpperCase() +
-                            lang.slice(1).toLowerCase()}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+          {/* Right side - Code editor - Full width on mobile, 60% on large screens */}
+          <div className="w-full lg:w-1/2 flex flex-col h-[60vh] md:h-[50vh] lg:h-[95vh]">
+            <div className="flex justify-between px-4 py-2 border-b">
+              <div className="flex items-center">
+                <Terminal className="w-4 h-4 mr-2" />
+                <h2 className="font-medium">Code Editor</h2>
               </div>
+              <div>
+                <Select
+                  value={selectedLanguage}
+                  onValueChange={handleLanguageChange}
+                >
+                  <SelectTrigger className="w-[120px] md:w-[140px]">
+                    <SelectValue placeholder="Select language" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Object.keys(problem.codeSnippets || {}).map((lang) => (
+                      <SelectItem key={lang} value={lang}>
+                        {lang.charAt(0).toUpperCase() +
+                          lang.slice(1).toLowerCase()}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
 
-              <div className="h-[calc(100vh-300px)] w-full">
-                <Editor
-                  height="100%"
-                  language={selectedLanguage.toLowerCase()}
-                  theme="vs-dark"
-                  value={code}
-                  onChange={(value) => setCode(value || "")}
-                  defaultLanguage="javascript"
-                  defaultValue={code}
-                  options={{
-                    minimap: { enabled: false },
-                    fontSize: 16,
-                    lineNumbers: "on",
-                    roundedSelection: false,
-                    scrollBeyondLastLine: false,
-                    readOnly: false,
-                    automaticLayout: true,
-                    padding: {
-                      top: 10,
-                    },
-                  }}
-                />
-              </div>
+            <div className="flex-1">
+              <Editor
+                height="100%"
+                language={selectedLanguage.toLowerCase()}
+                theme="vs-dark"
+                value={code}
+                onChange={(value) => setCode(value || "")}
+                defaultLanguage="javascript"
+                defaultValue={code}
+                options={{
+                  minimap: { enabled: false },
+                  fontSize: 16,
+                  lineNumbers: "on",
+                  roundedSelection: false,
+                  scrollBeyondLastLine: false,
+                  readOnly: false,
+                  automaticLayout: true,
+                  mouseWheelScrollSensitivity: 1,
+                  wordWrap: "on",
+                  scrollbar: {
+                    alwaysConsumeMouseWheel: false,
+                    handleMouseWheel: true,
+                  },
+                  padding: {
+                    top: 10,
+                    right: 20,
+                  },
+                }}
+              />
+            </div>
 
-              <div className="p-4 border-t bg-muted/50">
-                <div className="flex flex-col sm:flex-row justify-between gap-3">
-                  <Button
-                    variant="default"
-                    className="gap-2"
-                    onClick={handleRunCode}
-                    disabled={isExecuting}
-                  >
-                    {isExecuting ? (
-                      <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full"></div>
-                    ) : (
-                      <Play className="w-4 h-4" />
-                    )}
-                    Run Code
-                  </Button>
-                  <Button variant="secondary" className="gap-2">
-                    <ArrowRight className="w-4 h-4" />
-                    Submit Solution
-                  </Button>
-                </div>
+            <div className="p-4 border-t bg-muted/50">
+              <div className="flex flex-col sm:flex-row justify-between gap-3">
+                <Button
+                  variant="default"
+                  className="gap-2 w-full sm:w-auto"
+                  onClick={handleRunCode}
+                  disabled={isExecuting}
+                >
+                  {isExecuting ? (
+                    <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full"></div>
+                  ) : (
+                    <Play className="w-4 h-4" />
+                  )}
+                  Run Code
+                </Button>
+                <Button variant="secondary" className="gap-2 w-full sm:w-auto">
+                  <ArrowRight className="w-4 h-4" />
+                  Submit Solution
+                </Button>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
+
+        {/* Test cases section - Only shown when on submissions tab */}
 
         <Card className="mt-6">
           <CardContent className="p-6">
-            {submissions?.length > 0 ? (
+            {submissions?.length > 0 && activeTab === "submissions" ? (
               <>
                 <h3 className="text-xl font-bold">Your Submissions</h3>
-                {submissions.map((submission) => (
+                {submissions.map((submission, submissionIndex) => (
                   <SubmissionResults
                     key={submission.id}
                     submission={submission}
+                    submissionIndex={submissionIndex}
                   />
                 ))}
               </>

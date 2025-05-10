@@ -4,7 +4,13 @@ import {
   XCircle,
   MemoryStickIcon as Memory,
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -14,7 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const SubmissionResults = ({ submission }) => {
+const SubmissionResults = ({ submission, submissionIndex }) => {
   // Parse stringified arrays
   const memoryArr = JSON.parse(submission?.memory || "[]");
   const timeArr = JSON.parse(submission?.time || "[]");
@@ -40,6 +46,9 @@ const SubmissionResults = ({ submission }) => {
     <div className="space-y-6">
       {/* Overall Status */}
       <Card className="mt-5">
+        <CardHeader className="-mb-6">
+          <CardTitle>Submission: {submissionIndex + 1}</CardTitle>
+        </CardHeader>
         <CardContent className="p-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-5">
             <Card>
