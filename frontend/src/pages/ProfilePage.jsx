@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, Mail, User, Shield, ImageIcon } from "lucide-react";
+import { ArrowLeft, Mail, User, Shield, ImageIcon, IdCard } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,12 +12,22 @@ import ProblemSolvedByUser from "@/components/views/ProblemSolvedByUser";
 import PlaylistProfile from "@/components/views/PlaylistProfile";
 import ProfileSubmission from "@/components/views/ProfileSubmission";
 import { ROUTES } from "@/constants/routes";
+import { useState } from "react";
+import ChangePasswordModal from "@/components/modals/ChangePasswordModal";
+import { UploadAvatarModal } from "@/components/modals/UploadAvatarModal";
 
 // Main Profile Component
 export default function ProfilePage() {
   const { authUser } = useAuthStore();
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [showEditProfileModal, setShowEditProfileModal] = useState(false);
 
   const userInfo = [
+    {
+      label: "Name",
+      value: authUser?.name,
+      icon: <User className="h-5 w-5 text-primary" />,
+    },
     {
       label: "Email",
       value: authUser?.email,
@@ -26,7 +36,7 @@ export default function ProfilePage() {
     {
       label: "User ID",
       value: authUser?.id,
-      icon: <User className="h-5 w-5 text-primary" />,
+      icon: <IdCard className="h-5 w-5 text-primary" />,
     },
     {
       label: "Role",
@@ -34,12 +44,6 @@ export default function ProfilePage() {
       icon: <Shield className="h-5 w-5 text-primary" />,
       subtext:
         authUser?.role === "ADMIN" ? "Full system access" : "Limited access",
-    },
-    {
-      label: "Profile Image",
-      value: authUser?.image ? "Uploaded" : "Not Set",
-      icon: <ImageIcon className="h-5 w-5 text-primary" />,
-      subtext: authUser?.image ? "Image available" : "Upload a profile picture",
     },
   ];
 
@@ -59,10 +63,13 @@ export default function ProfilePage() {
         {/* Profile Card */}
         <Card>
           <CardContent className="p-6">
-            <div className="flex flex-col md:flex-row items-center gap-6">
+            <div className="flex flex-col md:flex-row md:justify-center items-center gap-6">
               {/* Avatar */}
               <div className="relative">
-                <Avatar className="h-24 w-24 border-4 border-primary">
+                <Avatar
+                  className="h-24 w-24 border-4 border-primary"
+                  onClick={() => setShowEditProfileModal(true)}
+                >
                   {authUser?.image ? (
                     <AvatarImage
                       src={authUser.image || "/placeholder.svg"}
@@ -77,18 +84,6 @@ export default function ProfilePage() {
                 <div className="absolute bottom-0 right-0 h-6 w-6 rounded-full bg-background flex items-center justify-center">
                   <div className="h-4 w-4 rounded-full bg-primary" />
                 </div>
-              </div>
-
-              {/* Name and Role Badge */}
-              <div className="text-center md:text-left">
-                <h2 className="text-2xl font-bold">{authUser?.name}</h2>
-                <Badge variant="outline" className="mt-2">
-                  {authUser?.role}
-                </Badge>
-              </div>
-
-              <div className="ml-auto">
-                <Button>Edit Profile</Button>
               </div>
             </div>
 
@@ -116,11 +111,24 @@ export default function ProfilePage() {
 
             {/* Action Buttons */}
             <div className="flex justify-end gap-2 mt-6">
-              <Button variant="outline">Edit Profile</Button>
-              <Button>Change Password</Button>
+              <Button onClick={() => setShowPasswordModal(true)}>
+                Change Password
+              </Button>
             </div>
           </CardContent>
         </Card>
+
+        {/* Modals */}
+        <ChangePasswordModal
+          open={showPasswordModal}
+          onOpenChange={setShowPasswordModal}
+        />
+
+        <UploadAvatarModal
+          user={authUser}
+          open={showEditProfileModal}
+          onOpenChange={setShowEditProfileModal}
+        />
 
         {/* Tabs for different sections */}
         <Tabs defaultValue="problems" className="w-full">

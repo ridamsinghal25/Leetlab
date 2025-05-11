@@ -70,3 +70,37 @@ export const loginSchema = z.object({
 export const playlistSchema = z.object({
   name: z.string().min(3, "Playlist name must be at least 3 characters"),
 });
+
+export const changePasswordSchema = z
+  .object({
+    currentPassword: z.string().min(8, {
+      message: "Password must be at least 8 characters.",
+    }),
+    newPassword: z.string().min(8, {
+      message: "Password must be at least 8 characters.",
+    }),
+    confirmPassword: z.string().min(8, {
+      message: "Password must be at least 8 characters.",
+    }),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
+
+export const uploadAvatarSchema = z
+  .object({
+    image: z.instanceof(File, { message: "Image is required" }),
+  })
+  .refine(
+    (data) =>
+      data.image.type === "image/jpeg" || data.image.type === "image/png",
+    {
+      message: "File must be a JPEG or PNG image.",
+      path: ["image"],
+    }
+  )
+  .refine((data) => data.image.size <= 5 * 1024 * 1024, {
+    message: "Image size should not exceed 5MB.",
+    path: ["image"],
+  });
