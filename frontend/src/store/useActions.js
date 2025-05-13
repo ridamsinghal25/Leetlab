@@ -7,7 +7,7 @@ export const useActions = create((set) => ({
   onDeleteProblem: async (id) => {
     try {
       set({ isDeletingProblem: true });
-      const res = await axiosInstance.delete(`/problems/delete-problem/${id}`);
+      const res = await axiosInstance.delete(`/problem/delete-problem/${id}`);
 
       if (res.data.success) {
         toast.success(res.data.message);

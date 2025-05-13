@@ -22,7 +22,6 @@ const HomePage = () => {
     <section className="min-h-screen flex flex-col items-center px-4 py-8 sm:py-16 relative">
       {/* Gradient background elements */}
       <div className="absolute top-16 left-0 w-1/3 h-1/3 bg-primary/20 blur-3xl rounded-full"></div>
-      <div className="absolute bottom-16 right-0 w-1/4 h-1/4 bg-primary/10 blur-3xl rounded-full"></div>
 
       <div className="max-w-4xl text-center mb-8 sm:mb-12 z-10">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-4">

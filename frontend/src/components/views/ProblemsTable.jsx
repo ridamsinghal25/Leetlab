@@ -164,6 +164,7 @@ export const ProblemsTable = ({ problems }) => {
               const isSolved = problem.solvedBy.some(
                 (user) => user.userId === authUser?.id
               );
+
               return (
                 <Card key={problem.id} className="overflow-hidden">
                   <CardContent className="p-4 space-y-3">
@@ -193,7 +194,7 @@ export const ProblemsTable = ({ problems }) => {
                               variant="destructive"
                               size="icon"
                               onClick={() => handleDelete(problem.id)}
-                              className="h-8 w-8"
+                              className="h-8 w-8 cursor-pointer z-10"
                             >
                               <Trash className="h-3.5 w-3.5" />
                             </Button>
@@ -206,7 +207,7 @@ export const ProblemsTable = ({ problems }) => {
                               <Button
                                 variant="secondary"
                                 size="icon"
-                                className="h-8 w-8"
+                                className="h-8 w-8 cursor-pointer z-10"
                               >
                                 <Pencil className="h-3.5 w-3.5" />
                               </Button>
@@ -327,6 +328,7 @@ export const ProblemsTable = ({ problems }) => {
                                         variant="destructive"
                                         size="icon"
                                         onClick={() => handleDelete(problem.id)}
+                                        className="h-8 w-8 cursor-pointer"
                                       >
                                         <Trash className="h-4 w-4" />
                                       </Button>
@@ -346,7 +348,11 @@ export const ProblemsTable = ({ problems }) => {
                                           problem.id
                                         )}
                                       >
-                                        <Button variant="secondary" size="icon">
+                                        <Button
+                                          variant="secondary"
+                                          size="icon"
+                                          className="h-8 w-8 cursor-pointer"
+                                        >
                                           <Pencil className="h-4 w-4" />
                                         </Button>
                                       </Link>
