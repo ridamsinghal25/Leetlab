@@ -1,19 +1,11 @@
-import { useState } from "react";
-import { useForm, Controller, useFieldArray } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useNavigate } from "react-router-dom";
-import { toast } from "sonner";
+import { Controller, useFieldArray } from "react-hook-form";
 import Editor from "@monaco-editor/react";
 import {
-  ArrowLeft,
   BookOpen,
   CheckCircle2,
   Code2,
-  Download,
-  FileText,
   Lightbulb,
   Plus,
-  RefreshCcw,
   Trash2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -32,74 +24,24 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { axiosInstance } from "@/lib/axios";
-import { sampledpData, sampleStringProblem } from "@/data";
 import { DIFFICULTIES_OPTIONS, LANGUAGES } from "@/constants/constants";
 import FormFieldInput from "../basic/FormFieldInput";
 import { Form } from "../ui/form";
 import FormFieldTextarea from "../basic/FormFieldTextarea";
 import FormFieldSelect from "../basic/FormFieldSelect";
-import { problemSchema } from "@/validations/zodValidations";
-import { ROUTES } from "@/constants/routes";
 
-const defaultValues = {
-  title: "",
-  description: "",
-  difficulty: "EASY",
-  tags: ["Tag"],
-  constraints: "",
-  hints: "",
-  editorial: "",
-  testcases: [
-    {
-      input: "",
-      output: "",
-    },
-  ],
-  examples: {
-    JAVASCRIPT: {
-      input: "",
-      output: "",
-      explanation: "",
-    },
-    PYTHON: {
-      input: "",
-      output: "",
-      explanation: "",
-    },
-    JAVA: {
-      input: "",
-      output: "",
-      explanation: "",
-    },
-  },
-  codeSnippets: {
-    JAVASCRIPT: "function solution() {\n  // Write your code here\n}",
-    PYTHON: "def solution():\n    # Write your code here\n    pass",
-    JAVA: "public class Solution {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}",
-  },
-  referenceSolutions: {
-    JAVASCRIPT: "// Add your reference solution here",
-    PYTHON: "# Add your reference solution here",
-    JAVA: "// Add your reference solution here",
-  },
-};
-
-export default function AddProblemForm() {
-  const [sampleType, setSampleType] = useState("DP");
-  const navigation = useNavigate();
-
-  const addProblemForm = useForm({
-    resolver: zodResolver(problemSchema),
-    defaultValues: defaultValues,
-  });
-
+export default function ProblemForm({
+  form,
+  onSubmit,
+  isLoading,
+  isUpdateMode,
+}) {
   const {
     fields: testCaseFields,
     append: appendTestCase,
     remove: removeTestCase,
   } = useFieldArray({
-    control: addProblemForm.control,
+    control: form.control,
     name: "testcases",
   });
 
@@ -108,92 +50,21 @@ export default function AddProblemForm() {
     append: appendTag,
     remove: removeTag,
   } = useFieldArray({
-    control: addProblemForm.control,
+    control: form.control,
     name: "tags",
   });
 
-  const [isLoading, setIsLoading] = useState(false);
-
-  const onSubmit = async (value) => {
-    try {
-      console.log("value", value);
-      return;
-      setIsLoading(true);
-      const res = await axiosInstance.post("/problems/create-problem", value);
-      toast.success(res.data.message);
-      navigation(ROUTES.HOME);
-    } catch (error) {
-      console.log("Error creating problem", error);
-      toast.error("Error creating problem");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Function to load sample data
-  const loadSampleData = () => {
-    const sampleData = sampleType === "DP" ? sampledpData : sampleStringProblem;
-    addProblemForm.reset(sampleData);
-  };
-
-  const resetForm = () => {
-    addProblemForm.reset(defaultValues);
-  };
-
   return (
-    <div className="w-screen lg:w-4xl mx-auto py-8 px-4">
-      <Card className="border shadow-lg ">
-        <CardHeader className="border-b">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" asChild>
-                <Link to={ROUTES.HOME}>
-                  <ArrowLeft className="h-5 w-5" />
-                </Link>
-              </Button>
-              <FileText className="h-6 w-6 text-primary" />
-              <CardTitle className="text-2xl">Create Problem</CardTitle>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-              <Tabs
-                defaultValue="DP"
-                className="w-full sm:w-auto"
-                onValueChange={(value) => setSampleType(value)}
-              >
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="DP">DP Problem</TabsTrigger>
-                  <TabsTrigger value="string">String Problem</TabsTrigger>
-                </TabsList>
-              </Tabs>
-
-              <Button
-                variant="outline"
-                className="gap-2"
-                onClick={loadSampleData}
-              >
-                <Download className="h-4 w-4" />
-                Load Sample
-              </Button>
-
-              <Button variant="outline" className="gap-2" onClick={resetForm}>
-                <RefreshCcw className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        </CardHeader>
-
+    <div>
+      <Card>
         <CardContent className="pt-6">
-          <Form {...addProblemForm}>
-            <form
-              onSubmit={addProblemForm.handleSubmit(onSubmit)}
-              className="space-y-8"
-            >
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               {/* Basic Information */}
               <div className="grid grid-cols-1 gap-6">
                 <div>
                   <FormFieldInput
-                    form={addProblemForm}
+                    form={form}
                     name="title"
                     label="Title"
                     placeholder="Enter problem title"
@@ -202,7 +73,7 @@ export default function AddProblemForm() {
                 </div>
                 <div>
                   <FormFieldTextarea
-                    form={addProblemForm}
+                    form={form}
                     name="description"
                     label="Description"
                     placeholder="Enter problem constraints"
@@ -210,7 +81,7 @@ export default function AddProblemForm() {
                   />
                 </div>
                 <FormFieldSelect
-                  form={addProblemForm}
+                  form={form}
                   name="difficulty"
                   label="Difficulty"
                   optionValues={DIFFICULTIES_OPTIONS}
@@ -239,7 +110,7 @@ export default function AddProblemForm() {
                     {tagFields.map((field, index) => (
                       <div key={field.id} className="flex gap-2 items-center">
                         <FormFieldInput
-                          form={addProblemForm}
+                          form={form}
                           name={`tags.${index}`}
                           placeholder="Enter tag"
                           className="flex-1"
@@ -314,14 +185,14 @@ export default function AddProblemForm() {
                           </div>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <FormFieldTextarea
-                              form={addProblemForm}
+                              form={form}
                               name={`testcases.${index}.input`}
                               placeholder="Enter test case input"
                               className="min-h-24 resize-y"
                             />
 
                             <FormFieldTextarea
-                              form={addProblemForm}
+                              form={form}
                               name={`testcases.${index}.output`}
                               placeholder="Enter expected output"
                               className="min-h-24 resize-y"
@@ -364,7 +235,7 @@ export default function AddProblemForm() {
                           <div className="border rounded-md overflow-hidden">
                             <Controller
                               name={`codeSnippets.${language}`}
-                              control={addProblemForm.control}
+                              control={form.control}
                               render={({ field }) => (
                                 <Editor
                                   height="300px"
@@ -379,6 +250,10 @@ export default function AddProblemForm() {
                                     roundedSelection: false,
                                     scrollBeyondLastLine: false,
                                     automaticLayout: true,
+                                    scrollbar: {
+                                      alwaysConsumeMouseWheel: false,
+                                      handleMouseWheel: true,
+                                    },
                                     padding: {
                                       top: 10,
                                     },
@@ -387,14 +262,11 @@ export default function AddProblemForm() {
                               )}
                             />
                           </div>
-                          {addProblemForm.formState.errors?.codeSnippets?.[
-                            language
-                          ] && (
+                          {form.formState.errors?.codeSnippets?.[language] && (
                             <p className="text-sm text-destructive">
                               {
-                                addProblemForm.formState.errors.codeSnippets[
-                                  language
-                                ].message
+                                form.formState.errors.codeSnippets[language]
+                                  .message
                               }
                             </p>
                           )}
@@ -409,7 +281,7 @@ export default function AddProblemForm() {
                           <div className="border rounded-md overflow-hidden">
                             <Controller
                               name={`referenceSolutions.${language}`}
-                              control={addProblemForm.control}
+                              control={form.control}
                               render={({ field }) => (
                                 <Editor
                                   height="300px"
@@ -424,6 +296,10 @@ export default function AddProblemForm() {
                                     roundedSelection: false,
                                     scrollBeyondLastLine: false,
                                     automaticLayout: true,
+                                    scrollbar: {
+                                      alwaysConsumeMouseWheel: false,
+                                      handleMouseWheel: true,
+                                    },
                                     padding: {
                                       top: 10,
                                     },
@@ -432,12 +308,14 @@ export default function AddProblemForm() {
                               )}
                             />
                           </div>
-                          {addProblemForm.formState.errors
-                            ?.referenceSolutions?.[language] && (
+                          {form.formState.errors?.referenceSolutions?.[
+                            language
+                          ] && (
                             <p className="text-sm text-destructive">
                               {
-                                addProblemForm.formState.errors
-                                  .referenceSolutions[language].message
+                                form.formState.errors.referenceSolutions[
+                                  language
+                                ].message
                               }
                             </p>
                           )}
@@ -450,21 +328,21 @@ export default function AddProblemForm() {
                           </Label>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <FormFieldTextarea
-                              form={addProblemForm}
+                              form={form}
                               name={`examples.${language}.input`}
                               label="Input"
                               placeholder="Example input"
                               className="min-h-20 resize-y"
                             />
                             <FormFieldTextarea
-                              form={addProblemForm}
+                              form={form}
                               name={`examples.${language}.output`}
                               label="Output"
                               placeholder="Example output"
                               className="min-h-20 resize-y"
                             />
                             <FormFieldTextarea
-                              form={addProblemForm}
+                              form={form}
                               name={`examples.${language}.explanation`}
                               label="Explanation"
                               placeholder="Explain the example"
@@ -488,21 +366,21 @@ export default function AddProblemForm() {
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <FormFieldTextarea
-                    form={addProblemForm}
+                    form={form}
                     name="constraints"
                     label="Constraints"
                     placeholder="Enter problem constraints"
                     className="min-h-24 resize-y"
                   />
                   <FormFieldTextarea
-                    form={addProblemForm}
+                    form={form}
                     name="hints"
                     label="Hints (Optional)"
                     placeholder="Enter hints for solving the problem"
                     className="min-h-24 resize-y"
                   />
                   <FormFieldTextarea
-                    form={addProblemForm}
+                    form={form}
                     name="editorial"
                     label="Editorial (Optional)"
                     placeholder="Enter hints for solving the problem"
@@ -516,12 +394,12 @@ export default function AddProblemForm() {
                   {isLoading ? (
                     <div className="flex items-center gap-2">
                       <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                      Creating...
+                      {isUpdateMode ? "Updating..." : "Creating..."}
                     </div>
                   ) : (
                     <div className="flex items-center gap-2">
                       <CheckCircle2 className="h-5 w-5" />
-                      Create Problem
+                      {isUpdateMode ? "Update Problem" : "Create Problem"}
                     </div>
                   )}
                 </Button>

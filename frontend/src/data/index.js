@@ -11,7 +11,7 @@ export const sampledpData = {
     "To reach the nth step, you can either come from the (n-1)th step or the (n-2)th step.",
   editorial:
     "This is a classic dynamic programming problem. The number of ways to reach the nth step is the sum of the number of ways to reach the (n-1)th step and the (n-2)th step, forming a Fibonacci-like sequence.",
-  testCases: [
+  testcases: [
     {
       input: "2",
       output: "2",
@@ -258,7 +258,7 @@ export const sampleStringProblem = {
     "Consider using two pointers, one from the start and one from the end, moving towards the center.",
   editorial:
     "We can use two pointers approach to check if the string is a palindrome. One pointer starts from the beginning and the other from the end, moving towards each other.",
-  testCases: [
+  testcases: [
     {
       input: "A man, a plan, a canal: Panama",
       output: "true",
@@ -462,7 +462,7 @@ export const sampleProblems = [
       "A really efficient solution can be found using a hash map. Try to use the two-pass hash table approach.",
     editorial:
       "The brute force approach is to check every possible pair of numbers in the array. However, we can use a hash map to optimize this to O(n) time complexity.",
-    testCases: [
+    testcases: [
       {
         input: "[2,7,11,15]\n9",
         output: "[0,1]",
@@ -738,7 +738,7 @@ class Solution {
       "Consider using two pointers, one from the start and one from the end, moving towards the center.",
     editorial:
       "We can use two pointers approach to check if the string is a palindrome. One pointer starts from the beginning and the other from the end, moving towards each other.",
-    testCases: [
+    testcases: [
       {
         input: "A man, a plan, a canal: Panama",
         output: "true",
@@ -942,7 +942,7 @@ public class Main {
       "A simple and intuitive way is to use a stack. Or you can swap the values of the nodes, but that's usually not the expected approach.",
     editorial:
       "The iterative approach uses three pointers: prev, curr, and next to reverse the links between nodes. The recursive approach uses the call stack to reverse the links.",
-    testCases: [
+    testcases: [
       {
         input: "[1,2,3,4,5]",
         output: "[5,4,3,2,1]",
@@ -1448,7 +1448,7 @@ class Solution {
       "Try using a queue data structure for a breadth-first search (BFS) approach.",
     editorial:
       "Level-order traversal requires us to process nodes level by level, which is perfectly suited for a breadth-first search approach. We use a queue to store nodes at each level and process them from left to right.",
-    testCases: [
+    testcases: [
       {
         input: "[3,9,20,null,null,15,7]",
         output: "[[3],[9,20],[15,7]]",
@@ -1992,7 +1992,7 @@ class Solution {
       "To reach the nth step, you can either come from the (n-1)th step or the (n-2)th step.",
     editorial:
       "This is a classic dynamic programming problem. The number of ways to reach the nth step is the sum of the number of ways to reach the (n-1)th step and the (n-2)th step, forming a Fibonacci-like sequence.",
-    testCases: [
+    testcases: [
       {
         input: "2",
         output: "2",
@@ -2244,7 +2244,7 @@ class Solution {
       "Think about using depth-first search (DFS) or breadth-first search (BFS) to explore and mark visited islands.",
     editorial:
       "We can use a DFS or BFS approach to search for islands. When we find a land cell ('1'), we increment our island count and use DFS/BFS to mark all connected land cells as visited by changing them to '0' to avoid counting them again.",
-    testCases: [
+    testcases: [
       {
         input:
           '[["1","1","1","1","0"],["1","1","0","1","0"],["1","1","0","0","0"],["0","0","0","0","0"]]',
