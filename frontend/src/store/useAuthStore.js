@@ -7,6 +7,7 @@ export const useAuthStore = create((set, get) => ({
   isSigninUp: false,
   isLoggingIn: false,
   isCheckingAuth: false,
+  isLoading: false,
 
   checkAuth: async () => {
     set({ isCheckingAuth: true }); // ✅ FIXED
@@ -19,6 +20,9 @@ export const useAuthStore = create((set, get) => ({
       }
     } catch (error) {
       set({ authUser: null });
+      toast.error(
+        error.response?.data?.error || "Error checking authentication"
+      );
     } finally {
       set({ isCheckingAuth: false });
     }
@@ -35,7 +39,7 @@ export const useAuthStore = create((set, get) => ({
         toast.success(res.data.message);
       }
     } catch (error) {
-      toast.error("Error signing up");
+      toast.error(error.response?.data?.error || "Error signing up");
     } finally {
       set({ isSigninUp: false });
     }
@@ -52,7 +56,7 @@ export const useAuthStore = create((set, get) => ({
         toast.success(res.data.message);
       }
     } catch (error) {
-      toast.error("Error logging in");
+      toast.error(error.response?.data?.error || "Error logging in");
     } finally {
       set({ isLoggingIn: false });
     }
@@ -63,13 +67,47 @@ export const useAuthStore = create((set, get) => ({
       const res = await axiosInstance.post("/auth/logout");
       set({ authUser: null });
 
-      console.log("res", res);
-
       if (res.data.success) {
         toast.success("Logout successful");
       }
     } catch (error) {
-      toast.error("Error logging out");
+      toast.error(error.response?.data?.error || "Error logging out");
+    }
+  },
+
+  uploadAvatar: async (data) => {
+    set({ isLoading: true });
+    try {
+      const res = await axiosInstance.patch("/auth/upload-avatar", data);
+
+      if (res.data.success) {
+        set({ authUser: res.data.user });
+
+        toast.success(res.data.message);
+
+        return res.data;
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.error || "Error uploading avatar");
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  updateUserPassword: async (data) => {
+    set({ isLoading: true });
+    try {
+      const res = await axiosInstance.patch("/auth/update-password", data);
+
+      if (res.data.success) {
+        toast.success(res.data.message);
+
+        return res.data;
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.error || "Error updating password");
+    } finally {
+      set({ isLoading: false });
     }
   },
 }));

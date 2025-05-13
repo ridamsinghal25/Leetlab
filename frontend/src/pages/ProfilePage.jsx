@@ -47,6 +47,14 @@ export default function ProfilePage() {
     },
   ];
 
+  const togglePasswordModal = () => {
+    setShowPasswordModal(!showPasswordModal);
+  };
+
+  const toggleEditProfileModal = () => {
+    setShowEditProfileModal(!showEditProfileModal);
+  };
+
   return (
     <div className="min-h-screen bg-background lg:w-3/4">
       <div className="mx-auto py-6 px-4 space-y-8">
@@ -70,9 +78,9 @@ export default function ProfilePage() {
                   className="h-24 w-24 border-4 border-primary"
                   onClick={() => setShowEditProfileModal(true)}
                 >
-                  {authUser?.image ? (
+                  {authUser?.image?.url ? (
                     <AvatarImage
-                      src={authUser.image || "/placeholder.svg"}
+                      src={authUser.image?.url || "/placeholder.svg"}
                       alt={authUser.name}
                     />
                   ) : (
@@ -121,13 +129,13 @@ export default function ProfilePage() {
         {/* Modals */}
         <ChangePasswordModal
           open={showPasswordModal}
-          onOpenChange={setShowPasswordModal}
+          onOpenChange={togglePasswordModal}
         />
 
         <UploadAvatarModal
           user={authUser}
           open={showEditProfileModal}
-          onOpenChange={setShowEditProfileModal}
+          onOpenChange={toggleEditProfileModal}
         />
 
         {/* Tabs for different sections */}

@@ -15,9 +15,10 @@ import { Form } from "@/components/ui/form";
 import { Eye, EyeOff } from "lucide-react";
 import FormFieldInput from "../basic/FormFieldInput";
 import { changePasswordSchema } from "@/validations/zodValidations";
+import { useAuthStore } from "@/store/useAuthStore";
 
 export default function ChangePasswordModal({ open, onOpenChange }) {
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, updateUserPassword } = useAuthStore();
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -32,18 +33,11 @@ export default function ChangePasswordModal({ open, onOpenChange }) {
   });
 
   async function onSubmit(data) {
-    // setIsLoading(true);
-    try {
-      console.log("data", data);
-      return;
-      toast.success("Password changed successfully");
-      onOpenChange(false);
+    const res = await updateUserPassword(data);
+
+    if (res?.success) {
+      onOpenChange();
       changePasswordForm.reset();
-    } catch (error) {
-      toast.error("Failed to change password");
-      console.error(error);
-    } finally {
-      setIsLoading(false);
     }
   }
 
@@ -70,6 +64,7 @@ export default function ChangePasswordModal({ open, onOpenChange }) {
                 type={showCurrentPassword ? "text" : "password"}
               />
               <Button
+                type="button"
                 variant="ghost"
                 size="icon"
                 className="absolute right-0 top-5 hover:bg-transparent hover:opacity-100"
@@ -91,6 +86,7 @@ export default function ChangePasswordModal({ open, onOpenChange }) {
                 type={showNewPassword ? "text" : "password"}
               />
               <Button
+                type="button"
                 variant="ghost"
                 size="icon"
                 className="absolute right-0 top-5 hover:bg-transparent hover:opacity-100"
@@ -113,6 +109,7 @@ export default function ChangePasswordModal({ open, onOpenChange }) {
                 type={showConfirmPassword ? "text" : "password"}
               />
               <Button
+                type="button"
                 variant="ghost"
                 size="icon"
                 className="absolute right-0 top-5 hover:bg-transparent hover:opacity-100"

@@ -100,7 +100,7 @@ export const uploadAvatarSchema = z
       path: ["image"],
     }
   )
-  .refine((data) => data.image.size <= 5 * 1024 * 1024, {
-    message: "Image size should not exceed 5MB.",
+  .refine((data) => data.image.size <= 3 * 1024 * 1024, {
+    message: "Image size should not exceed 3MB.",
     path: ["image"],
   });

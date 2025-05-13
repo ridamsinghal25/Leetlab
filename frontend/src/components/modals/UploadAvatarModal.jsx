@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,10 +14,11 @@ import { Form } from "@/components/ui/form";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import FormFieldInput from "../basic/FormFieldInput";
 import { uploadAvatarSchema } from "@/validations/zodValidations";
+import { useAuthStore } from "@/store/useAuthStore";
 
 export function UploadAvatarModal({ user, open, onOpenChange }) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [imagePreview, setImagePreview] = useState(user.image || null);
+  const { isLoading, uploadAvatar } = useAuthStore();
+  const [imagePreview, setImagePreview] = useState(user.image?.url || null);
   const inputRef = useRef(null);
 
   const uploadAvatarForm = useForm({
@@ -29,18 +29,14 @@ export function UploadAvatarModal({ user, open, onOpenChange }) {
   });
 
   async function onSubmit(data) {
-    setIsLoading(true);
-    try {
-      //   await updateProfile(data);
-      console.log("data in onSubmit", data);
-      return;
-      toast.success("Profile updated successfully");
-      onOpenChange(false);
-    } catch (error) {
-      toast.error("Failed to update profile");
-      console.error(error);
-    } finally {
-      setIsLoading(false);
+    const formData = new FormData();
+
+    formData.append("avatar", data.image);
+
+    const res = await uploadAvatar(formData);
+
+    if (res?.success) {
+      onOpenChange();
     }
   }
 
