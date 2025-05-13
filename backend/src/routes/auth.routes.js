@@ -6,8 +6,11 @@ import {
   login,
   logout,
   register,
+  updateUserPassword,
+  uploadProfileImage,
 } from "../controllers/auth.controller.js";
 import { authMiddleware } from "../middleware/auth.middleware.js";
+import { upload } from "../middleware/multer.middleware.js";
 
 const authRoutes = express.Router();
 
@@ -22,5 +25,14 @@ authRoutes.get("/check", authMiddleware, check);
 authRoutes.get("/get-submissions", authMiddleware, getSubmissionsOfUser);
 
 authRoutes.get("/get-playlists", authMiddleware, getUserPlaylists);
+
+authRoutes.patch(
+  "/upload-avatar",
+  authMiddleware,
+  upload.single("avatar"),
+  uploadProfileImage
+);
+
+authRoutes.patch("/update-password", authMiddleware, updateUserPassword);
 
 export default authRoutes;

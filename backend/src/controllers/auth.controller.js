@@ -2,6 +2,11 @@ import bcrypt from "bcryptjs";
 import { db } from "../libs/db.js";
 import { UserRole } from "../generated/prisma/index.js";
 import jwt from "jsonwebtoken";
+import {
+  deleteFilesFromImagekit,
+  uploadFilesToImagekit,
+} from "../libs/imagekit.js";
+import { removeUnusedMulterImageFilesOnError } from "../libs/helpers.js";
 
 export const register = async (req, res) => {
   const { email, password, name } = req.body;
@@ -210,6 +215,162 @@ export const getUserPlaylists = async (req, res) => {
     console.error("Fetch Playlists Error:", error);
     res.status(500).json({
       error: "Failed to fetch playlists",
+      success: false,
+    });
+  }
+};
+
+export const uploadProfileImage = async (req, res, next) => {
+  try {
+    const user = req.user;
+
+    const avatarLocalPath = req?.file?.path;
+
+    if (!avatarLocalPath) {
+      return res.status(400).json({
+        error: "No file uploaded",
+        success: false,
+      });
+    }
+
+    if (user.image?.fileId && user.image?.url) {
+      const deletePreviousFile = await deleteFilesFromImagekit(
+        user.image.fileId
+      );
+
+      if (!deletePreviousFile) {
+        return res.status(500).json({
+          error: "Something went wrong. Please try again",
+          success: false,
+        });
+      }
+    }
+
+    const avatar = await uploadFilesToImagekit(
+      avatarLocalPath,
+      req.file.originalname
+    );
+
+    if (!avatar) {
+      return res.status(500).json({
+        error: "Error uploading profile image",
+        success: false,
+      });
+    }
+
+    const updatedUser = await db.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        image: {
+          fileId: avatar.fileId,
+          url: avatar.url,
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        image: true,
+        role: true,
+      },
+    });
+
+    if (!updatedUser) {
+      return res.status(500).json({
+        error: "Error updating user",
+        success: false,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Profile image uploaded successfully",
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error("Error uploading profile image:", error);
+
+    removeUnusedMulterImageFilesOnError(req);
+
+    res.status(500).json({
+      error: "Error uploading profile image",
+      success: false,
+    });
+  }
+};
+
+export const updateUserPassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      return res.status(400).json({
+        error: "All fields are required",
+        success: false,
+      });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({
+        error: "New password and confirm password do not match",
+        success: false,
+      });
+    }
+
+    const user = await db.user.findUnique({
+      where: {
+        id: req.user.id,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        error: "User not found",
+        success: false,
+      });
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(
+      currentPassword,
+      user.password
+    );
+
+    if (!isPasswordCorrect) {
+      return res.status(400).json({
+        error: "Current password is incorrect",
+        success: false,
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    const updatedUser = await db.user.update({
+      where: {
+        id: req.user.id,
+      },
+      data: {
+        password: hashedPassword,
+      },
+    });
+
+    if (!updatedUser) {
+      return res.status(500).json({
+        error: "Error updating user password",
+        success: false,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Password updated successfully",
+      data: {},
+    });
+  } catch (error) {
+    console.error("Error updating user password:", error);
+    res.status(500).json({
+      error: "Error updating user password",
       success: false,
     });
   }
