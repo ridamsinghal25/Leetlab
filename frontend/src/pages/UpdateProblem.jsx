@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
 import { ArrowLeft, FileText, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,9 +15,10 @@ import ProblemForm from "@/components/views/ProblemForm";
 function UpdateProblem() {
   const [problem, setProblem] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [executionError, setExecutionError] = useState(null);
   const { id } = useParams();
   const { getProblemByIdFromState } = useProblemStore();
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
   const updateProblemForm = useForm({
     resolver: zodResolver(problemSchema),
@@ -77,19 +78,23 @@ function UpdateProblem() {
     updateProblemForm.reset(sanitizedProblem);
   }, [id]);
 
-  const onSubmit = async (value) => {
+  const onSubmit = async (data) => {
     try {
-      console.log("value", value);
-      return;
       setIsLoading(true);
-      const res = await axiosInstance.post("/problems/update-problem", value, {
-        params: { id: problem.id },
-      });
-      toast.success(res.data.message);
-      navigation(ROUTES.HOME);
+      setExecutionError(null);
+      const res = await axiosInstance.patch(
+        `/problem/update-problem/${id}`,
+        data
+      );
+
+      if (res.data.success) {
+        toast.success(res.data.message);
+
+        navigate(ROUTES.HOME);
+      }
     } catch (error) {
-      console.log("Error creating problem", error);
-      toast.error("Error creating problem");
+      toast.error(error.response?.data?.error || "Error updating problem");
+      setExecutionError(error.response?.data?.executionError || null);
     } finally {
       setIsLoading(false);
     }
@@ -125,6 +130,7 @@ function UpdateProblem() {
         onSubmit={onSubmit}
         isLoading={isLoading}
         isUpdateMode
+        executionError={executionError}
       />
     </div>
   );

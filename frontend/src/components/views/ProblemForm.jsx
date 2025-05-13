@@ -1,6 +1,7 @@
 import { Controller, useFieldArray } from "react-hook-form";
 import Editor from "@monaco-editor/react";
 import {
+  AlertCircle,
   BookOpen,
   CheckCircle2,
   Code2,
@@ -35,6 +36,7 @@ export default function ProblemForm({
   onSubmit,
   isLoading,
   isUpdateMode,
+  executionError,
 }) {
   const {
     fields: testCaseFields,
@@ -407,6 +409,25 @@ export default function ProblemForm({
             </form>
           </Form>
         </CardContent>
+        <CardFooter className="flex justify-end pt-4 border-t">
+          {executionError && (
+            <div className="w-full rounded-md border border-destructive/30 overflow-hidden">
+              <div className="bg-destructive/5 px-4 py-2 flex items-center gap-2">
+                <AlertCircle className="h-4 w-4 text-destructive" />
+                <span className="font-medium text-destructive">
+                  {executionError.description || "Execution Error"}
+                </span>
+              </div>
+              {executionError.stderr && (
+                <div className="bg-slate-50 p-3 font-mono text-sm text-slate-800 overflow-x-auto">
+                  <pre className="whitespace-pre-wrap break-words">
+                    {executionError.stderr}
+                  </pre>
+                </div>
+              )}
+            </div>
+          )}
+        </CardFooter>
       </Card>
     </div>
   );

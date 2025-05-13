@@ -73,6 +73,10 @@ export const createProblem = async (req, res) => {
         if (result.status.id !== 3) {
           return res.status(400).json({
             error: `Testcase ${i + 1} failed for language ${language}`,
+            executionError: {
+              stderr: result.stderr,
+              description: result.status.description,
+            },
             success: false,
           });
         }
@@ -99,8 +103,8 @@ export const createProblem = async (req, res) => {
     });
 
     return res.status(201).json({
-      sucess: true,
-      message: "Message Created Successfully",
+      success: true,
+      message: "Problem Created Successfully",
       problem: newProblem,
     });
   } catch (error) {
@@ -195,6 +199,10 @@ export const updateProblem = async (req, res) => {
         if (result.status.id !== 3) {
           return res.status(400).json({
             error: `Testcase ${i + 1} failed for language ${language}`,
+            executionError: {
+              stderr: result.stderr,
+              description: result.status.description,
+            },
             success: false,
           });
         }

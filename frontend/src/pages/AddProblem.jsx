@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
 import { ArrowLeft, Download, FileText, RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
@@ -59,6 +59,7 @@ const defaultValues = {
 const AddProblem = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [sampleType, setSampleType] = useState("DP");
+  const [executionError, setExecutionError] = useState(null);
   const navigation = useNavigate();
 
   const addProblemForm = useForm({
@@ -68,15 +69,18 @@ const AddProblem = () => {
 
   const onSubmit = async (data) => {
     try {
-      console.log("data", data);
-      return;
       setIsLoading(true);
-      const res = await axiosInstance.post("/problems/create-problem", data);
-      toast.success(res.data.message);
-      navigation(ROUTES.HOME);
+      setExecutionError(null);
+      const res = await axiosInstance.post("/problem/create-problem", data);
+
+      if (res.data.success) {
+        toast.success(res.data.message);
+        addProblemForm.reset(defaultValues);
+        navigation(ROUTES.HOME);
+      }
     } catch (error) {
-      console.log("Error creating problem", error);
-      toast.error("Error creating problem");
+      toast.error(error.response?.data?.error || "Error creating problem");
+      setExecutionError(error.response?.data?.executionError || null);
     } finally {
       setIsLoading(false);
     }
@@ -138,6 +142,7 @@ const AddProblem = () => {
         form={addProblemForm}
         onSubmit={onSubmit}
         isLoading={isLoading}
+        executionError={executionError}
       />
     </div>
   );

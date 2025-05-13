@@ -22,7 +22,7 @@ problemRoutes.get("/get-all-problems", authMiddleware, getAllProblems);
 
 problemRoutes.get("/get-problem/:id", authMiddleware, getProblemById);
 
-problemRoutes.put(
+problemRoutes.patch(
   "/update-problem/:id",
   authMiddleware,
   checkAdmin,
