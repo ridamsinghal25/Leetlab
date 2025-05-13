@@ -30,7 +30,7 @@ export const useExecutionStore = create((set, get) => ({
         toast.success(res.data.message);
       }
     } catch (error) {
-      toast.error("Error executing code");
+      toast.error(error.response?.data?.error || "Error executing code");
     } finally {
       set({ isExecuting: false });
     }

@@ -18,7 +18,7 @@ export const useProblemStore = create((set, get) => ({
         set({ problems: res.data.problems });
       }
     } catch (error) {
-      toast.error("Error getting all problems");
+      toast.error(error.response?.data?.error || "Error getting all problems");
     } finally {
       set({ isProblemsLoading: false });
     }
@@ -35,7 +35,7 @@ export const useProblemStore = create((set, get) => ({
         toast.success(res.data.message);
       }
     } catch (error) {
-      toast.error("Error getting problem");
+      toast.error(error.response?.data?.error || "Error getting problem");
     } finally {
       set({ isProblemLoading: false });
     }
@@ -49,7 +49,9 @@ export const useProblemStore = create((set, get) => ({
         set({ solvedProblems: res.data.problems });
       }
     } catch (error) {
-      toast.error("Error getting solved problems");
+      toast.error(
+        error.response?.data?.error || "Error getting solved problems"
+      );
     }
   },
 
