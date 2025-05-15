@@ -7,6 +7,7 @@ import executionRoute from "./src/routes/execute-code.routes.js";
 import submissionRoutes from "./src/routes/submission.routes.js";
 import playlistRoutes from "./src/routes/playlist.routes.js";
 import cors from "cors";
+import aiRoutes from "./src/routes/ai.routes.js";
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use("/api/v1/problem", problemRoutes);
 app.use("/api/v1/execute-code", executionRoute);
 app.use("/api/v1/submissions", submissionRoutes);
 app.use("/api/v1/playlist", playlistRoutes);
+app.use("/api/v1/ai", aiRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`Example app listening on port ${process.env.PORT}`);

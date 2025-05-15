@@ -74,7 +74,7 @@ export const createProblem = async (req, res) => {
           return res.status(400).json({
             error: `Testcase ${i + 1} failed for language ${language}`,
             executionError: {
-              stderr: result.stderr,
+              stderr: result.stderr || result.compile_output,
               description: result.status.description,
             },
             success: false,
@@ -200,7 +200,7 @@ export const updateProblem = async (req, res) => {
           return res.status(400).json({
             error: `Testcase ${i + 1} failed for language ${language}`,
             executionError: {
-              stderr: result.stderr,
+              stderr: result.stderr || result.compile_output,
               description: result.status.description,
             },
             success: false,
