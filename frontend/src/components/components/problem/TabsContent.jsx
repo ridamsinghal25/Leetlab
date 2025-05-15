@@ -1,7 +1,7 @@
 import { Info } from "lucide-react";
-import SubmissionsList from "./SubmissionList";
+import SubmissionsList from "@/components/components/submissions/SubmissionList";
 
-export const ProblemPageTabs = ({
+export const ProblemTabsContent = ({
   activeTab,
   problem,
   submissions,
@@ -109,10 +109,10 @@ export const ProblemPageTabs = ({
           isLoading={isSubmissionsLoading}
         />
       );
-    case "discussion":
+    case "editorial":
       return (
         <div className="p-4 text-center text-muted-foreground">
-          No discussions yet
+          No Editorial yet
         </div>
       );
     case "hints":
