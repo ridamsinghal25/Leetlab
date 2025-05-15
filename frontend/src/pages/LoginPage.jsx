@@ -22,7 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import AuthImagePattern from "@/components/views/AuthImagePattern";
+import AuthImagePattern from "@/components/basic/AuthImagePattern";
 import { loginSchema } from "@/validations/zodValidations";
 import { ROUTES } from "@/constants/routes";
 
