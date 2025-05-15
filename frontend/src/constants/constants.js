@@ -13,3 +13,16 @@ export const LANGUAGES = {
   PYTHON: "Python",
   JAVASCRIPT: "JavaScript",
 };
+
+// Problem Page Tabs
+export const PROBLEM_PAGE_TABS = {
+  DESCRIPTION: "description",
+  SUBMISSIONS: "submissions",
+  HINTS: "hints",
+  EDITORIAL: "editorial",
+};
+
+export const USER_ROLES = {
+  USER: "USER",
+  ADMIN: "ADMIN",
+};

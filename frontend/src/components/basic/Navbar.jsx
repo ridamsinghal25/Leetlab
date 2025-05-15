@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ROUTES } from "@/constants/routes";
+import { USER_ROLES } from "@/constants/constants";
 
 export default function Navbar() {
   const { authUser, logout } = useAuthStore();
@@ -72,7 +73,7 @@ export default function Navbar() {
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                {authUser?.role === "ADMIN" && (
+                {authUser?.role === USER_ROLES.ADMIN && (
                   <>
                     <DropdownMenuGroup>
                       <DropdownMenuItem asChild>

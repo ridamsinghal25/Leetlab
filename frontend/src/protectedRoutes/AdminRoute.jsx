@@ -2,6 +2,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 import { Loader } from "lucide-react";
 import { ROUTES } from "@/constants/routes";
+import { USER_ROLES } from "@/constants/constants";
 
 const AdminRoute = () => {
   const { authUser, isCheckingAuth } = useAuthStore();
@@ -14,7 +15,7 @@ const AdminRoute = () => {
     );
   }
 
-  if (!authUser || authUser.role !== "ADMIN") {
+  if (!authUser || authUser.role !== USER_ROLES.ADMIN) {
     return <Navigate to={ROUTES.HOME} replace />;
   }
 
