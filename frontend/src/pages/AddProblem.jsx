@@ -11,7 +11,7 @@ import { axiosInstance } from "@/lib/axios";
 import { sampledpData, sampleStringProblem } from "@/data";
 import { problemSchema } from "@/validations/zodValidations";
 import { ROUTES } from "@/constants/routes";
-import ProblemForm from "@/components/views/ProblemForm";
+import ProblemForm from "@/components/basic/ProblemForm";
 
 const defaultValues = {
   title: "",

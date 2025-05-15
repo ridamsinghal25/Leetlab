@@ -10,7 +10,7 @@ import { axiosInstance } from "@/lib/axios";
 import { problemSchema } from "@/validations/zodValidations";
 import { ROUTES } from "@/constants/routes";
 import { useProblemStore } from "@/store/useProblemStore";
-import ProblemForm from "@/components/views/ProblemForm";
+import ProblemForm from "@/components/basic/ProblemForm";
 
 function UpdateProblem() {
   const [problem, setProblem] = useState({});
