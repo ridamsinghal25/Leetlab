@@ -43,7 +43,7 @@ export const getSubmissionForProblemByUser = async (req, res) => {
         userId: userId,
       },
       include: {
-        testCases: true,
+        testcases: true,
       },
     });
 

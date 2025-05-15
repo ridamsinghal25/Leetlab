@@ -1,3 +1,4 @@
+import { Info } from "lucide-react";
 import SubmissionsList from "./SubmissionList";
 
 export const ProblemPageTabs = ({
@@ -5,6 +6,7 @@ export const ProblemPageTabs = ({
   problem,
   submissions,
   isSubmissionsLoading,
+  testCases,
 }) => {
   switch (activeTab) {
     case "description":
@@ -61,6 +63,43 @@ export const ProblemPageTabs = ({
               </div>
             </>
           )}
+
+          <>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold">Test Cases</h3>
+              <div className="flex items-center gap-2">
+                <Info className="w-4 h-4 text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">
+                  Run your code to see results
+                </span>
+              </div>
+            </div>
+
+            {/* Table header */}
+            <div className="w-full border-b border-gray-200">
+              <div className="grid grid-cols-2 py-3 bg-gray-50">
+                <div className="px-4 font-medium text-gray-900">Input</div>
+                <div className="px-4 font-medium text-gray-900">
+                  Expected Output
+                </div>
+              </div>
+            </div>
+
+            {/* Table body */}
+            <div className="w-full">
+              {testCases?.map((testCase, index) => (
+                <div
+                  key={index}
+                  className={`grid grid-cols-2 py-4 border-b border-gray-200 ${
+                    index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                  }`}
+                >
+                  <div className="px-4 font-mono">{testCase.input}</div>
+                  <div className="px-4 font-mono">{testCase.output}</div>
+                </div>
+              ))}
+            </div>
+          </>
         </div>
       );
     case "submissions":

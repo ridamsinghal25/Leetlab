@@ -409,8 +409,8 @@ export default function ProblemForm({
             </form>
           </Form>
         </CardContent>
-        <CardFooter className="flex justify-end pt-4 border-t">
-          {executionError && (
+        {executionError && (
+          <CardFooter className="flex justify-end pt-4 border-t">
             <div className="w-full rounded-md border border-destructive/30 overflow-hidden">
               <div className="bg-destructive/5 px-4 py-2 flex items-center gap-2">
                 <AlertCircle className="h-4 w-4 text-destructive" />
@@ -426,8 +426,8 @@ export default function ProblemForm({
                 </div>
               )}
             </div>
-          )}
-        </CardFooter>
+          </CardFooter>
+        )}
       </Card>
     </div>
   );
