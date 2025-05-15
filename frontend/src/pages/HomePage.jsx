@@ -1,4 +1,4 @@
-import { ProblemsTable } from "@/components/views/ProblemsTable";
+import { ProblemsTable } from "@/components/components/problemTable/ProblemsTable";
 import { useProblemStore } from "@/store/useProblemStore";
 import { Loader } from "lucide-react";
 import { useEffect } from "react";
