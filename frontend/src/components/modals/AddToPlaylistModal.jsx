@@ -75,29 +75,22 @@ export const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
             </Select>
           </div>
 
-          <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:gap-0">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onClose}
-              className="w-full sm:w-auto"
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              disabled={!selectedPlaylist || isLoading}
-              className="w-full sm:w-auto"
-            >
-              {isLoading ? (
-                <>
-                  <Loader className="mr-2 h-4 w-4 animate-spin" />
-                  Adding...
-                </>
-              ) : (
-                "Add to Playlist"
-              )}
-            </Button>
+          <DialogFooter>
+            <div className="flex w-full items-center justify-end space-x-2">
+              <Button type="button" variant="outline" onClick={onClose}>
+                Cancel
+              </Button>
+              <Button type="submit" disabled={!selectedPlaylist || isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader className="mr-2 h-4 w-4 animate-spin" />
+                    Adding...
+                  </>
+                ) : (
+                  "Add to Playlist"
+                )}
+              </Button>
+            </div>
           </DialogFooter>
         </form>
       </DialogContent>

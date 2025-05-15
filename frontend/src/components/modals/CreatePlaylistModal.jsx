@@ -13,8 +13,14 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { playlistSchema } from "@/validations/zodValidations";
+import { Loader2 } from "lucide-react";
 
-export const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }) => {
+export const CreatePlaylistModal = ({
+  isOpen,
+  onClose,
+  onSubmit,
+  isLoading,
+}) => {
   const {
     register,
     handleSubmit,
@@ -69,18 +75,16 @@ export const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }) => {
             />
           </div>
 
-          <DialogFooter className="flex flex-col sm:flex-row gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onClose}
-              className="w-full sm:w-auto"
-            >
-              Cancel
-            </Button>
-            <Button type="submit" className="w-full sm:w-auto">
-              Create Playlist
-            </Button>
+          <DialogFooter>
+            <div className="flex w-full items-center justify-end space-x-2">
+              <Button type="button" variant="outline" onClick={onClose}>
+                Cancel
+              </Button>
+              <Button type="submit" disabled={isLoading}>
+                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Create Playlist
+              </Button>
+            </div>
           </DialogFooter>
         </form>
       </DialogContent>

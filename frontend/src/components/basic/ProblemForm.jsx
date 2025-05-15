@@ -228,51 +228,6 @@ export default function ProblemForm({
                         </CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-6">
-                        {/* Starter Code */}
-                        <div className="space-y-3">
-                          <Label className="text-base font-medium">
-                            Starter Code Template
-                          </Label>
-                          <div className="border rounded-md overflow-hidden">
-                            <Controller
-                              name={`codeSnippets.${language}`}
-                              control={form.control}
-                              render={({ field }) => (
-                                <Editor
-                                  height="300px"
-                                  language={language.toLowerCase()}
-                                  theme="vs-dark"
-                                  value={field.value}
-                                  onChange={field.onChange}
-                                  options={{
-                                    minimap: { enabled: false },
-                                    fontSize: 14,
-                                    lineNumbers: "on",
-                                    roundedSelection: false,
-                                    scrollBeyondLastLine: false,
-                                    automaticLayout: true,
-                                    scrollbar: {
-                                      alwaysConsumeMouseWheel: false,
-                                      handleMouseWheel: true,
-                                    },
-                                    padding: {
-                                      top: 10,
-                                    },
-                                  }}
-                                />
-                              )}
-                            />
-                          </div>
-                          {form.formState.errors?.codeSnippets?.[language] && (
-                            <p className="text-sm text-destructive">
-                              {
-                                form.formState.errors.codeSnippets[language]
-                                  .message
-                              }
-                            </p>
-                          )}
-                        </div>
-
                         {/* Reference Solution */}
                         <div className="space-y-3">
                           <Label className="text-base font-medium flex items-center gap-2">
@@ -285,7 +240,7 @@ export default function ProblemForm({
                               control={form.control}
                               render={({ field }) => (
                                 <Editor
-                                  height="300px"
+                                  height="500px"
                                   language={language.toLowerCase()}
                                   theme="vs-dark"
                                   value={field.value}
@@ -317,6 +272,51 @@ export default function ProblemForm({
                                 form.formState.errors.referenceSolutions[
                                   language
                                 ].message
+                              }
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Starter Code */}
+                        <div className="space-y-3">
+                          <Label className="text-base font-medium">
+                            Starter Code Template
+                          </Label>
+                          <div className="border rounded-md overflow-hidden">
+                            <Controller
+                              name={`codeSnippets.${language}`}
+                              control={form.control}
+                              render={({ field }) => (
+                                <Editor
+                                  height="500px"
+                                  language={language.toLowerCase()}
+                                  theme="vs-dark"
+                                  value={field.value}
+                                  onChange={field.onChange}
+                                  options={{
+                                    minimap: { enabled: false },
+                                    fontSize: 14,
+                                    lineNumbers: "on",
+                                    roundedSelection: false,
+                                    scrollBeyondLastLine: false,
+                                    automaticLayout: true,
+                                    scrollbar: {
+                                      alwaysConsumeMouseWheel: false,
+                                      handleMouseWheel: true,
+                                    },
+                                    padding: {
+                                      top: 10,
+                                    },
+                                  }}
+                                />
+                              )}
+                            />
+                          </div>
+                          {form.formState.errors?.codeSnippets?.[language] && (
+                            <p className="text-sm text-destructive">
+                              {
+                                form.formState.errors.codeSnippets[language]
+                                  .message
                               }
                             </p>
                           )}

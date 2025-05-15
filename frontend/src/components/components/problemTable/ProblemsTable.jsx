@@ -22,7 +22,7 @@ import ProblemTableDesktopView from "./DesktopView";
 export const ProblemsTable = ({ problems }) => {
   const { authUser } = useAuthStore();
   const { onDeleteProblem } = useActions();
-  const { createPlaylist } = usePlaylistStore();
+  const { isLoading, createPlaylist } = usePlaylistStore();
   const [search, setSearch] = useState("");
   const [difficulty, setDifficulty] = useState("ALL");
   const [selectedTag, setSelectedTag] = useState("ALL");
@@ -81,7 +81,7 @@ export const ProblemsTable = ({ problems }) => {
   };
 
   return (
-    <Card className="w-full max-w-6xl mx-auto border-none shadow-lg">
+    <Card className="w-full max-w-6xl md:min-w-5xl mx-auto border-none shadow-lg">
       <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
         <CardTitle className="text-2xl font-bold">Problems</CardTitle>
         <Button
@@ -181,6 +181,7 @@ export const ProblemsTable = ({ problems }) => {
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
         onSubmit={handleCreatePlaylist}
+        isLoading={isLoading}
       />
 
       <AddToPlaylistModal
