@@ -12,6 +12,7 @@ import { sampledpData, sampleStringProblem } from "@/data";
 import { problemSchema } from "@/validations/zodValidations";
 import { ROUTES } from "@/constants/routes";
 import ProblemForm from "@/components/basic/ProblemForm";
+import { AIProblemModal } from "@/components/modals/AIProblemModal";
 
 const defaultValues = {
   title: "",
@@ -60,12 +61,22 @@ const AddProblem = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [sampleType, setSampleType] = useState("DP");
   const [executionError, setExecutionError] = useState(null);
+  const [isAskAIModalOpen, setIsAskAIModalOpen] = useState(false);
   const navigation = useNavigate();
 
   const addProblemForm = useForm({
     resolver: zodResolver(problemSchema),
     defaultValues: defaultValues,
   });
+
+  const loadSampleData = () => {
+    const sampleData = sampleType === "DP" ? sampledpData : sampleStringProblem;
+    addProblemForm.reset(sampleData);
+  };
+
+  const resetForm = () => {
+    addProblemForm.reset(defaultValues);
+  };
 
   const onSubmit = async (data) => {
     try {
@@ -86,17 +97,24 @@ const AddProblem = () => {
     }
   };
 
-  const loadSampleData = () => {
-    const sampleData = sampleType === "DP" ? sampledpData : sampleStringProblem;
-    addProblemForm.reset(sampleData);
-  };
-
-  const resetForm = () => {
-    addProblemForm.reset(defaultValues);
-  };
-
   return (
     <div className="w-screen lg:w-4xl mx-auto py-8 px-4">
+      <div>
+        <Button
+          variant="outline"
+          className="absolute top-4 right-4"
+          onClick={() => setIsAskAIModalOpen(true)}
+        >
+          Ask AI
+        </Button>
+      </div>
+
+      <AIProblemModal
+        isOpen={isAskAIModalOpen}
+        onOpenChange={() => setIsAskAIModalOpen(false)}
+        form={addProblemForm}
+      />
+
       <Card className="border shadow-lg mb-4">
         <CardHeader>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">

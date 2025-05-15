@@ -86,6 +86,10 @@ export const changePasswordSchema = z
   .refine((data) => data.newPassword === data.confirmPassword, {
     message: "Passwords don't match",
     path: ["confirmPassword"],
+  })
+  .refine((data) => data.currentPassword === data.newPassword, {
+    message: "New password cannot be the same as the current password",
+    path: ["newPassword"],
   });
 
 export const uploadAvatarSchema = z
@@ -104,3 +108,10 @@ export const uploadAvatarSchema = z
     message: "Image size should not exceed 3MB.",
     path: ["image"],
   });
+
+export const aiProblemSchema = z.object({
+  title: z.string().min(5, "Problem name must be at least 5 characters"),
+  description: z
+    .string()
+    .min(20, "Problem description must be at least 20 characters"),
+});
