@@ -1552,11 +1552,11 @@ export namespace Prisma {
    */
 
   export type SubmissionCountOutputType = {
-    testCases: number
+    testcases: number
   }
 
   export type SubmissionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    testCases?: boolean | SubmissionCountOutputTypeCountTestCasesArgs
+    testcases?: boolean | SubmissionCountOutputTypeCountTestcasesArgs
   }
 
   // Custom InputTypes
@@ -1573,7 +1573,7 @@ export namespace Prisma {
   /**
    * SubmissionCountOutputType without action
    */
-  export type SubmissionCountOutputTypeCountTestCasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SubmissionCountOutputTypeCountTestcasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TestCaseResultWhereInput
   }
 
@@ -4290,7 +4290,7 @@ export namespace Prisma {
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     problem?: boolean | ProblemDefaultArgs<ExtArgs>
-    testCases?: boolean | Submission$testCasesArgs<ExtArgs>
+    testcases?: boolean | Submission$testcasesArgs<ExtArgs>
     _count?: boolean | SubmissionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["submission"]>
 
@@ -4353,7 +4353,7 @@ export namespace Prisma {
   export type SubmissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     problem?: boolean | ProblemDefaultArgs<ExtArgs>
-    testCases?: boolean | Submission$testCasesArgs<ExtArgs>
+    testcases?: boolean | Submission$testcasesArgs<ExtArgs>
     _count?: boolean | SubmissionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SubmissionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4370,7 +4370,7 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       problem: Prisma.$ProblemPayload<ExtArgs>
-      testCases: Prisma.$TestCaseResultPayload<ExtArgs>[]
+      testcases: Prisma.$TestCaseResultPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4783,7 +4783,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     problem<T extends ProblemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProblemDefaultArgs<ExtArgs>>): Prisma__ProblemClient<$Result.GetResult<Prisma.$ProblemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    testCases<T extends Submission$testCasesArgs<ExtArgs> = {}>(args?: Subset<T, Submission$testCasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestCaseResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    testcases<T extends Submission$testcasesArgs<ExtArgs> = {}>(args?: Subset<T, Submission$testcasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestCaseResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5223,9 +5223,9 @@ export namespace Prisma {
   }
 
   /**
-   * Submission.testCases
+   * Submission.testcases
    */
-  export type Submission$testCasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Submission$testcasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the TestCaseResult
      */
@@ -10148,7 +10148,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Submission"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     problem?: XOR<ProblemScalarRelationFilter, ProblemWhereInput>
-    testCases?: TestCaseResultListRelationFilter
+    testcases?: TestCaseResultListRelationFilter
   }
 
   export type SubmissionOrderByWithRelationInput = {
@@ -10168,7 +10168,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
     problem?: ProblemOrderByWithRelationInput
-    testCases?: TestCaseResultOrderByRelationAggregateInput
+    testcases?: TestCaseResultOrderByRelationAggregateInput
   }
 
   export type SubmissionWhereUniqueInput = Prisma.AtLeast<{
@@ -10191,7 +10191,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Submission"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     problem?: XOR<ProblemScalarRelationFilter, ProblemWhereInput>
-    testCases?: TestCaseResultListRelationFilter
+    testcases?: TestCaseResultListRelationFilter
   }, "id">
 
   export type SubmissionOrderByWithAggregationInput = {
@@ -10743,7 +10743,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutSubmissionInput
     problem: ProblemCreateNestedOneWithoutSubmissionInput
-    testCases?: TestCaseResultCreateNestedManyWithoutSubmissionInput
+    testcases?: TestCaseResultCreateNestedManyWithoutSubmissionInput
   }
 
   export type SubmissionUncheckedCreateInput = {
@@ -10761,7 +10761,7 @@ export namespace Prisma {
     time?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    testCases?: TestCaseResultUncheckedCreateNestedManyWithoutSubmissionInput
+    testcases?: TestCaseResultUncheckedCreateNestedManyWithoutSubmissionInput
   }
 
   export type SubmissionUpdateInput = {
@@ -10779,7 +10779,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutSubmissionNestedInput
     problem?: ProblemUpdateOneRequiredWithoutSubmissionNestedInput
-    testCases?: TestCaseResultUpdateManyWithoutSubmissionNestedInput
+    testcases?: TestCaseResultUpdateManyWithoutSubmissionNestedInput
   }
 
   export type SubmissionUncheckedUpdateInput = {
@@ -10797,7 +10797,7 @@ export namespace Prisma {
     time?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    testCases?: TestCaseResultUncheckedUpdateManyWithoutSubmissionNestedInput
+    testcases?: TestCaseResultUncheckedUpdateManyWithoutSubmissionNestedInput
   }
 
   export type SubmissionCreateManyInput = {
@@ -10860,7 +10860,7 @@ export namespace Prisma {
     status: string
     memory?: string | null
     time?: string | null
-    submission: SubmissionCreateNestedOneWithoutTestCasesInput
+    submission: SubmissionCreateNestedOneWithoutTestcasesInput
   }
 
   export type TestCaseResultUncheckedCreateInput = {
@@ -10888,7 +10888,7 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     memory?: NullableStringFieldUpdateOperationsInput | string | null
     time?: NullableStringFieldUpdateOperationsInput | string | null
-    submission?: SubmissionUpdateOneRequiredWithoutTestCasesNestedInput
+    submission?: SubmissionUpdateOneRequiredWithoutTestcasesNestedInput
   }
 
   export type TestCaseResultUncheckedUpdateInput = {
@@ -12137,9 +12137,9 @@ export namespace Prisma {
     deleteMany?: TestCaseResultScalarWhereInput | TestCaseResultScalarWhereInput[]
   }
 
-  export type SubmissionCreateNestedOneWithoutTestCasesInput = {
-    create?: XOR<SubmissionCreateWithoutTestCasesInput, SubmissionUncheckedCreateWithoutTestCasesInput>
-    connectOrCreate?: SubmissionCreateOrConnectWithoutTestCasesInput
+  export type SubmissionCreateNestedOneWithoutTestcasesInput = {
+    create?: XOR<SubmissionCreateWithoutTestcasesInput, SubmissionUncheckedCreateWithoutTestcasesInput>
+    connectOrCreate?: SubmissionCreateOrConnectWithoutTestcasesInput
     connect?: SubmissionWhereUniqueInput
   }
 
@@ -12155,12 +12155,12 @@ export namespace Prisma {
     set?: boolean
   }
 
-  export type SubmissionUpdateOneRequiredWithoutTestCasesNestedInput = {
-    create?: XOR<SubmissionCreateWithoutTestCasesInput, SubmissionUncheckedCreateWithoutTestCasesInput>
-    connectOrCreate?: SubmissionCreateOrConnectWithoutTestCasesInput
-    upsert?: SubmissionUpsertWithoutTestCasesInput
+  export type SubmissionUpdateOneRequiredWithoutTestcasesNestedInput = {
+    create?: XOR<SubmissionCreateWithoutTestcasesInput, SubmissionUncheckedCreateWithoutTestcasesInput>
+    connectOrCreate?: SubmissionCreateOrConnectWithoutTestcasesInput
+    upsert?: SubmissionUpsertWithoutTestcasesInput
     connect?: SubmissionWhereUniqueInput
-    update?: XOR<XOR<SubmissionUpdateToOneWithWhereWithoutTestCasesInput, SubmissionUpdateWithoutTestCasesInput>, SubmissionUncheckedUpdateWithoutTestCasesInput>
+    update?: XOR<XOR<SubmissionUpdateToOneWithWhereWithoutTestcasesInput, SubmissionUpdateWithoutTestcasesInput>, SubmissionUncheckedUpdateWithoutTestcasesInput>
   }
 
   export type UserCreateNestedOneWithoutProblemSolvedInput = {
@@ -12568,7 +12568,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     problem: ProblemCreateNestedOneWithoutSubmissionInput
-    testCases?: TestCaseResultCreateNestedManyWithoutSubmissionInput
+    testcases?: TestCaseResultCreateNestedManyWithoutSubmissionInput
   }
 
   export type SubmissionUncheckedCreateWithoutUserInput = {
@@ -12585,7 +12585,7 @@ export namespace Prisma {
     time?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    testCases?: TestCaseResultUncheckedCreateNestedManyWithoutSubmissionInput
+    testcases?: TestCaseResultUncheckedCreateNestedManyWithoutSubmissionInput
   }
 
   export type SubmissionCreateOrConnectWithoutUserInput = {
@@ -12825,7 +12825,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutSubmissionInput
-    testCases?: TestCaseResultCreateNestedManyWithoutSubmissionInput
+    testcases?: TestCaseResultCreateNestedManyWithoutSubmissionInput
   }
 
   export type SubmissionUncheckedCreateWithoutProblemInput = {
@@ -12842,7 +12842,7 @@ export namespace Prisma {
     time?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    testCases?: TestCaseResultUncheckedCreateNestedManyWithoutSubmissionInput
+    testcases?: TestCaseResultUncheckedCreateNestedManyWithoutSubmissionInput
   }
 
   export type SubmissionCreateOrConnectWithoutProblemInput = {
@@ -13235,7 +13235,7 @@ export namespace Prisma {
     time?: StringNullableFilter<"TestCaseResult"> | string | null
   }
 
-  export type SubmissionCreateWithoutTestCasesInput = {
+  export type SubmissionCreateWithoutTestcasesInput = {
     id?: string
     sourceCode: JsonNullValueInput | InputJsonValue
     language: string
@@ -13252,7 +13252,7 @@ export namespace Prisma {
     problem: ProblemCreateNestedOneWithoutSubmissionInput
   }
 
-  export type SubmissionUncheckedCreateWithoutTestCasesInput = {
+  export type SubmissionUncheckedCreateWithoutTestcasesInput = {
     id?: string
     userId: string
     problemId: string
@@ -13269,23 +13269,23 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type SubmissionCreateOrConnectWithoutTestCasesInput = {
+  export type SubmissionCreateOrConnectWithoutTestcasesInput = {
     where: SubmissionWhereUniqueInput
-    create: XOR<SubmissionCreateWithoutTestCasesInput, SubmissionUncheckedCreateWithoutTestCasesInput>
+    create: XOR<SubmissionCreateWithoutTestcasesInput, SubmissionUncheckedCreateWithoutTestcasesInput>
   }
 
-  export type SubmissionUpsertWithoutTestCasesInput = {
-    update: XOR<SubmissionUpdateWithoutTestCasesInput, SubmissionUncheckedUpdateWithoutTestCasesInput>
-    create: XOR<SubmissionCreateWithoutTestCasesInput, SubmissionUncheckedCreateWithoutTestCasesInput>
+  export type SubmissionUpsertWithoutTestcasesInput = {
+    update: XOR<SubmissionUpdateWithoutTestcasesInput, SubmissionUncheckedUpdateWithoutTestcasesInput>
+    create: XOR<SubmissionCreateWithoutTestcasesInput, SubmissionUncheckedCreateWithoutTestcasesInput>
     where?: SubmissionWhereInput
   }
 
-  export type SubmissionUpdateToOneWithWhereWithoutTestCasesInput = {
+  export type SubmissionUpdateToOneWithWhereWithoutTestcasesInput = {
     where?: SubmissionWhereInput
-    data: XOR<SubmissionUpdateWithoutTestCasesInput, SubmissionUncheckedUpdateWithoutTestCasesInput>
+    data: XOR<SubmissionUpdateWithoutTestcasesInput, SubmissionUncheckedUpdateWithoutTestcasesInput>
   }
 
-  export type SubmissionUpdateWithoutTestCasesInput = {
+  export type SubmissionUpdateWithoutTestcasesInput = {
     id?: StringFieldUpdateOperationsInput | string
     sourceCode?: JsonNullValueInput | InputJsonValue
     language?: StringFieldUpdateOperationsInput | string
@@ -13302,7 +13302,7 @@ export namespace Prisma {
     problem?: ProblemUpdateOneRequiredWithoutSubmissionNestedInput
   }
 
-  export type SubmissionUncheckedUpdateWithoutTestCasesInput = {
+  export type SubmissionUncheckedUpdateWithoutTestcasesInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     problemId?: StringFieldUpdateOperationsInput | string
@@ -13864,7 +13864,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     problem?: ProblemUpdateOneRequiredWithoutSubmissionNestedInput
-    testCases?: TestCaseResultUpdateManyWithoutSubmissionNestedInput
+    testcases?: TestCaseResultUpdateManyWithoutSubmissionNestedInput
   }
 
   export type SubmissionUncheckedUpdateWithoutUserInput = {
@@ -13881,7 +13881,7 @@ export namespace Prisma {
     time?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    testCases?: TestCaseResultUncheckedUpdateManyWithoutSubmissionNestedInput
+    testcases?: TestCaseResultUncheckedUpdateManyWithoutSubmissionNestedInput
   }
 
   export type SubmissionUncheckedUpdateManyWithoutUserInput = {
@@ -13990,7 +13990,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutSubmissionNestedInput
-    testCases?: TestCaseResultUpdateManyWithoutSubmissionNestedInput
+    testcases?: TestCaseResultUpdateManyWithoutSubmissionNestedInput
   }
 
   export type SubmissionUncheckedUpdateWithoutProblemInput = {
@@ -14007,7 +14007,7 @@ export namespace Prisma {
     time?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    testCases?: TestCaseResultUncheckedUpdateManyWithoutSubmissionNestedInput
+    testcases?: TestCaseResultUncheckedUpdateManyWithoutSubmissionNestedInput
   }
 
   export type SubmissionUncheckedUpdateManyWithoutProblemInput = {

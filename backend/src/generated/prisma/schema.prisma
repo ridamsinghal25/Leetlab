@@ -89,7 +89,7 @@ model Submission {
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
 
-  testCases TestCaseResult[]
+  testcases TestCaseResult[]
 }
 
 model TestCaseResult {
@@ -151,3 +151,10 @@ model ProblemInPlaylist {
 
   @@unique([problemId, playlistId])
 }
+
+/**
+ * Prisma commands
+ * 1. npx prisma generate
+ * 2. npx prisma migrate dev
+ * 3. npx prisma db push
+ */
