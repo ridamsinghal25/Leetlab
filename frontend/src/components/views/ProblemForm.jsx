@@ -122,7 +122,6 @@ export default function ProblemForm({
                           variant="ghost"
                           size="icon"
                           onClick={() => {
-                            console.log("Index inside tags::", index);
                             removeTag(index);
                           }}
                           disabled={tagFields.length === 1}

@@ -14,7 +14,7 @@ import {
   Home,
   MemoryStickIcon as Memory,
   ArrowRight,
-  Info,
+  AlertCircle,
 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -28,14 +28,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useProblemStore } from "@/store/useProblemStore";
@@ -51,7 +43,7 @@ const ProblemPage = () => {
   const { id } = useParams();
   const { getProblemById, problem, isProblemLoading } = useProblemStore();
   const {
-    submission: submissions,
+    submission: submissionsOfProblem,
     isLoading: isSubmissionsLoading,
     getSubmissionForProblemByUser,
     getSubmissionCountForProblem,
@@ -64,7 +56,7 @@ const ProblemPage = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [testCases, setTestCases] = useState([]);
 
-  const { executeCode, submission, isExecuting } = useExecutionStore();
+  const { executeCode, submission, isExecuting, runCode } = useExecutionStore();
 
   useEffect(() => {
     if (id) {
@@ -76,33 +68,56 @@ const ProblemPage = () => {
 
   useEffect(() => {
     if (problem) {
-      setCode(
-        submission?.sourceCode || problem.codeSnippets?.[selectedLanguage] || ""
+      const isAcceptedSubmission = submissionsOfProblem?.find(
+        (sub) => sub.status === "Accepted"
       );
+
       setTestCases(
         problem.testcases?.map((tc) => ({
           input: tc.input,
           output: tc.output,
         })) || []
       );
+
+      if (isAcceptedSubmission) {
+        setCode(isAcceptedSubmission.sourceCode);
+        return;
+      }
+
+      setCode(problem.codeSnippets?.[selectedLanguage] || "");
     }
   }, [problem, selectedLanguage]);
 
   const handleLanguageChange = (value) => {
     setSelectedLanguage(value);
+
+    const isAcceptedSubmission = submissionsOfProblem?.find(
+      (sub) => sub.status === "Accepted"
+    );
+    if (isAcceptedSubmission) {
+      setCode(isAcceptedSubmission.sourceCode);
+      return;
+    }
+
     setCode(problem.codeSnippets?.[value] || "");
   };
 
   const handleRunCode = (e) => {
     e.preventDefault();
-    try {
-      const language_id = getLanguageId(selectedLanguage);
-      const stdin = problem.testCases.map((tc) => tc.input);
-      const expected_outputs = problem.testCases.map((tc) => tc.output);
-      executeCode(code, language_id, stdin, expected_outputs, id);
-    } catch (error) {
-      console.log("Error executing code", error);
-    }
+
+    const language_id = getLanguageId(selectedLanguage);
+    const stdin = problem.testcases.map((tc) => tc.input);
+    const expected_outputs = problem.testcases.map((tc) => tc.output);
+    runCode(code, language_id, stdin, expected_outputs, id);
+  };
+
+  const handleSubmitCode = (e) => {
+    e.preventDefault();
+
+    const language_id = getLanguageId(selectedLanguage);
+    const stdin = problem.testcases.map((tc) => tc.input);
+    const expected_outputs = problem.testcases.map((tc) => tc.output);
+    executeCode(code, language_id, stdin, expected_outputs, id);
   };
 
   if (isProblemLoading || !problem) {
@@ -197,9 +212,9 @@ const ProblemPage = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-0 py-0 lg:w-screen h-[calc(100vh-64px)] flex flex-col">
-        <div className="flex flex-col h-[calc(100vh-4rem)] md:h-screen lg:flex-row">
-          {/* Left side - Problem description - Full width on mobile, 40% on large screens */}
+      <main className="container mx-auto px-0 py-0 lg:w-screen flex flex-col">
+        <div className="flex flex-col lg:h-screen lg:flex-row">
+          {/* Left side - Problem description  */}
           <div className="w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r">
             <Tabs
               defaultValue="description"
@@ -247,8 +262,9 @@ const ProblemPage = () => {
                     <ProblemPageTabs
                       activeTab={activeTab}
                       problem={problem}
-                      submissions={submissions}
+                      submissions={submissionsOfProblem}
                       isSubmissionsLoading={isSubmissionsLoading}
+                      testCases={testCases}
                     />
                   </div>
                 </ScrollArea>
@@ -256,8 +272,8 @@ const ProblemPage = () => {
             </Tabs>
           </div>
 
-          {/* Right side - Code editor - Full width on mobile, 60% on large screens */}
-          <div className="w-full lg:w-1/2 flex flex-col h-[60vh] md:h-[50vh] lg:h-[95vh]">
+          {/* Right side - Code editor  */}
+          <div className="w-full lg:w-1/2 flex flex-col">
             <div className="flex justify-between px-4 py-2 border-b">
               <div className="flex items-center">
                 <Terminal className="w-4 h-4 mr-2" />
@@ -329,65 +345,71 @@ const ProblemPage = () => {
                   )}
                   Run Code
                 </Button>
-                <Button variant="secondary" className="gap-2 w-full sm:w-auto">
-                  <ArrowRight className="w-4 h-4" />
-                  Submit Solution
+                <Button
+                  variant="secondary"
+                  className="gap-2 w-full sm:w-auto"
+                  onClick={handleSubmitCode}
+                  disabled={isExecuting}
+                >
+                  {isExecuting ? (
+                    <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full"></div>
+                  ) : (
+                    <ArrowRight className="w-4 h-4" />
+                  )}
+                  Submit Code
                 </Button>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Test cases section - Only shown when on submissions tab */}
-
-        <Card className="mt-6">
-          <CardContent className="p-6">
-            {submissions?.length > 0 && activeTab === "submissions" ? (
-              <>
+        {/* Submissions section - Moved outside the main flex container to ensure it's always visible */}
+        <div className="w-full mt-4">
+          {submissionsOfProblem?.length > 0 && activeTab === "submissions" ? (
+            <Card className="mb-6">
+              <CardContent className="p-6">
                 <h3 className="text-xl font-bold">Your Submissions</h3>
-                {submissions.map((submission, submissionIndex) => (
+                {submissionsOfProblem.map((submission, submissionIndex) => (
                   <SubmissionResults
                     key={submission.id}
                     submission={submission}
                     submissionIndex={submissionIndex}
                   />
                 ))}
-              </>
-            ) : (
-              <>
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl font-bold">Test Cases</h3>
-                  <div className="flex items-center gap-2">
-                    <Info className="w-4 h-4 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">
-                      Run your code to see results
-                    </span>
+              </CardContent>
+            </Card>
+          ) : (
+            <div>
+              {submission.stderr && (
+                <ScrollArea className="p-4 h-[50vh]">
+                  <h1 className="text-2xl font-bold">Error</h1>
+                  <div className="flex justify-end pt-4">
+                    <div className="w-full rounded-md border border-destructive/30 overflow-hidden">
+                      <div className="bg-destructive/5 px-4 py-2 flex items-center gap-2">
+                        <AlertCircle className="h-4 w-4 text-destructive" />
+                      </div>
+                      {submission.stderr && (
+                        <div className="bg-slate-50 p-3 font-mono text-sm text-slate-800 overflow-x-auto">
+                          <pre className="whitespace-pre-wrap break-words">
+                            {submission.stderr}
+                          </pre>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Input</TableHead>
-                      <TableHead>Expected Output</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {testCases.map((testCase, index) => (
-                      <TableRow key={index}>
-                        <TableCell className="font-mono">
-                          {testCase.input}
-                        </TableCell>
-                        <TableCell className="font-mono">
-                          {testCase.output}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </>
-            )}
-          </CardContent>
-        </Card>
+                </ScrollArea>
+              )}
+
+              {submission?.problemId && (
+                <Card className="mb-6">
+                  <CardContent className="p-6">
+                    <SubmissionResults submission={submission} />
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          )}
+        </div>
       </main>
     </div>
   );

@@ -4,13 +4,7 @@ import {
   XCircle,
   MemoryStickIcon as Memory,
 } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -20,7 +14,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const SubmissionResults = ({ submission, submissionIndex }) => {
+const SubmissionResults = ({ submission, submissionIndex = 0 }) => {
   // Parse stringified arrays
   const memoryArr = JSON.parse(submission?.memory || "[]");
   const timeArr = JSON.parse(submission?.time || "[]");
@@ -36,9 +30,9 @@ const SubmissionResults = ({ submission, submissionIndex }) => {
       ?.map((t) => Number.parseFloat(t)) // remove ' s' using parseFloat
       .reduce((a, b) => a + b, 0) / timeArr.length;
 
-  const passedTests = submission.testCases.filter((tc) => tc.passed).length;
+  const passedTests = submission.testcases.filter((tc) => tc.passed).length;
 
-  const totalTests = submission.testCases.length;
+  const totalTests = submission.testcases.length;
 
   const successRate = (passedTests / totalTests) * 100;
 
@@ -47,7 +41,7 @@ const SubmissionResults = ({ submission, submissionIndex }) => {
       {/* Overall Status */}
       <Card className="mt-5">
         <CardHeader className="-mb-6">
-          <CardTitle>Submission: {submissionIndex + 1}</CardTitle>
+          <CardTitle>Submission #{submissionIndex + 1}</CardTitle>
         </CardHeader>
         <CardContent className="p-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-5">
@@ -111,8 +105,8 @@ const SubmissionResults = ({ submission, submissionIndex }) => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {submission.testCases.map((testCase) => (
-                    <TableRow key={testCase.id}>
+                  {submission.testcases.map((testCase) => (
+                    <TableRow key={testCase.id || testCase.testCase}>
                       <TableCell>
                         {testCase.passed ? (
                           <div className="flex items-center gap-2 text-green-600">

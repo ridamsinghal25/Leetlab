@@ -5,7 +5,6 @@ import {
   MemoryStickIcon as Memory,
   Calendar,
 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 const SubmissionsList = ({ submissions, isLoading }) => {
@@ -24,7 +23,9 @@ const SubmissionsList = ({ submissions, isLoading }) => {
     const memoryArray = safeParse(memoryData)?.map((m) =>
       Number.parseFloat(m.split(" ")[0])
     );
+
     if (memoryArray?.length === 0) return 0;
+
     return (
       memoryArray?.reduce((acc, curr) => acc + curr, 0) / memoryArray?.length
     );
@@ -35,7 +36,9 @@ const SubmissionsList = ({ submissions, isLoading }) => {
     const timeArray = safeParse(timeData).map((t) =>
       Number.parseFloat(t.split(" ")[0])
     );
+
     if (timeArray.length === 0) return 0;
+
     return timeArray.reduce((acc, curr) => acc + curr, 0) / timeArray.length;
   };
 
@@ -59,16 +62,23 @@ const SubmissionsList = ({ submissions, isLoading }) => {
 
   return (
     <div className="space-y-4">
-      {submissions?.map((submission) => {
+      {submissions?.map((submission, index) => {
         const avgMemory = calculateAverageMemory(submission.memory);
         const avgTime = calculateAverageTime(submission.time);
 
         return (
-          <Card
+          <div
             key={submission.id}
-            className="hover:shadow-md transition-shadow"
+            className="border rounded-lg hover:shadow-md transition-shadow"
           >
-            <CardContent className="p-4">
+            {/* Added Submission Number Indicator */}
+            <div className="bg-gray-100 px-4 py-2 rounded-t-lg border-b flex items-center">
+              <span className="font-medium text-gray-700">
+                Submission {index + 1}
+              </span>
+            </div>
+
+            <div className="p-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 {/* Left Section: Status and Language */}
                 <div className="flex flex-wrap items-center gap-4">
@@ -104,8 +114,8 @@ const SubmissionsList = ({ submissions, isLoading }) => {
                   </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         );
       })}
     </div>
