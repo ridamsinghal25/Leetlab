@@ -89,22 +89,13 @@ export const getAllPlayListDetailsOfUser = async (req, res) => {
   }
 };
 
-export const getPlayListDetail = async (req, res) => {
-  const { playlistId } = req.params;
-
+export const getPlayListDetails = async (req, res) => {
   try {
-    const playList = await db.playlist.findUnique({
-      where: { id: playlistId, userId: req.user.id },
-      include: {
-        problems: {
-          include: {
-            problem: true,
-          },
-        },
-      },
+    const playlist = await db.playlist.findMany({
+      where: { userId: req.user.id },
     });
 
-    if (!playList) {
+    if (!playlist) {
       return res
         .status(404)
         .json({ error: "Playlist not found", success: false });
@@ -113,7 +104,7 @@ export const getPlayListDetail = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Playlist fetched successfully",
-      playList,
+      playlist,
     });
   } catch (error) {
     console.error("Error fetching playlist:", error);

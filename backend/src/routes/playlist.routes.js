@@ -5,7 +5,7 @@ import {
   createPlayList,
   deletePlayList,
   getAllPlayListDetailsOfUser,
-  getPlayListDetail,
+  getPlayListDetails,
   removeProblemFromPlaylist,
 } from "../controllers/playlist.controller.js";
 
@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.post("/create-playlist", authMiddleware, createPlayList);
 
-router.get("/:playlistId", authMiddleware, getPlayListDetail);
+router.get("/get-playlist", authMiddleware, getPlayListDetails);
 
 router.get("/", authMiddleware, getAllPlayListDetailsOfUser);
 
