@@ -111,8 +111,8 @@ export const ProblemTabsContent = ({
       );
     case "editorial":
       return (
-        <div className="p-4 text-center text-muted-foreground">
-          No Editorial yet
+        <div className="p-4">
+          {problem.editorial || "No editorial available"}
         </div>
       );
     case "hints":
@@ -120,7 +120,7 @@ export const ProblemTabsContent = ({
         <div className="p-4">
           {problem?.hints ? (
             <div className="bg-muted p-6 rounded-xl">
-              <pre className="bg-black/90 dark:bg-white/10 px-4 py-2 rounded-lg font-semibold text-white text-lg whitespace-pre-wrap">
+              <pre className="px-4 py-2 rounded-lg font-semibold text-lg whitespace-pre-wrap">
                 {problem.hints}
               </pre>
             </div>

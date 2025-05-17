@@ -92,7 +92,14 @@ export const AIProblemModal = ({ isOpen, onOpenChange, form }) => {
                     Cancel
                   </Button>
                   <Button type="submit" disabled={isGenerating}>
-                    {isGenerating ? "Generating..." : "Generate"}
+                    {isGenerating ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Generating...
+                      </>
+                    ) : (
+                      "Generate"
+                    )}
                   </Button>
                 </div>
               </div>

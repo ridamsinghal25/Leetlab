@@ -81,8 +81,14 @@ export const CreatePlaylistModal = ({
                 Cancel
               </Button>
               <Button type="submit" disabled={isLoading}>
-                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Create Playlist
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Creating...
+                  </>
+                ) : (
+                  "Create Playlist"
+                )}
               </Button>
             </div>
           </DialogFooter>

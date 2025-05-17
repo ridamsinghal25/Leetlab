@@ -114,7 +114,14 @@ export function UploadAvatarModal({ user, open, onOpenChange }) {
                   Cancel
                 </Button>
                 <Button type="submit" disabled={isLoading}>
-                  {isLoading ? "Saving..." : "Save changes"}
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Uploading...
+                    </>
+                  ) : (
+                    "Upload"
+                  )}
                 </Button>
               </div>
             </DialogFooter>

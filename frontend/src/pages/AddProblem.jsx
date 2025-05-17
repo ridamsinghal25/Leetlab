@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { ArrowLeft, Download, FileText, RefreshCcw } from "lucide-react";
+import { ArrowLeft, Brain, Download, FileText, RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -99,13 +99,13 @@ const AddProblem = () => {
 
   return (
     <div className="w-screen lg:w-4xl mx-auto py-8 px-4">
-      <div>
+      <div className="absolute top-4 right-4">
         <Button
-          variant="outline"
-          className="absolute top-4 right-4"
+          className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200"
           onClick={() => setIsAskAIModalOpen(true)}
         >
-          Ask AI
+          <Brain size={18} />
+          <span>Ask AI</span>
         </Button>
       </div>
 

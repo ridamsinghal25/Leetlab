@@ -133,7 +133,14 @@ export default function ChangePasswordModal({ open, onOpenChange }) {
                   Cancel
                 </Button>
                 <Button type="submit" disabled={isLoading}>
-                  {isLoading ? "Changing..." : "Change Password"}
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Changing...
+                    </>
+                  ) : (
+                    "Change Password"
+                  )}
                 </Button>
               </div>
             </DialogFooter>
