@@ -16,6 +16,13 @@ import AdminRoute from "./protectedRoutes/AdminRoute";
 import UpdateProblem from "./pages/UpdateProblem";
 import { ROUTES } from "./constants/routes";
 
+import {
+  LiveblocksProvider,
+  RoomProvider,
+  ClientSideSuspense,
+} from "@liveblocks/react/suspense";
+import { CollaborativeEditor } from "./pages/CollaborativeEditor";
+
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
 
@@ -45,6 +52,7 @@ const App = () => {
           path={ROUTES.SIGNUP}
           element={!authUser ? <SignUpPage /> : <Navigate to={ROUTES.HOME} />}
         />
+
         <Route
           path={ROUTES.LOGIN}
           element={!authUser ? <LoginPage /> : <Navigate to={ROUTES.HOME} />}
@@ -54,6 +62,7 @@ const App = () => {
           path={ROUTES.PROBLEM}
           element={authUser ? <ProblemPage /> : <Navigate to={ROUTES.LOGIN} />}
         />
+
         <Route element={<AdminRoute />}>
           <Route
             path={ROUTES.ADD_PROBLEM}
@@ -71,6 +80,29 @@ const App = () => {
         <Route
           path={ROUTES.PROFILE}
           element={authUser ? <ProfilePage /> : <Navigate to={ROUTES.LOGIN} />}
+        />
+
+        <Route
+          path={ROUTES.COLLABORATIVE_EDITOR}
+          element={
+            authUser ? (
+              <div>
+                <LiveblocksProvider
+                  publicApiKey={
+                    import.meta.env.VITE_LIVEBLOCK_EDITOR_PUBLIC_KEY
+                  }
+                >
+                  <RoomProvider id="my-room">
+                    <ClientSideSuspense fallback={<div>Loading...</div>}>
+                      <CollaborativeEditor />
+                    </ClientSideSuspense>
+                  </RoomProvider>
+                </LiveblocksProvider>
+              </div>
+            ) : (
+              <Navigate to={ROUTES.LOGIN} />
+            )
+          }
         />
       </Routes>
     </div>

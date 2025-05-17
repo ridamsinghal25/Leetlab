@@ -72,6 +72,17 @@ export default function Navbar() {
                     </Link>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
+                <DropdownMenuGroup>
+                  <DropdownMenuItem asChild>
+                    <Link
+                      to={ROUTES.COLLABORATIVE_EDITOR}
+                      className="cursor-pointer"
+                    >
+                      <Code className="mr-2 h-4 w-4" />
+                      <span>Collaborative Editor</span>
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 {authUser?.role === USER_ROLES.ADMIN && (
                   <>
