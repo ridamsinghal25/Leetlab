@@ -43,7 +43,7 @@ function SubmissionsView({ submissionsOfProblem, submission, activeTab }) {
             </ScrollArea>
           )}
 
-          {submission?.problemId && (
+          {submission?.userId && (
             <Card className="mb-6">
               <CardContent className="p-6">
                 <SubmissionResults submission={submission} />

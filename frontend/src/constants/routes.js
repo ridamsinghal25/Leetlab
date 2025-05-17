@@ -6,4 +6,5 @@ export const ROUTES = {
   ADD_PROBLEM: "/add-problem",
   UPDATE_PROBLEM: "/update-problem/:id",
   PROFILE: "/profile",
+  COLLABORATIVE_EDITOR: "/collaborative-editor",
 };

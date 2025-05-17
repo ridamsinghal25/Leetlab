@@ -31,3 +31,9 @@ export const COUNTDOWN = {
   COUNTSTART: 60,
   INTERVAL: 1000,
 };
+
+export const COLLABORATIVE_EDITOR_LANGUAGES = [
+  { value: "JAVASCRIPT", label: "JavaScript" },
+  { value: "PYTHON", label: "Python" },
+  { value: "JAVA", label: "Java" },
+];
