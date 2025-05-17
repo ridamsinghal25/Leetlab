@@ -13,6 +13,22 @@ export const createPlayList = async (req, res) => {
       });
     }
 
+    const playlistExists = await db.playlist.findUnique({
+      where: {
+        name_userId: {
+          name,
+          userId,
+        },
+      },
+    });
+
+    if (playlistExists) {
+      return res.status(400).json({
+        error: "Playlist by this name already exists",
+        success: false,
+      });
+    }
+
     const playlist = await db.playlist.create({
       data: {
         name,
