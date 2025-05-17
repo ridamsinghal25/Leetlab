@@ -369,9 +369,13 @@ export const getAllProblemsSolvedByUser = async (req, res) => {
         description: true,
         difficulty: true,
         tags: true,
-        solvedBy: {
+        user: {
           select: {
-            userId: true,
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+            image: true,
           },
         },
       },
