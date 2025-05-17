@@ -25,12 +25,13 @@ import {
 import AuthImagePattern from "@/components/basic/AuthImagePattern";
 import { signUpSchema } from "@/validations/zodValidations";
 import { ROUTES } from "@/constants/routes";
+import FormFieldInput from "@/components/basic/FormFieldInput";
 
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
   const { signup, isSigninUp } = useAuthStore();
 
-  const form = useForm({
+  const signUpForm = useForm({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       name: "",
@@ -65,85 +66,33 @@ export default function SignUpPage() {
               </div>
             </CardHeader>
             <CardContent>
-              <Form {...form}>
+              <Form {...signUpForm}>
                 <form
-                  onSubmit={form.handleSubmit(onSubmit)}
+                  onSubmit={signUpForm.handleSubmit(onSubmit)}
                   className="space-y-4"
                 >
-                  <FormField
-                    control={form.control}
+                  <FormFieldInput
+                    form={signUpForm}
+                    label="Name"
                     name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            <Input
-                              placeholder="John Doe"
-                              className="pl-9"
-                              {...field}
-                            />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                    placeholder="John Doe"
+                    type="text"
                   />
 
-                  <FormField
-                    control={form.control}
+                  <FormFieldInput
+                    form={signUpForm}
+                    label="Email"
                     name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            <Input
-                              placeholder="you@example.com"
-                              type="email"
-                              className="pl-9"
-                              {...field}
-                            />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                    placeholder="you@example.com"
+                    type="email"
                   />
 
-                  <FormField
-                    control={form.control}
+                  <FormFieldInput
+                    form={signUpForm}
+                    label="Password"
                     name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Password</FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            <Input
-                              placeholder="••••••••"
-                              type={showPassword ? "text" : "password"}
-                              className="pl-9"
-                              {...field}
-                            />
-                            <button
-                              type="button"
-                              className="absolute right-3 top-1/2 -translate-y-1/2"
-                              onClick={() => setShowPassword(!showPassword)}
-                            >
-                              {showPassword ? (
-                                <EyeOff className="h-4 w-4 text-muted-foreground" />
-                              ) : (
-                                <Eye className="h-4 w-4 text-muted-foreground" />
-                              )}
-                            </button>
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                    placeholder="••••••••"
+                    type={showPassword ? "text" : "password"}
                   />
 
                   <Button

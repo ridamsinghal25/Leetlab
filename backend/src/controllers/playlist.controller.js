@@ -130,6 +130,22 @@ export const addProblemToPlaylist = async (req, res) => {
       });
     }
 
+    const isProblemExistsInPlaylist = await db.problemInPlaylist.findMany({
+      where: {
+        playlistId,
+        problemId: {
+          in: problemIds,
+        },
+      },
+    });
+
+    if (isProblemExistsInPlaylist.length > 0) {
+      return res.status(400).json({
+        error: "Problem already exists in playlist",
+        success: false,
+      });
+    }
+
     const problemInPlaylist = await db.problemInPlaylist.createMany({
       data: problemIds.map((problemId) => ({
         problemId,

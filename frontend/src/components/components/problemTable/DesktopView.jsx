@@ -24,7 +24,12 @@ import {
 } from "@/constants/constants";
 import { ROUTES } from "@/constants/routes";
 
-function ProblemTableDesktopView({ paginatedProblems, authUser }) {
+function ProblemTableDesktopView({
+  paginatedProblems,
+  authUser,
+  handleDelete,
+  handleAddToPlaylist,
+}) {
   return (
     <div className="hidden md:block rounded-md border overflow-hidden">
       <div className="overflow-x-auto">
