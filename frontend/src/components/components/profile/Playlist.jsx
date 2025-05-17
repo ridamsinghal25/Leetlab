@@ -50,7 +50,7 @@ function PlaylistProfile() {
         <Button>Create Playlist</Button>
       </div>
 
-      {playlists.length === 0 ? (
+      {playlists?.length === 0 ? (
         <Card>
           <CardContent className="p-6 flex flex-col items-center justify-center">
             <h3 className="text-xl font-medium">No playlists found</h3>
@@ -81,7 +81,7 @@ function PlaylistProfile() {
                           <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
                             <div className="flex items-center gap-1">
                               <List size={14} />
-                              <span>{playlist.problems.length} problems</span>
+                              <span>{playlist?.problems?.length} problems</span>
                             </div>
                             <div className="flex items-center gap-1">
                               <Clock size={14} />
@@ -106,7 +106,7 @@ function PlaylistProfile() {
                           Problems in this playlist
                         </h4>
 
-                        {playlist.problems.length === 0 ? (
+                        {playlist?.problems?.length === 0 ? (
                           <div className="bg-muted p-4 rounded-md">
                             <span>No problems added to this playlist yet.</span>
                           </div>

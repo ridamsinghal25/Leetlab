@@ -16,29 +16,39 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
 import { usePlaylistStore } from "@/store/usePlaylistStore";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 export const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
   const {
-    playlists,
-    getAllPlayListDetailsOfUser,
+    currentPlaylists,
+    getPlayListDetails,
     addProblemToPlaylist,
     isLoading,
   } = usePlaylistStore();
-  const [selectedPlaylist, setSelectedPlaylist] = useState("");
+
+  const selectPlaylistForm = useForm({
+    defaultValues: {
+      playlistId: "",
+    },
+  });
 
   useEffect(() => {
     if (isOpen) {
-      getAllPlayListDetailsOfUser();
+      getPlayListDetails();
     }
-  }, [isOpen, getAllPlayListDetailsOfUser]);
+  }, [isOpen, getPlayListDetails]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!selectedPlaylist) return;
-
-    await addProblemToPlaylist(selectedPlaylist, [problemId]);
+  const handleSubmit = async (data) => {
+    await addProblemToPlaylist(data.playlistId, [problemId]);
     onClose();
   };
 
@@ -54,45 +64,58 @@ export const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="playlist">Select Playlist</Label>
-            <Select
-              disabled={isLoading}
-              value={selectedPlaylist}
-              onValueChange={setSelectedPlaylist}
-            >
-              <SelectTrigger id="playlist">
-                <SelectValue placeholder="Select a playlist" />
-              </SelectTrigger>
-              <SelectContent>
-                {playlists.map((playlist) => (
-                  <SelectItem key={playlist?.id} value={playlist?.id}>
-                    {playlist?.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+        <Form {...selectPlaylistForm}>
+          <form
+            onSubmit={selectPlaylistForm.handleSubmit(handleSubmit)}
+            className="space-y-4"
+          >
+            <FormField
+              control={selectPlaylistForm.control}
+              name="playlistId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Select playlist</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a playlist" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {currentPlaylists.map((playlist) => (
+                        <SelectItem key={playlist.id} value={playlist.id}>
+                          {playlist.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <DialogFooter>
-            <div className="flex w-full items-center justify-end space-x-2">
-              <Button type="button" variant="outline" onClick={onClose}>
-                Cancel
-              </Button>
-              <Button type="submit" disabled={!selectedPlaylist || isLoading}>
-                {isLoading ? (
-                  <>
-                    <Loader className="mr-2 h-4 w-4 animate-spin" />
-                    Adding...
-                  </>
-                ) : (
-                  "Add to Playlist"
-                )}
-              </Button>
-            </div>
-          </DialogFooter>
-        </form>
+            <DialogFooter>
+              <div className="flex w-full items-center justify-end space-x-2">
+                <Button type="button" variant="outline" onClick={onClose}>
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={isLoading}>
+                  {isLoading ? (
+                    <>
+                      <Loader className="mr-2 h-4 w-4 animate-spin" />
+                      Adding...
+                    </>
+                  ) : (
+                    "Add to Playlist"
+                  )}
+                </Button>
+              </div>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

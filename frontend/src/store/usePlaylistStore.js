@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 export const usePlaylistStore = create((set, get) => ({
   playlists: [],
-  currentPlaylist: null,
+  currentPlaylists: [],
   isLoading: false,
   error: null,
 
@@ -18,7 +18,7 @@ export const usePlaylistStore = create((set, get) => ({
 
       if (response.data.success) {
         set((state) => ({
-          playlists: [...state.playlists, response.data.playList],
+          playlists: [...state.playlists, response.data.playlist],
         }));
 
         toast.success("Playlist created successfully");
@@ -47,13 +47,13 @@ export const usePlaylistStore = create((set, get) => ({
     }
   },
 
-  getPlaylistDetail: async (playlistId) => {
+  getPlayListDetails: async () => {
     try {
       set({ isLoading: true });
-      const response = await axiosInstance.get(`/playlist/${playlistId}`);
+      const response = await axiosInstance.get(`/playlist/get-playlist`);
 
       if (response.data.success) {
-        set({ currentPlaylist: response.data.playList });
+        set({ currentPlaylists: response.data.playlist });
       }
     } catch (error) {
       toast.error(
