@@ -1,5 +1,5 @@
 import Editor from "@monaco-editor/react";
-import { Play, Terminal, ArrowRight } from "lucide-react";
+import { Play, Terminal, ArrowRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -18,6 +18,8 @@ function CodeEditor({
   isExecuting,
   handleRunCode,
   handleSubmitCode,
+  isCounting,
+  count,
 }) {
   return (
     <div className="w-full lg:w-1/2 flex flex-col">
@@ -78,16 +80,25 @@ function CodeEditor({
           <div>
             <Button
               variant="default"
-              className="gap-2 w-full sm:w-auto"
+              className="gap-2 w-full sm:w-auto relative min-w-[100px] min-h-[36px]"
               onClick={handleRunCode}
-              disabled={isExecuting}
+              disabled={isCounting || isExecuting}
             >
-              {isExecuting ? (
-                <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full"></div>
+              {isCounting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <span>{count}</span>
+                </>
               ) : (
-                <Play className="w-4 h-4" />
+                <div className="flex items-center justify-center gap-2">
+                  {isExecuting ? (
+                    <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full"></div>
+                  ) : (
+                    <Play className="w-4 h-4" />
+                  )}
+                  <span>Run Code</span>
+                </div>
               )}
-              Run Code
             </Button>
           </div>
           <div>

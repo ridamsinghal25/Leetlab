@@ -26,3 +26,8 @@ export const USER_ROLES = {
   USER: "USER",
   ADMIN: "ADMIN",
 };
+
+export const COUNTDOWN = {
+  COUNTSTART: 60,
+  INTERVAL: 1000,
+};

@@ -9,6 +9,8 @@ import ProblemPageHeader from "@/components/components/problem/Header";
 import ProblemTabs from "@/components/components/problem/Tabs";
 import CodeEditor from "@/components/components/problem/Editor";
 import SubmissionsView from "@/components/components/problem/SubmissionsView";
+import { useCountdown } from "usehooks-ts";
+import { COUNTDOWN } from "@/constants/constants";
 
 const ProblemPage = () => {
   const { id } = useParams();
@@ -25,8 +27,15 @@ const ProblemPage = () => {
   const [activeTab, setActiveTab] = useState("description");
   const [selectedLanguage, setSelectedLanguage] = useState("JAVASCRIPT");
   const [testCases, setTestCases] = useState([]);
+  const [isCounting, setIsCounting] = useState(false);
 
   const { executeCode, submission, isExecuting, runCode } = useExecutionStore();
+
+  const [count, { startCountdown, stopCountdown, resetCountdown }] =
+    useCountdown({
+      countStart: COUNTDOWN.COUNTSTART,
+      intervalMs: COUNTDOWN.INTERVAL,
+    });
 
   useEffect(() => {
     if (id && problem?.id !== id) {
@@ -62,12 +71,22 @@ const ProblemPage = () => {
     }
   }, [problem, selectedLanguage]);
 
+  useEffect(() => {
+    if (count === 0) {
+      setIsCounting(false);
+      resetCountdown();
+    }
+  }, [count]);
+
   const handleLanguageChange = (value) => {
     setSelectedLanguage(value);
   };
 
   const handleRunCode = (e) => {
     e.preventDefault();
+
+    setIsCounting(true);
+    startCountdown();
 
     const language_id = getLanguageId(selectedLanguage);
     const stdin = problem.testcases.map((tc) => tc.input);
@@ -102,7 +121,7 @@ const ProblemPage = () => {
       <ProblemPageHeader problem={problem} submissionCount={submissionCount} />
 
       <main className="container mx-auto px-0 py-0 lg:w-screen flex flex-col">
-        <div className="flex flex-col lg:h-screen lg:flex-row">
+        <div className="flex flex-col lg:h-screen lg:flex-row border rounded">
           {/* Left side - Tabs  */}
           <ProblemTabs
             activeTab={activeTab}
@@ -123,15 +142,19 @@ const ProblemPage = () => {
             isExecuting={isExecuting}
             handleRunCode={handleRunCode}
             handleSubmitCode={handleSubmitCode}
+            isCounting={isCounting}
+            count={count}
           />
         </div>
 
         {/* Submissions section */}
-        <SubmissionsView
-          submissionsOfProblem={submissionsOfProblem}
-          submission={submission}
-          activeTab={activeTab}
-        />
+        <div className="m-5">
+          <SubmissionsView
+            submissionsOfProblem={submissionsOfProblem}
+            submission={submission}
+            activeTab={activeTab}
+          />
+        </div>
       </main>
     </div>
   );
