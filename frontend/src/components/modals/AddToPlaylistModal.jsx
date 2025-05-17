@@ -44,7 +44,7 @@ export const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-md max-w-[95vw] rounded-lg">
+      <DialogContent className="sm:max-w-md max-w-[75vw] rounded-lg">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">
             Add to Playlist
@@ -67,8 +67,8 @@ export const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
               </SelectTrigger>
               <SelectContent>
                 {playlists.map((playlist) => (
-                  <SelectItem key={playlist.id} value={playlist.id}>
-                    {playlist.name}
+                  <SelectItem key={playlist?.id} value={playlist?.id}>
+                    {playlist?.name}
                   </SelectItem>
                 ))}
               </SelectContent>

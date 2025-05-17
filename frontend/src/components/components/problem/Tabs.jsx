@@ -26,7 +26,7 @@ function ProblemTabs({
         onValueChange={setActiveTab}
         className="h-full flex flex-col"
       >
-        <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0 overflow-x-auto">
+        <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0 overflow-x-auto h-[54px]">
           <TabsTrigger
             value={PROBLEM_PAGE_TABS.DESCRIPTION}
             className="data-[state=active]:border-primary data-[state=active]:rounded"
@@ -61,7 +61,7 @@ function ProblemTabs({
           value={activeTab}
           className="flex-1 overflow-hidden w-full"
         >
-          <ScrollArea className="h-full px-4 md:px-6 py-4 w-full">
+          <ScrollArea className="h-full px-4 md:px-6 py-4 w-full border-b">
             <div className="w-full">
               <ProblemTabsContent
                 activeTab={activeTab}

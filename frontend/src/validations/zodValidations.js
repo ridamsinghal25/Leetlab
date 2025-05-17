@@ -69,6 +69,9 @@ export const loginSchema = z.object({
 
 export const playlistSchema = z.object({
   name: z.string().min(3, "Playlist name must be at least 3 characters"),
+  description: z
+    .string()
+    .min(10, "Playlist description must be at least 10 characters"),
 });
 
 export const changePasswordSchema = z

@@ -1,13 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  Tag,
-  ExternalLink,
-  BookOpen,
-  Clock,
-  List,
-  CheckCircle,
-} from "lucide-react";
+import { Tag, ExternalLink, BookOpen, Clock, List } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -71,7 +64,11 @@ function PlaylistProfile() {
         <div className="space-y-6">
           <Accordion type="single" collapsible className="w-full">
             {playlists.map((playlist) => (
-              <AccordionItem key={playlist.id} value={playlist.id}>
+              <AccordionItem
+                key={playlist?.id}
+                value={playlist?.id}
+                className="mt-3"
+              >
                 <Card>
                   <CardContent className="p-0">
                     <AccordionTrigger className="px-6 py-4 hover:no-underline">
@@ -99,9 +96,9 @@ function PlaylistProfile() {
 
                     <AccordionContent>
                       <div className="px-6 pb-2">
-                        <p className="text-muted-foreground">
-                          {playlist.description}
-                        </p>
+                        <div className="bg-muted/40 rounded-md p-3">
+                          <p>{playlist.description}</p>
+                        </div>
                       </div>
 
                       <div className="px-6 py-4 border-t border-border">

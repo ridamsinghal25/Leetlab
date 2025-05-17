@@ -95,15 +95,15 @@ export default function ProfilePage() {
             <TabsTrigger value="submissions">Submissions</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="problems" className="mt-6">
+          <TabsContent value="problems" className="mt-6 min-w-[550px]">
             <ProblemSolvedByUser />
           </TabsContent>
 
-          <TabsContent value="playlists" className="mt-6">
+          <TabsContent value="playlists" className="mt-6 min-w-[550px]">
             <PlaylistProfile />
           </TabsContent>
 
-          <TabsContent value="submissions" className="mt-6">
+          <TabsContent value="submissions" className="mt-6 min-w-[550px]">
             <ProfileSubmission />
           </TabsContent>
         </Tabs>

@@ -29,7 +29,7 @@ const ProblemPage = () => {
   const { executeCode, submission, isExecuting, runCode } = useExecutionStore();
 
   useEffect(() => {
-    if (id) {
+    if (id && problem?.id !== id) {
       getProblemById(id);
       getSubmissionCountForProblem(id);
       getSubmissionForProblemByUser(id);
