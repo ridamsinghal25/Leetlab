@@ -39,6 +39,9 @@ model User {
   submission Submission[]
   problemSolved ProblemSolved[]
   playlists Playlist[]
+  likedProblems Like[]
+  savedProblems SavedProblem[]
+  markedProblems MarkForRevision[]
 }
 
 model Problem {
@@ -67,6 +70,11 @@ model Problem {
   submission Submission[]
   solvedBy ProblemSolved[]
   problemsPlaylists   ProblemInPlaylist[]
+  
+  likedBy Like[]
+  savedBy SavedProblem[]
+  markedBy MarkForRevision[]
+
 }
 
 model Submission {
@@ -153,10 +161,53 @@ model ProblemInPlaylist {
   @@unique([problemId, playlistId])
 }
 
+model Like {
+  id String @id @default(uuid())
+  userId String
+  problemId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, problemId])
+}
+
+model SavedProblem {
+  id String @id @default(uuid())
+  userId String
+  problemId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, problemId])
+}
+
+model MarkForRevision {
+  id String @id @default(uuid())
+  userId String
+  problemId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, problemId])
+}
+
 /*
   Prisma commands
   1. npx prisma generate
   2. npx prisma migrate dev
   3. npx prisma db push
 
+  1. npx prisma studio
 */
