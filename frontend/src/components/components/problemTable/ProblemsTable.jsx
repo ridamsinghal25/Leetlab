@@ -18,11 +18,14 @@ import { AddToPlaylistModal } from "../../modals/AddToPlaylistModal";
 import { DIFFICULTIES_OPTIONS } from "@/constants/constants";
 import ProblemTableMobileView from "./MobileView";
 import ProblemTableDesktopView from "./DesktopView";
+import { useProblemStore } from "@/store/useProblemStore";
 
 export const ProblemsTable = ({ problems }) => {
   const { authUser } = useAuthStore();
   const { onDeleteProblem } = useActions();
   const { isLoading, createPlaylist } = usePlaylistStore();
+  const { deleteProblemFromState } = useProblemStore();
+
   const [search, setSearch] = useState("");
   const [difficulty, setDifficulty] = useState("ALL");
   const [selectedTag, setSelectedTag] = useState("ALL");
@@ -67,8 +70,10 @@ export const ProblemsTable = ({ problems }) => {
     );
   }, [filteredProblems, currentPage]);
 
-  const handleDelete = (id) => {
-    onDeleteProblem(id);
+  const handleDelete = async (id) => {
+    await onDeleteProblem(id);
+
+    deleteProblemFromState(id);
   };
 
   const handleCreatePlaylist = async (data) => {

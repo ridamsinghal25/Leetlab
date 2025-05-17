@@ -58,4 +58,10 @@ export const useProblemStore = create((set, get) => ({
   getProblemByIdFromState: (id) => {
     return get().problems.find((problem) => problem.id === id);
   },
+
+  deleteProblemFromState: (id) => {
+    set({
+      problems: get().problems.filter((problem) => problem.id !== id),
+    });
+  },
 }));
