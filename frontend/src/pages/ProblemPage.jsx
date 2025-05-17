@@ -49,7 +49,11 @@ const ProblemPage = () => {
         })) || []
       );
 
-      if (isAcceptedSubmission) {
+      if (
+        isAcceptedSubmission &&
+        isAcceptedSubmission?.language?.toLowerCase() ===
+          selectedLanguage?.toLowerCase()
+      ) {
         setCode(isAcceptedSubmission.sourceCode);
         return;
       }
@@ -60,16 +64,6 @@ const ProblemPage = () => {
 
   const handleLanguageChange = (value) => {
     setSelectedLanguage(value);
-
-    const isAcceptedSubmission = submissionsOfProblem?.find(
-      (sub) => sub.status === "Accepted"
-    );
-    if (isAcceptedSubmission) {
-      setCode(isAcceptedSubmission.sourceCode);
-      return;
-    }
-
-    setCode(problem.codeSnippets?.[value] || "");
   };
 
   const handleRunCode = (e) => {

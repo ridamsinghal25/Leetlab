@@ -42,7 +42,7 @@ function CodeEditor({
         </div>
       </div>
 
-      <div className="flex-1">
+      <div className="flex-1 min-h-screen md:min-h-0">
         <Editor
           height="100%"
           language={selectedLanguage.toLowerCase()}
@@ -74,33 +74,37 @@ function CodeEditor({
       </div>
 
       <div className="p-4 border-t bg-muted/50">
-        <div className="flex flex-col sm:flex-row justify-between gap-3">
-          <Button
-            variant="default"
-            className="gap-2 w-full sm:w-auto"
-            onClick={handleRunCode}
-            disabled={isExecuting}
-          >
-            {isExecuting ? (
-              <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full"></div>
-            ) : (
-              <Play className="w-4 h-4" />
-            )}
-            Run Code
-          </Button>
-          <Button
-            variant="secondary"
-            className="gap-2 w-full sm:w-auto"
-            onClick={handleSubmitCode}
-            disabled={isExecuting}
-          >
-            {isExecuting ? (
-              <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full"></div>
-            ) : (
-              <ArrowRight className="w-4 h-4" />
-            )}
-            Submit Code
-          </Button>
+        <div className="flex justify-between items-center w-full">
+          <div>
+            <Button
+              variant="default"
+              className="gap-2 w-full sm:w-auto"
+              onClick={handleRunCode}
+              disabled={isExecuting}
+            >
+              {isExecuting ? (
+                <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full"></div>
+              ) : (
+                <Play className="w-4 h-4" />
+              )}
+              Run Code
+            </Button>
+          </div>
+          <div>
+            <Button
+              variant="secondary"
+              className="gap-2 w-full sm:w-auto"
+              onClick={handleSubmitCode}
+              disabled={isExecuting}
+            >
+              {isExecuting ? (
+                <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full"></div>
+              ) : (
+                <ArrowRight className="w-4 h-4" />
+              )}
+              Submit Code
+            </Button>
+          </div>
         </div>
       </div>
     </div>
