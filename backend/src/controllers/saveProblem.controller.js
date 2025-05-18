@@ -66,7 +66,6 @@ export const toggleSaveProblem = async (req, res) => {
       return res.status(200).json({
         success: true,
         message: "Problem saved successfully",
-        saveProblem,
       });
     }
   } catch (error) {
@@ -82,7 +81,7 @@ export const getAllSavedProblemsByUser = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const problems = await db.problem.findMany({
+    const savedProblems = await db.problem.findMany({
       where: {
         savedBy: {
           some: {
@@ -111,7 +110,7 @@ export const getAllSavedProblemsByUser = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Saved problems fetched successfully",
-      problems,
+      savedProblems,
     });
   } catch (error) {
     console.error("Error fetching saved problems:", error);

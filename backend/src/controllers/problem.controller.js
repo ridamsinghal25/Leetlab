@@ -293,6 +293,11 @@ export const getProblemById = async (req, res) => {
       where: {
         id,
       },
+      include: {
+        likedBy: true,
+        savedBy: true,
+        markedBy: true,
+      },
     });
 
     if (!problem) {
@@ -302,10 +307,33 @@ export const getProblemById = async (req, res) => {
       });
     }
 
+    const likesCount = problem?.likedBy.length;
+    const isLikedByUser = problem?.likedBy.some(
+      (like) => like.userId === req.user.id
+    );
+
+    const isSavedByUser = problem?.savedBy.some(
+      (save) => save.userId === req.user.id
+    );
+
+    const isMarkedByUser = problem?.markedBy.some(
+      (mark) => mark.userId === req.user.id
+    );
+
+    const { likedBy, savedBy, markedBy, ...rest } = problem;
+
+    const problemWithLikeStatus = {
+      ...rest,
+      isLiked: isLikedByUser,
+      likesCount,
+      isSaved: isSavedByUser,
+      isMarked: isMarkedByUser,
+    };
+
     return res.status(200).json({
       success: true,
       message: "Problem fetched successfully",
-      problem,
+      problem: problemWithLikeStatus,
     });
   } catch (error) {
     console.error("Error fetching problem:", error);

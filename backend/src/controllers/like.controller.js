@@ -66,7 +66,6 @@ export const toggleLikeProblem = async (req, res) => {
       return res.status(200).json({
         success: true,
         message: "Problem liked successfully",
-        createLike,
       });
     }
   } catch (error) {
@@ -82,7 +81,7 @@ export const getAllProblemsLikedByUser = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const problems = await db.problem.findMany({
+    const likedProblems = await db.problem.findMany({
       where: {
         likedBy: {
           some: {
@@ -111,7 +110,7 @@ export const getAllProblemsLikedByUser = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Likes fetched successfully",
-      problems,
+      likedProblems,
     });
   } catch (error) {
     console.error("Error fetching liked problems:", error);
@@ -142,7 +141,7 @@ export const getLikedCountForProblem = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Likes fetched successfully",
-      count: likes,
+      likeCounts: likes,
     });
   } catch (error) {
     console.error("Fetch Likes Error:", error);

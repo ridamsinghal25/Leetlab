@@ -82,7 +82,7 @@ export const getAllProblemsMarkedByUser = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const problems = await db.problem.findMany({
+    const markedProblems = await db.problem.findMany({
       where: {
         markedBy: {
           some: {
@@ -111,7 +111,7 @@ export const getAllProblemsMarkedByUser = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Problems fetched successfully",
-      problems,
+      markedProblems,
     });
   } catch (error) {
     console.error("Error fetching marked problems:", error);
