@@ -15,16 +15,16 @@ import { Play, Code2, Users, Loader2, ArrowLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import TestPanel from "@/components/components/collaborativeEditor/TestPanel";
-import {
-  COLLABORATIVE_EDITOR_LANGUAGES,
-  LANGUAGES,
-} from "@/constants/constants";
+import { COLLABORATIVE_EDITOR_LANGUAGES } from "@/constants/constants";
 import toast from "react-hot-toast";
 import { getLanguageId } from "@/lib/getLanguageInfo";
 import { useExecutionStore } from "@/store/useExecution";
-import SubmissionsView from "@/components/components/problem/SubmissionsView";
 import { Link } from "react-router-dom";
 import { ROUTES } from "@/constants/routes";
+import SubmissionsView from "@/components/components/submissions/SubmissionsView";
+import { useAuthStore } from "@/store/useAuthStore";
+import { getRandomColor } from "@/lib/getRandomColor";
+import { Cursors } from "@/components/components/collaborativeEditor/Cursors";
 
 export function CollaborativeEditor() {
   const [editorRef, setEditorRef] = useState();
@@ -43,6 +43,7 @@ export function CollaborativeEditor() {
   const yProvider = getYjsProviderForRoom(room);
 
   const { isExecuting, runCodeCollabEditor, submission } = useExecutionStore();
+  const { authUser } = useAuthStore();
 
   // Set up Liveblocks Yjs provider and attach Monaco editor
   useEffect(() => {
@@ -62,26 +63,27 @@ export function CollaborativeEditor() {
         awareness
       );
 
+      // Set user information in awareness
+      awareness.setLocalStateField("user", {
+        name: authUser?.name,
+        color: getRandomColor(),
+      });
+
       // Track active users
       const updateActiveUsers = () => {
         const states = Array.from(awareness.getStates().entries())
           .filter(([_, state]) => state.user)
           .map(([clientId, state]) => ({
             clientId,
-            user: state.user,
-            color: state.color,
+            name: state.user.name,
+            color: state.user.color,
           }));
+
         setActiveUsers(states);
       };
 
       awareness.on("change", updateActiveUsers);
       updateActiveUsers();
-
-      // Set user information in awareness
-      awareness.setLocalStateField("user", {
-        name: `User ${Math.floor(Math.random() * 10000)}`,
-        color: getRandomColor(),
-      });
     }
 
     return () => {
@@ -117,28 +119,6 @@ export function CollaborativeEditor() {
     runCodeCollabEditor(code, language_id, stdin, expected_outputs);
   };
 
-  function getRandomColor() {
-    const colors = [
-      "#f44336",
-      "#e91e63",
-      "#9c27b0",
-      "#673ab7",
-      "#3f51b5",
-      "#2196f3",
-      "#03a9f4",
-      "#00bcd4",
-      "#009688",
-      "#4caf50",
-      "#8bc34a",
-      "#cddc39",
-      "#ffeb3b",
-      "#ffc107",
-      "#ff9800",
-      "#ff5722",
-    ];
-    return colors[Math.floor(Math.random() * colors.length)];
-  }
-
   return (
     <div>
       <div className="flex flex-col h-screen w-screen bg-[#1e1e1e] overflow-auto">
@@ -172,8 +152,11 @@ export function CollaborativeEditor() {
                   className="h-6 w-6 border-2 border-[#333333]"
                   style={{ borderColor: user.color }}
                 >
-                  <AvatarFallback style={{ backgroundColor: user.color }}>
-                    {user.user.name.substring(0, 2).toUpperCase()}
+                  <AvatarFallback
+                    className="text-white"
+                    style={{ backgroundColor: user.color }}
+                  >
+                    {user.name?.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               ))}
@@ -230,16 +213,20 @@ export function CollaborativeEditor() {
             >
               {showTestPanel ? "Hide Test Cases" : "Show Test Cases"}
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-8 text-gray-400 hover:text-white hover:bg-[#3c3c3c]"
-              onClick={() => setShowSubmissions(!showSubmissions)}
-            >
-              {showSubmissions ? "Hide Submissions" : "Show Submissions"}
-            </Button>
+            {submission && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 text-gray-400 hover:text-white hover:bg-[#3c3c3c]"
+                onClick={() => setShowSubmissions(!showSubmissions)}
+              >
+                {showSubmissions ? "Hide Submissions" : "Show Submissions"}
+              </Button>
+            )}
           </div>
         </div>
+
+        {activeUsers ? <Cursors activeUsers={activeUsers} /> : null}
 
         {/* Main Content Area */}
         <div className="flex min-h-[60vh] overflow-hidden">

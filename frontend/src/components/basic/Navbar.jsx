@@ -79,7 +79,7 @@ export default function Navbar() {
                       className="cursor-pointer"
                     >
                       <Code className="mr-2 h-4 w-4" />
-                      <span>Collaborative Editor</span>
+                      <span>Collab Code</span>
                     </Link>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
