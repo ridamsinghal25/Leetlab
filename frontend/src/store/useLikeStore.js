@@ -35,4 +35,31 @@ export const useLikeStore = create((set, get) => ({
       set({ isLiking: false });
     }
   },
+
+  toggleLikedProblemFromState: (problemId, problem) => {
+    const isProblemExists = get().likedProblems.some(
+      (problem) => problem.id === problemId
+    );
+
+    if (isProblemExists) {
+      const updatedLikedProblems = get().likedProblems.filter(
+        (problem) => problem.id !== problemId
+      );
+
+      set({ likedProblems: updatedLikedProblems });
+    } else {
+      set({
+        likedProblems: [
+          ...get().likedProblems,
+          {
+            id: problem.id,
+            title: problem.title,
+            description: problem.description,
+            difficulty: problem.difficulty,
+            tags: problem.tags,
+          },
+        ],
+      });
+    }
+  },
 }));

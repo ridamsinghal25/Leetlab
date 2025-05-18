@@ -37,4 +37,31 @@ export const useMarkForRevisionStore = create((set, get) => ({
       set({ isMarking: false });
     }
   },
+
+  toggleMarkedProblemFromState: (problemId, problem) => {
+    const isProblemExists = get().markedProblems.some(
+      (problem) => problem.id === problemId
+    );
+
+    if (isProblemExists) {
+      const updatedMarkedProblems = get().markedProblems.filter(
+        (problem) => problem.id !== problemId
+      );
+
+      set({ markedProblems: updatedMarkedProblems });
+    } else {
+      set({
+        markedProblems: [
+          ...get().markedProblems,
+          {
+            id: problem.id,
+            title: problem.title,
+            description: problem.description,
+            difficulty: problem.difficulty,
+            tags: problem.tags,
+          },
+        ],
+      });
+    }
+  },
 }));

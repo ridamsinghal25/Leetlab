@@ -37,4 +37,31 @@ export const useSaveStore = create((set, get) => ({
       set({ isSaving: false });
     }
   },
+
+  toggleSavedProblemFromState: (problemId, problem) => {
+    const isProblemExists = get().savedProblems.some(
+      (problem) => problem.id === problemId
+    );
+
+    if (isProblemExists) {
+      const updatedSavedProblems = get().savedProblems.filter(
+        (problem) => problem.id !== problemId
+      );
+
+      set({ savedProblems: updatedSavedProblems });
+    } else {
+      set({
+        savedProblems: [
+          ...get().savedProblems,
+          {
+            id: problem.id,
+            title: problem.title,
+            description: problem.description,
+            difficulty: problem.difficulty,
+            tags: problem.tags,
+          },
+        ],
+      });
+    }
+  },
 }));
