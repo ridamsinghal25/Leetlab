@@ -96,15 +96,6 @@ export const getAllProblemsMarkedByUser = async (req, res) => {
         description: true,
         difficulty: true,
         tags: true,
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            role: true,
-            image: true,
-          },
-        },
       },
     });
 
