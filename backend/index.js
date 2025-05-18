@@ -26,7 +26,6 @@ const limiter = rateLimit({
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
   keyGenerator: (req) => {
-    console.log("req.clientIp", req.clientIp);
     return req.clientIp;
   },
   message: "Too many requests from this IP, please try again after 15 minutes",

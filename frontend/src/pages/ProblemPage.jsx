@@ -8,9 +8,9 @@ import { getLanguageId } from "@/lib/getLanguageInfo";
 import ProblemPageHeader from "@/components/components/problem/Header";
 import ProblemTabs from "@/components/components/problem/Tabs";
 import CodeEditor from "@/components/components/problem/Editor";
-import SubmissionsView from "@/components/components/problem/SubmissionsView";
 import { useCountdown } from "usehooks-ts";
 import { COUNTDOWN } from "@/constants/constants";
+import SubmissionsView from "@/components/components/submissions/SubmissionsView";
 
 const ProblemPage = () => {
   const { id } = useParams();
