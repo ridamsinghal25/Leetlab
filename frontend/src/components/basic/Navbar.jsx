@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuthStore } from "@/store/useAuthStore";
-import { Code, LogOut, User, PlusCircle } from "lucide-react";
+import { Code, LogOut, User, PlusCircle, SquareActivity } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -80,6 +80,14 @@ export default function Navbar() {
                     >
                       <Code className="mr-2 h-4 w-4" />
                       <span>Collab Code</span>
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuGroup>
+                  <DropdownMenuItem asChild>
+                    <Link to={ROUTES.MY_ACTIVITIES} className="cursor-pointer">
+                      <SquareActivity className="mr-2 h-4 w-4" />
+                      <span>My Activities</span>
                     </Link>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>

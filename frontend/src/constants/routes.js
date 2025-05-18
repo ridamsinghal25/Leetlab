@@ -7,4 +7,5 @@ export const ROUTES = {
   UPDATE_PROBLEM: "/update-problem/:id",
   PROFILE: "/profile",
   COLLABORATIVE_EDITOR: "/collaborative-editor",
+  MY_ACTIVITIES: "/my-activities",
 };

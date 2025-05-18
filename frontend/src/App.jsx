@@ -22,6 +22,7 @@ import {
   ClientSideSuspense,
 } from "@liveblocks/react/suspense";
 import { CollaborativeEditor } from "./pages/CollaborativeEditor";
+import ActivityPage from "./pages/ActivityPage";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -103,6 +104,11 @@ const App = () => {
               <Navigate to={ROUTES.LOGIN} />
             )
           }
+        />
+
+        <Route
+          path={ROUTES.MY_ACTIVITIES}
+          element={authUser ? <ActivityPage /> : <Navigate to={ROUTES.LOGIN} />}
         />
       </Routes>
     </div>
