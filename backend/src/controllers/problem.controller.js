@@ -1,5 +1,6 @@
 import { db } from "../libs/db.js";
 import {
+  formatCodeForPython,
   getJudge0Language,
   pollBatchResults,
   submitBatch,
@@ -58,8 +59,8 @@ export const createProblem = async (req, res) => {
       const submissions = testcases.map(({ input, output }) => ({
         source_code: solutionCode,
         language_id: languageId,
-        stdin: input,
-        expected_output: output,
+        stdin: formatCodeForPython(language, input),
+        expected_output: formatCodeForPython(language, output),
       }));
 
       const submissionResults = await submitBatch(submissions);
@@ -181,8 +182,8 @@ export const updateProblem = async (req, res) => {
       }
 
       const submissions = testcases.map(({ input, output }) => ({
-        stdin: input,
-        expected_output: output,
+        stdin: formatCodeForPython(language, input),
+        expected_output: formatCodeForPython(language, output),
         language_id: languageId,
         source_code: solutionCode,
       }));

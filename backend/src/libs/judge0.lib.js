@@ -63,3 +63,11 @@ export const submitBatch = async (submissions) => {
 
   return data;
 };
+
+export function formatCodeForPython(language, value) {
+  if (language === "PYTHON") {
+    if (value === "true") return "True";
+    if (value === "false") return "False";
+  }
+  return value;
+}
