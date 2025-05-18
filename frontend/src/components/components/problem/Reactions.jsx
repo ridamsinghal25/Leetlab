@@ -5,28 +5,32 @@ import { Button } from "@/components/ui/button";
 import { useSaveStore } from "@/store/useSaveStore";
 import { useMarkForRevisionStore } from "@/store/useMarkForRevisionStore";
 
-function Activity({ problem }) {
+function Reactions({ problem }) {
   const [isLiked, setIsLiked] = useState(problem.isLiked);
   const [likesCount, setLikesCount] = useState(problem.likesCount);
   const [isSaved, setIsSaved] = useState(problem.isSaved);
   const [isMarked, setIsMarked] = useState(problem.isMarked);
-  const { isLiking, toggleLike } = useLikeStore();
-  const { isSaving, toggleSave } = useSaveStore();
-  const { isMarking, toggleMark } = useMarkForRevisionStore();
+  const { isLiking, toggleLike, toggleLikedProblemFromState } = useLikeStore();
+  const { isSaving, toggleSave, toggleSavedProblemFromState } = useSaveStore();
+  const { isMarking, toggleMark, toggleMarkedProblemFromState } =
+    useMarkForRevisionStore();
 
   const handleLike = async () => {
     await toggleLike(problem.id);
+    toggleLikedProblemFromState(problem.id, problem);
     setIsLiked(!isLiked);
     setLikesCount((prevCount) => (isLiked ? prevCount - 1 : prevCount + 1));
   };
 
   const handleSave = async () => {
     await toggleSave(problem.id);
+    toggleSavedProblemFromState(problem.id, problem);
     setIsSaved(!isSaved);
   };
 
   const handleMark = async () => {
     await toggleMark(problem.id);
+    toggleMarkedProblemFromState(problem.id, problem);
     setIsMarked(!isMarked);
   };
 
@@ -91,4 +95,4 @@ function Activity({ problem }) {
   );
 }
 
-export default Activity;
+export default Reactions;

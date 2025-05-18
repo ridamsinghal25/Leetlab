@@ -9,7 +9,7 @@ import { ProblemTabsContent } from "@/components/components/problem/TabsContent"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PROBLEM_PAGE_TABS } from "@/constants/constants";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import Activity from "./Activity";
+import Reactions from "./Reactions";
 
 function ProblemTabs({
   activeTab,
@@ -74,7 +74,7 @@ function ProblemTabs({
             </div>
           </ScrollArea>
         </TabsContent>
-        <Activity problem={problem} />
+        <Reactions problem={problem} />
       </Tabs>
     </div>
   );
