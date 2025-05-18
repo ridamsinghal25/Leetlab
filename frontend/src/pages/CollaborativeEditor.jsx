@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Play, Code2, Users, Loader2, ArrowLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import TestPanel from "@/components/components/collaborativeEditor/TestPanel";
 import { COLLABORATIVE_EDITOR_LANGUAGES } from "@/constants/constants";
 import toast from "react-hot-toast";
@@ -50,46 +50,51 @@ export function CollaborativeEditor() {
     let binding;
     let awareness;
 
-    if (editorRef) {
-      const yDoc = yProvider.getYDoc();
-      const yText = yDoc.getText("monaco");
-      awareness = yProvider.awareness;
+    if (!editorRef) return;
 
-      // Attach Yjs to Monaco
-      binding = new MonacoBinding(
-        yText,
-        editorRef.getModel(),
-        new Set([editorRef]),
-        awareness
-      );
+    const yDoc = yProvider.getYDoc();
+    const yText = yDoc.getText("monaco");
+    awareness = yProvider.awareness;
 
-      // Set user information in awareness
-      awareness.setLocalStateField("user", {
-        name: authUser?.name,
-        color: getRandomColor(),
-      });
+    // Attach Yjs to Monaco
+    binding = new MonacoBinding(
+      yText,
+      editorRef.getModel(),
+      new Set([editorRef]),
+      awareness
+    );
 
-      // Track active users
-      const updateActiveUsers = () => {
-        const states = Array.from(awareness.getStates().entries())
-          .filter(([_, state]) => state.user)
-          .map(([clientId, state]) => ({
-            clientId,
-            name: state.user.name,
-            color: state.user.color,
-          }));
+    // Set user information in awareness
+    awareness.setLocalStateField("user", {
+      name: authUser?.name,
+      color: getRandomColor(),
+      image: authUser?.image,
+    });
 
-        setActiveUsers(states);
-      };
+    // Track active users
+    const updateActiveUsers = () => {
+      const states = Array.from(awareness.getStates().entries())
+        .filter(([_, state]) => state.user)
+        .map(([clientId, state]) => ({
+          clientId,
+          name: state.user.name,
+          color: state.user.color,
+          image: state.user.image,
+        }));
 
-      awareness.on("change", updateActiveUsers);
+      setActiveUsers(states);
+    };
+
+    awareness.on("change", updateActiveUsers);
+
+    setTimeout(() => {
       updateActiveUsers();
-    }
+    }, 2000);
 
     return () => {
       binding?.destroy();
       if (awareness) {
-        awareness.off("change", () => {});
+        awareness.off("change", updateActiveUsers);
       }
     };
   }, [editorRef, room, yProvider]);
@@ -152,6 +157,7 @@ export function CollaborativeEditor() {
                   className="h-6 w-6 border-2 border-[#333333]"
                   style={{ borderColor: user.color }}
                 >
+                  <AvatarImage src={user.image?.url} alt="@user" />
                   <AvatarFallback
                     className="text-white"
                     style={{ backgroundColor: user.color }}
