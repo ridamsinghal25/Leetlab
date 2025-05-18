@@ -75,7 +75,7 @@ function CodeEditor({
         />
       </div>
 
-      <div className="p-4 border-t border-b bg-muted/50">
+      <div className="p-4 border-t bg-muted/50">
         <div className="flex justify-between items-center w-full">
           <div>
             <Button

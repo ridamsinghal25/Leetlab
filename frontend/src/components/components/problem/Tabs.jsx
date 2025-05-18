@@ -9,6 +9,7 @@ import { ProblemTabsContent } from "@/components/components/problem/TabsContent"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PROBLEM_PAGE_TABS } from "@/constants/constants";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import Activity from "./Activity";
 
 function ProblemTabs({
   activeTab,
@@ -61,7 +62,7 @@ function ProblemTabs({
           value={activeTab}
           className="flex-1 overflow-hidden w-full"
         >
-          <ScrollArea className="h-full px-4 md:px-6 py-4 w-full border-b">
+          <ScrollArea className="h-full px-4 md:px-6 py-4 w-full">
             <div className="w-full">
               <ProblemTabsContent
                 activeTab={activeTab}
@@ -73,6 +74,7 @@ function ProblemTabs({
             </div>
           </ScrollArea>
         </TabsContent>
+        <Activity problem={problem} />
       </Tabs>
     </div>
   );

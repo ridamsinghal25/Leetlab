@@ -1,0 +1,38 @@
+import { create } from "zustand";
+import { axiosInstance } from "../lib/axios.js";
+import toast from "react-hot-toast";
+
+export const useLikeStore = create((set, get) => ({
+  isLiking: false,
+  likedProblems: [],
+
+  getLikes: async () => {
+    try {
+      set({ isLiking: true });
+      const res = await axiosInstance.get("/like/get-likes");
+
+      if (res.data.success) {
+        set({ likedProblems: res.data.likedProblems });
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.error || "Error getting likes");
+    } finally {
+      set({ isLiking: false });
+    }
+  },
+
+  toggleLike: async (problemId) => {
+    try {
+      set({ isLiking: true });
+      const res = await axiosInstance.post(`/like/${problemId}`);
+
+      if (res.data.success) {
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.error || "Error toggling like");
+    } finally {
+      set({ isLiking: false });
+    }
+  },
+}));
