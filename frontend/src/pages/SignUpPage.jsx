@@ -87,14 +87,28 @@ export default function SignUpPage() {
                     type="email"
                   />
 
-                  <FormFieldInput
-                    form={signUpForm}
-                    label="Password"
-                    name="password"
-                    placeholder="••••••••"
-                    type={showPassword ? "text" : "password"}
-                  />
-
+                  <div className="relative">
+                    <FormFieldInput
+                      form={signUpForm}
+                      label="Password"
+                      name="password"
+                      placeholder="••••••••"
+                      type={showPassword ? "text" : "password"}
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="absolute right-0 top-5 hover:bg-transparent hover:opacity-100"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </div>
                   <Button
                     type="submit"
                     className="w-full mt-6"
