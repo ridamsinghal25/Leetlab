@@ -15,6 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import FormFieldInput from "../basic/FormFieldInput";
 import { uploadAvatarSchema } from "@/validations/zodValidations";
 import { useAuthStore } from "@/store/useAuthStore";
+import { Loader2 } from "lucide-react";
 
 export function UploadAvatarModal({ user, open, onOpenChange }) {
   const { isLoading, uploadAvatar } = useAuthStore();

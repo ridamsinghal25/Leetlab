@@ -12,7 +12,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import FormFieldInput from "../basic/FormFieldInput";
 import { changePasswordSchema } from "@/validations/zodValidations";
 import { useAuthStore } from "@/store/useAuthStore";

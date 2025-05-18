@@ -15,6 +15,7 @@ import FormFieldInput from "../basic/FormFieldInput";
 import FormFieldTextarea from "../basic/FormFieldTextarea";
 import { useAIStore } from "@/store/useAIStore";
 import toast from "react-hot-toast";
+import { Loader2 } from "lucide-react";
 
 export const AIProblemModal = ({ isOpen, onOpenChange, form }) => {
   const { isGenerating, generateFormData } = useAIStore();
