@@ -130,7 +130,7 @@ export default function SignUpPage() {
               <p className="text-sm text-muted-foreground">
                 Already have an account?{" "}
                 <Link
-                  to={ROUTES.SIGN_IN}
+                  to={ROUTES.LOGIN}
                   className="text-primary hover:underline"
                 >
                   Sign in

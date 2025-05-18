@@ -62,7 +62,7 @@ export const getAllPlayListDetailsOfUser = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const playLists = await db.playlist.findMany({
+    const playlists = await db.playlist.findMany({
       where: {
         userId,
       },
@@ -78,7 +78,7 @@ export const getAllPlayListDetailsOfUser = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Playlist fetched successfully",
-      playLists,
+      playlists,
     });
   } catch (error) {
     console.error("Error fetching playlist:", error);

@@ -123,7 +123,7 @@ function PlaylistProfile() {
                               </TableRow>
                             </TableHeader>
                             <TableBody>
-                              {playlist.problems.map((item) => (
+                              {playlist?.problems.map((item) => (
                                 <TableRow key={item.id}>
                                   <TableCell className="font-medium">
                                     {item.problem.title}

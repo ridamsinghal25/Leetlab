@@ -90,10 +90,15 @@ export const changePasswordSchema = z
     message: "Passwords don't match",
     path: ["confirmPassword"],
   })
-  .refine((data) => data.currentPassword === data.newPassword, {
-    message: "New password cannot be the same as the current password",
-    path: ["newPassword"],
-  });
+  .refine(
+    (data) =>
+      data.newPassword !== data.currentPassword &&
+      data.confirmPassword !== data.currentPassword,
+    {
+      message: "New password cannot be the same as the current password",
+      path: ["newPassword"],
+    }
+  );
 
 export const uploadAvatarSchema = z
   .object({
