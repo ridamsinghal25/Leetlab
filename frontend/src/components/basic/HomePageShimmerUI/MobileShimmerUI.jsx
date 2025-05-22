@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function MobileShimmer() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white w-screen mx-20">
       {/* Header */}
       <header className="border-b p-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -30,16 +30,20 @@ export default function MobileShimmer() {
         <div className="mt-12 space-y-4">
           <div className="flex items-center justify-between mb-6">
             <Skeleton className="h-8 w-32" />
+            <Skeleton className="h-10 w-32" />
           </div>
 
           {/* Create Playlist Button */}
           <Skeleton className="h-12 w-full bg-gray-800" />
 
           {/* Search and Filters */}
-          <div className="flex flex-col space-y-4 mt-6">
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-12 w-full" />
+          <div className="flex items-center justify-between mb-6">
+            <Skeleton className="h-10 w-52" />
+            <Skeleton className="h-10 w-32" />
+          </div>
+
+          <div className="flex items-center justify-between mb-6">
+            <Skeleton className="h-10 w-32" />
           </div>
 
           {/* Problem Card */}
@@ -50,7 +54,7 @@ export default function MobileShimmer() {
                 <Skeleton className="h-6 w-24 bg-red-100" />
               </div>
               <div className="flex items-center gap-2">
-                <Skeleton className="h-8 w-8" />
+                <Skeleton className="h-8 w-3" />
                 <Skeleton className="h-8 w-8" />
               </div>
             </div>

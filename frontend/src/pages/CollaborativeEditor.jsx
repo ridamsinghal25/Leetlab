@@ -89,7 +89,7 @@ export function CollaborativeEditor() {
 
     setTimeout(() => {
       updateActiveUsers();
-    }, 2000);
+    }, 3000);
 
     return () => {
       binding?.destroy();
@@ -123,6 +123,8 @@ export function CollaborativeEditor() {
 
     runCodeCollabEditor(code, language_id, stdin, expected_outputs);
   };
+
+  console.log("editorRef", editorRef);
 
   return (
     <div>

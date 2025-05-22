@@ -17,14 +17,14 @@ export default function DesktopShimmerUI() {
       {/* Main Content */}
       <div className="space-y-8 mb-10">
         {/* Welcome Section */}
-        <div className="text-center space-y-4 max-w-3xl mx-auto mt-10">
-          <Skeleton className="h-12 w-3/4 mx-auto" />
-          <Skeleton className="h-4 w-full mx-auto" />
-          <Skeleton className="h-4 w-5/6 mx-auto" />
+        <div className="text-center space-y-4 max-w-3xl mx-auto mt-24">
+          <Skeleton className="h-16 w-3/4 mx-auto" />
+          <Skeleton className="h-7 w-full mx-auto" />
+          <Skeleton className="h-7 w-5/6 mx-auto" />
         </div>
 
         {/* Problems Section */}
-        <div className="mt-16 space-y-4">
+        <div className="mt-16 space-y-4 mx-28">
           <div className="flex items-center justify-between mb-6">
             <Skeleton className="h-8 w-32" />
             <Skeleton className="h-10 w-40" />

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Card, CardContent } from "@/components/ui/card";
 import { useProblemStore } from "@/store/useProblemStore";
 import { useSubmissionStore } from "@/store/useSubmissionStore";
 import { useExecutionStore } from "@/store/useExecution";
@@ -11,6 +10,7 @@ import CodeEditor from "@/components/components/problem/Editor";
 import { useCountdown } from "usehooks-ts";
 import { COUNTDOWN } from "@/constants/constants";
 import SubmissionsView from "@/components/components/submissions/SubmissionsView";
+import { ProblemPageShimmer } from "@/components/basic/ProblemPageShimmerUI";
 
 const ProblemPage = () => {
   const { id } = useParams();
@@ -105,13 +105,8 @@ const ProblemPage = () => {
 
   if (isProblemLoading || !problem) {
     return (
-      <div className="flex items-center justify-center h-screen bg-background">
-        <Card className="w-[300px]">
-          <CardContent className="flex flex-col items-center justify-center p-6">
-            <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
-            <p className="mt-4 text-muted-foreground">Loading problem...</p>
-          </CardContent>
-        </Card>
+      <div className="flex items-center justify-center h-screen w-full bg-background">
+        <ProblemPageShimmer />
       </div>
     );
   }
