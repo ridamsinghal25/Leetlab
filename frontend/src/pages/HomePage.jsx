@@ -1,22 +1,8 @@
 import { ProblemsTable } from "@/components/components/problemTable/ProblemsTable";
 import { useProblemStore } from "@/store/useProblemStore";
-import { Loader } from "lucide-react";
-import { useEffect } from "react";
 
 const HomePage = () => {
-  const { getAllProblems, problems, isProblemsLoading } = useProblemStore();
-
-  useEffect(() => {
-    getAllProblems();
-  }, [getAllProblems]);
-
-  if (isProblemsLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <Loader className="h-10 w-10 animate-spin text-primary" />
-      </div>
-    );
-  }
+  const { problems } = useProblemStore();
 
   return (
     <section className="min-h-screen flex flex-col items-center px-4 py-8 sm:py-16 relative">

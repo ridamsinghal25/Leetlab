@@ -4,7 +4,7 @@ import HomePage from "./pages/HomePage";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
 import { useAuthStore } from "./store/useAuthStore";
-import { Loader } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { Toaster } from "react-hot-toast";
 
 import ProblemPage from "./pages/ProblemPage";
@@ -34,7 +34,7 @@ const App = () => {
   if (isCheckingAuth && !authUser)
     return (
       <div className="flex items-center justify-center h-screen">
-        <Loader className="size-10 animate-spin" />
+        <Loader2 className="size-10 animate-spin" />
       </div>
     );
 
@@ -42,9 +42,9 @@ const App = () => {
     <div className="flex flex-col items-center justify-start  ">
       <Toaster />
       <Routes>
-        <Route path={ROUTES.HOME} element={<Layout />}>
+        <Route element={<Layout />}>
           <Route
-            index
+            path={ROUTES.HOME}
             element={authUser ? <HomePage /> : <Navigate to={ROUTES.LOGIN} />}
           />
         </Route>
