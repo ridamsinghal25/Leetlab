@@ -206,4 +206,5 @@ model MarkForRevision {
  * 1. npx prisma generate
  * 2. npx prisma migrate dev
  * 3. npx prisma db push
+ * 1. npx prisma studio
  */
