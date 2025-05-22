@@ -17,9 +17,11 @@ import { useEffect } from "react";
 import { ProblemCard } from "@/components/components/activity/ProblemCard";
 
 export default function ActivityPage() {
-  const { likedProblems, getLikes } = useLikeStore();
-  const { savedProblems, getSavedProblems } = useSaveStore();
-  const { markedProblems, getMarkedProblems } = useMarkForRevisionStore();
+  const { likedProblems, getLikes, isFetchingLikes } = useLikeStore();
+  const { savedProblems, getSavedProblems, isFetchingSavedProblems } =
+    useSaveStore();
+  const { markedProblems, getMarkedProblems, isFetchingMarkedProblems } =
+    useMarkForRevisionStore();
 
   useEffect(() => {
     if (
@@ -76,15 +78,21 @@ export default function ActivityPage() {
         </TabsList>
 
         <TabsContent value="saved" className="mt-0">
-          <ProblemCard problems={savedProblems} />
+          <ProblemCard
+            problems={savedProblems}
+            isFetching={isFetchingSavedProblems}
+          />
         </TabsContent>
 
         <TabsContent value="liked" className="mt-0">
-          <ProblemCard problems={likedProblems} />
+          <ProblemCard problems={likedProblems} isFetching={isFetchingLikes} />
         </TabsContent>
 
         <TabsContent value="markedForReview" className="mt-0">
-          <ProblemCard problems={markedProblems} />
+          <ProblemCard
+            problems={markedProblems}
+            isFetching={isFetchingMarkedProblems}
+          />
         </TabsContent>
       </Tabs>
     </div>

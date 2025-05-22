@@ -4,11 +4,12 @@ import toast from "react-hot-toast";
 
 export const useLikeStore = create((set, get) => ({
   isLiking: false,
+  isFetchingLikes: false,
   likedProblems: [],
 
   getLikes: async () => {
     try {
-      set({ isLiking: true });
+      set({ isFetchingLikes: true });
       const res = await axiosInstance.get("/like/get-likes");
 
       if (res.data.success) {
@@ -17,7 +18,7 @@ export const useLikeStore = create((set, get) => ({
     } catch (error) {
       toast.error(error.response?.data?.error || "Error getting likes");
     } finally {
-      set({ isLiking: false });
+      set({ isFetchingLikes: false });
     }
   },
 

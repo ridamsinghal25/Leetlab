@@ -4,11 +4,12 @@ import toast from "react-hot-toast";
 
 export const useMarkForRevisionStore = create((set, get) => ({
   isMarking: false,
+  isFetchingMarkedProblems: false,
   markedProblems: [],
 
   getMarkedProblems: async () => {
     try {
-      set({ isMarking: true });
+      set({ isFetchingMarkedProblems: true });
       const res = await axiosInstance.get("/mark-problem/get-marked-problems");
 
       if (res.data.success) {
@@ -19,7 +20,7 @@ export const useMarkForRevisionStore = create((set, get) => ({
         error.response?.data?.error || "Error getting marked problems"
       );
     } finally {
-      set({ isMarking: false });
+      set({ isFetchingMarkedProblems: false });
     }
   },
 

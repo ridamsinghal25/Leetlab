@@ -4,11 +4,12 @@ import toast from "react-hot-toast";
 
 export const useSaveStore = create((set, get) => ({
   isSaving: false,
+  isFetchingSavedProblems: false,
   savedProblems: [],
 
   getSavedProblems: async () => {
     try {
-      set({ isSaving: true });
+      set({ isFetchingSavedProblems: true });
       const res = await axiosInstance.get("/save-problem/get-saved-problems");
 
       if (res.data.success) {
@@ -19,7 +20,7 @@ export const useSaveStore = create((set, get) => ({
         error.response?.data?.error || "Error getting saved problems"
       );
     } finally {
-      set({ isSaving: false });
+      set({ isFetchingSavedProblems: false });
     }
   },
 
