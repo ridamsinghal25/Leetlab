@@ -32,6 +32,7 @@ export const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
     currentPlaylists,
     getPlayListDetails,
     addProblemToPlaylist,
+    isFetchingPlaylistDetails,
     isLoading,
   } = usePlaylistStore();
 
@@ -51,6 +52,8 @@ export const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
     await addProblemToPlaylist(data.playlistId, [problemId]);
     onClose();
   };
+
+  console.log("isFetchingPlaylistDetails", isFetchingPlaylistDetails);
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -80,12 +83,17 @@ export const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
                     defaultValue={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select a playlist" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {currentPlaylists.length === 0 ? (
+                      {isFetchingPlaylistDetails ? (
+                        <SelectItem key={"loading-playlist"} disabled>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Loading...
+                        </SelectItem>
+                      ) : currentPlaylists.length === 0 ? (
                         <SelectItem key={"no-playlist-found"} disabled>
                           No playlist found
                         </SelectItem>
