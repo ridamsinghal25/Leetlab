@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Code, Eye, EyeOff, Loader2 } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ import FormFieldInput from "@/components/basic/FormFieldInput";
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const { login, isLoggingIn } = useAuthStore();
+  const navigate = useNavigate();
 
   const loginForm = useForm({
     resolver: zodResolver(loginSchema),
@@ -34,6 +35,7 @@ export default function LoginPage() {
   const onSubmit = async (data) => {
     try {
       await login(data); // your auth logic here
+      navigate(ROUTES.HOME);
     } catch (error) {
       console.error("Login failed:", error);
     }
@@ -43,8 +45,8 @@ export default function LoginPage() {
     <div className="min-h-screen grid gap-20 lg:grid-cols-2">
       {/* Left Side - Form */}
       <div className="flex flex-col justify-center items-center p-4 sm:p-8 md:p-12">
-        <div className="w-full max-w-md">
-          <Card className="border-none shadow-none sm:border sm:shadow-sm">
+        <div className="w-full">
+          <Card className="border-none shadow-none sm:border sm:shadow-sm sm:min-w-md">
             <CardHeader className="space-y-1 text-center">
               <div className="flex flex-col items-center gap-2 group">
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">

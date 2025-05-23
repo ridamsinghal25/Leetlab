@@ -1,11 +1,13 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 import { Loader } from "lucide-react";
-import { ROUTES } from "@/constants/routes";
 import { USER_ROLES } from "@/constants/constants";
+import { useEffect } from "react";
+import { ROUTES } from "@/constants/routes";
 
 const AdminRoute = () => {
   const { authUser, isCheckingAuth } = useAuthStore();
+  const navigate = useNavigate();
 
   if (isCheckingAuth) {
     return (
@@ -15,11 +17,17 @@ const AdminRoute = () => {
     );
   }
 
-  if (!authUser || authUser.role !== USER_ROLES.ADMIN) {
-    return <Navigate to={ROUTES.HOME} replace />;
-  }
+  useEffect(() => {
+    if (authUser.role !== USER_ROLES.ADMIN) {
+      navigate(ROUTES.HOME);
+    }
+  }, [authUser, navigate]);
 
-  return <Outlet />;
+  return (
+    <div>
+      <Outlet />
+    </div>
+  );
 };
 
 export default AdminRoute;

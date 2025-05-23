@@ -7,22 +7,20 @@ export const useAuthStore = create((set, get) => ({
   isSigninUp: false,
   isLoggingIn: false,
   isCheckingAuth: false,
+  isLoginCheckDone: false,
   isLoading: false,
 
   checkAuth: async () => {
-    set({ isCheckingAuth: true }); // ✅ FIXED
+    set({ isCheckingAuth: true });
 
     try {
       const res = await axiosInstance.get("/auth/check");
 
       if (res.data.success) {
-        set({ authUser: res.data.user });
+        set({ authUser: res.data.user, isLoginCheckDone: true });
       }
     } catch (error) {
-      set({ authUser: null });
-      toast.error(
-        error.response?.data?.error || "Error checking authentication"
-      );
+      set({ authUser: null, isLoginCheckDone: true });
     } finally {
       set({ isCheckingAuth: false });
     }
@@ -65,9 +63,9 @@ export const useAuthStore = create((set, get) => ({
   logout: async () => {
     try {
       const res = await axiosInstance.post("/auth/logout");
-      set({ authUser: null });
 
       if (res.data.success) {
+        set({ authUser: null });
         toast.success("Logout successful");
       }
     } catch (error) {
