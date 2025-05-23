@@ -19,9 +19,11 @@ import { useSubmissionStore } from "@/store/useSubmissionStore";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { ACCEPTED } from "@/constants/constants";
+import { SubmissionShimmerUI } from "@/components/basic/ProfilePageShimmerUI/SubmissionShimmerUI";
 
 function ProfileSubmission() {
-  const { submissions, getAllSubmissionsByUser } = useSubmissionStore();
+  const { submissions, getAllSubmissionsByUser, isFetchingSubmissions } =
+    useSubmissionStore();
   const [filter, setFilter] = useState("all");
 
   useEffect(() => {
@@ -43,6 +45,10 @@ function ProfileSubmission() {
     if (filter === "all") return true;
     return submission.status === filter;
   });
+
+  if (isFetchingSubmissions) {
+    return <SubmissionShimmerUI />;
+  }
 
   return (
     <div>
