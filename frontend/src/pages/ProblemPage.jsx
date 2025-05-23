@@ -17,7 +17,7 @@ const ProblemPage = () => {
   const { getProblemById, problem, isProblemLoading } = useProblemStore();
   const {
     submission: submissionsOfProblem,
-    isLoading: isSubmissionsLoading,
+    isFetchingSubmissionsForProblem: isSubmissionsLoading,
     getSubmissionForProblemByUser,
     getSubmissionCountForProblem,
     submissionCount,

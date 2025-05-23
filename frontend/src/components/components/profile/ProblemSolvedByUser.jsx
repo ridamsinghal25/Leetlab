@@ -19,13 +19,19 @@ import {
   MEDIUM_DIFFICULTY,
 } from "@/constants/constants";
 import { ROUTES } from "@/constants/routes";
+import { ProblemSolvedShimmerUI } from "@/components/basic/ProfilePageShimmerUI/ProblemSolvedShimmerUI";
 
 function ProblemSolvedByUser() {
-  const { getSolvedProblemByUser, solvedProblems } = useProblemStore();
+  const { getSolvedProblemByUser, solvedProblems, isFetchingSolvedProblems } =
+    useProblemStore();
 
   useEffect(() => {
     getSolvedProblemByUser();
   }, [getSolvedProblemByUser]);
+
+  if (isFetchingSolvedProblems) {
+    return <ProblemSolvedShimmerUI />;
+  }
 
   return (
     <div>

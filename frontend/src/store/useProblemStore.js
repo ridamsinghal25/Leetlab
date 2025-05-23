@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 export const useProblemStore = create((set, get) => ({
   isProblemLoading: false,
   isProblemsLoading: false,
+  isFetchingSolvedProblems: false,
   problems: [],
   problem: null,
   solvedProblems: [],
@@ -43,6 +44,7 @@ export const useProblemStore = create((set, get) => ({
 
   getSolvedProblemByUser: async () => {
     try {
+      set({ isFetchingSolvedProblems: true });
       const res = await axiosInstance.get("/problem/get-solved-problems");
 
       if (res.data.success) {
@@ -52,6 +54,8 @@ export const useProblemStore = create((set, get) => ({
       toast.error(
         error.response?.data?.error || "Error getting solved problems"
       );
+    } finally {
+      set({ isFetchingSolvedProblems: false });
     }
   },
 
