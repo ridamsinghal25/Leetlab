@@ -37,3 +37,5 @@ export const COLLABORATIVE_EDITOR_LANGUAGES = [
   { value: "PYTHON", label: "Python" },
   { value: "JAVA", label: "Java" },
 ];
+
+export const DEFAULT_ROOM_ID = "default_room_id";

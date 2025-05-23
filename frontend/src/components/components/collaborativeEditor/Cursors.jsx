@@ -9,16 +9,15 @@ export function Cursors({ activeUsers }) {
       .yRemoteSelection {
         background-color: rgba(var(--user-color-rgb), 0.3);
       }
-      
+  
       .yRemoteSelectionHead {
         position: relative;
         border-left: 2px solid rgb(var(--user-color-rgb));
       }
-      
+  
       .yRemoteSelectionHead::after {
         position: absolute;
         top: -1.4em;
-        left: -2px;
         padding: 0.2em 0.4em;
         font-size: 12px;
         font-weight: 500;
@@ -30,30 +29,38 @@ export function Cursors({ activeUsers }) {
         user-select: none;
         pointer-events: none;
         z-index: 10;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
       }
     `;
 
-    // Add individual user styles
-    for (const { clientId, name, color } of activeUsers) {
+    activeUsers.forEach(({ clientId, name, color }, index) => {
       if (clientId || name || color) {
-        const userColor = color || "#ff4500"; // Default to orangered
+        const userColor = color || "orangered";
         const rgbColor = hexToRgb(userColor);
-
         const escapedName = name.replace(/"/g, '\\"');
 
+        // Horizontal staggering - each user gets positioned further to the right
+        const horizontalOffset = index * 10; // 8px spacing between each label
+
+        // Slight vertical staggering as backup
+        const verticalOffset = (index % 3) * 1; // Only 3 levels, then repeat
+
         cursorStyles += `
-          .yRemoteSelection-${clientId}, 
+          .yRemoteSelection-${clientId},
           .yRemoteSelectionHead-${clientId} {
-            --user-color: ${color};
+            --user-color: ${userColor};
             --user-color-rgb: ${rgbColor};
           }
-          
+
           .yRemoteSelectionHead-${clientId}::after {
             content: "${escapedName}";
+            left: ${-2 + horizontalOffset}px;
+            top: ${-1.4 - verticalOffset}em;
+            z-index: ${10 + index};
           }
         `;
       }
-    }
+    });
 
     return { __html: cursorStyles };
   }, [activeUsers]);

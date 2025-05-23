@@ -124,8 +124,6 @@ export function CollaborativeEditor() {
     runCodeCollabEditor(code, language_id, stdin, expected_outputs);
   };
 
-  console.log("editorRef", editorRef);
-
   return (
     <div>
       <div className="flex flex-col h-screen w-screen bg-[#1e1e1e] overflow-auto">
@@ -170,7 +168,9 @@ export function CollaborativeEditor() {
               ))}
               {activeUsers.length > 3 && (
                 <Avatar className="h-6 w-6 border-2 border-[#333333]">
-                  <AvatarFallback>+{activeUsers.length - 3}</AvatarFallback>
+                  <AvatarFallback className="bg-amber-300">
+                    +{activeUsers.length - 3}
+                  </AvatarFallback>
                 </Avatar>
               )}
             </div>
@@ -234,7 +234,9 @@ export function CollaborativeEditor() {
           </div>
         </div>
 
-        {activeUsers ? <Cursors activeUsers={activeUsers} /> : null}
+        {activeUsers ? (
+          <Cursors yProvider={yProvider} activeUsers={activeUsers} />
+        ) : null}
 
         {/* Main Content Area */}
         <div className="flex min-h-[60vh] overflow-hidden">
