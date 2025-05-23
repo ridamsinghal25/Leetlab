@@ -6,6 +6,7 @@ export const usePlaylistStore = create((set, get) => ({
   playlists: [],
   currentPlaylists: [],
   isLoading: false,
+  isFetchingPlaylists: false,
   error: null,
 
   createPlaylist: async (playlistData) => {
@@ -34,7 +35,7 @@ export const usePlaylistStore = create((set, get) => ({
 
   getAllPlayListDetailsOfUser: async () => {
     try {
-      set({ isLoading: true });
+      set({ isFetchingPlaylists: true });
       const response = await axiosInstance.get("/playlist");
 
       if (response.data.success) {
@@ -43,7 +44,7 @@ export const usePlaylistStore = create((set, get) => ({
     } catch (error) {
       toast.error(error.response?.data?.error || "Failed to fetch playlists");
     } finally {
-      set({ isLoading: false });
+      set({ isFetchingPlaylists: false });
     }
   },
 
