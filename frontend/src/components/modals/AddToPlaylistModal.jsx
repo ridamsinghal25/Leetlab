@@ -85,11 +85,17 @@ export const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {currentPlaylists.map((playlist) => (
-                        <SelectItem key={playlist.id} value={playlist.id}>
-                          {playlist.name}
+                      {currentPlaylists.length === 0 ? (
+                        <SelectItem key={"no-playlist-found"} disabled>
+                          No playlist found
                         </SelectItem>
-                      ))}
+                      ) : (
+                        currentPlaylists.map((playlist) => (
+                          <SelectItem key={playlist.id} value={playlist.id}>
+                            {playlist.name}
+                          </SelectItem>
+                        ))
+                      )}
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -106,7 +112,7 @@ export const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
                   {isLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Adding...
+                      Please wait...
                     </>
                   ) : (
                     "Add to Playlist"
