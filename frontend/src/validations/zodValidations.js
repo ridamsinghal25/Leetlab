@@ -8,6 +8,9 @@ export const problemSchema = z.object({
   tags: z
     .array(z.string().min(4, "Tag must be at least 4 characters"))
     .min(1, "At least one tag is required"),
+  companies: z
+    .array(z.string().min(4, "Company must be at least 4 characters"))
+    .optional(),
   constraints: z.string().min(1, "Constraints are required"),
   hints: z.string().optional(),
   editorial: z.string().optional(),

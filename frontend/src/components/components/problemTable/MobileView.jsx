@@ -26,14 +26,18 @@ function ProblemTableMobileView({
           );
 
           return (
-            <Card key={problem.id} className="overflow-hidden">
-              <CardContent className="p-4 space-y-3">
+            <Card
+              key={problem.id}
+              className="overflow-hidden border-l-4 border-l-primary/20 hover:shadow-md transition-shadow"
+            >
+              <CardContent className="p-4 space-y-4">
+                {/* Header with status and actions */}
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-3">
                     <Checkbox
                       checked={isSolved}
                       disabled
-                      className="data-[state=checked]:bg-green-900 data-[state=checked]:border-green-900"
+                      className="data-[state=checked]:bg-green-600 data-[state=checked]:border-green-600"
                     />
                     <Badge
                       variant={
@@ -43,59 +47,90 @@ function ProblemTableMobileView({
                           ? "warning"
                           : "destructive"
                       }
+                      className="font-medium"
                     >
                       {problem.difficulty}
                     </Badge>
                   </div>
-                  <div className="flex items-center gap-2">
-                    {authUser?.role === USER_ROLES.ADMIN && (
-                      <>
+
+                  {authUser?.role === USER_ROLES.ADMIN && (
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="destructive"
+                        size="icon"
+                        onClick={() => handleDelete(problem.id)}
+                        className="h-8 w-8"
+                      >
+                        <Trash className="h-3.5 w-3.5" />
+                      </Button>
+                      <Link
+                        to={ROUTES.UPDATE_PROBLEM.replace(":id", problem.id)}
+                      >
                         <Button
-                          variant="destructive"
+                          variant="secondary"
                           size="icon"
-                          onClick={() => handleDelete(problem.id)}
-                          className="h-8 w-8 cursor-pointer z-10"
+                          className="h-8 w-8"
                         >
-                          <Trash className="h-3.5 w-3.5" />
+                          <Pencil className="h-3.5 w-3.5" />
                         </Button>
-                        <Link
-                          to={ROUTES.UPDATE_PROBLEM.replace(":id", problem.id)}
-                        >
-                          <Button
-                            variant="secondary"
-                            size="icon"
-                            className="h-8 w-8 cursor-pointer z-10"
-                          >
-                            <Pencil className="h-3.5 w-3.5" />
-                          </Button>
-                        </Link>
-                      </>
-                    )}
-                  </div>
+                      </Link>
+                    </div>
+                  )}
                 </div>
 
+                {/* Problem title */}
                 <Link
                   to={ROUTES.PROBLEM.replace(":id", problem.id)}
-                  className="font-medium text-primary text-lg hover:underline block"
+                  className="font-semibold text-foreground text-lg hover:text-primary transition-colors block leading-tight"
                 >
                   {problem.title}
                 </Link>
 
-                <div className="flex flex-wrap gap-1">
-                  {(problem.tags || []).map((tag, idx) => (
-                    <Badge
-                      key={idx}
-                      variant="outline"
-                      className="bg-amber-50 text-amber-700 border-amber-200 text-xs"
-                    >
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
+                {/* Companies section */}
+                {problem.companies && problem.companies.length > 0 && (
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Building2 className="h-4 w-4" />
+                      <span className="font-medium">Asked by:</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {problem.companies.map((company, idx) => (
+                        <Badge
+                          key={idx}
+                          variant="secondary"
+                          className="bg-blue-50 text-blue-700 border-blue-200 text-xs font-medium"
+                        >
+                          {company}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
+                {/* Tags section */}
+                {problem.tags && problem.tags.length > 0 && (
+                  <div className="space-y-2">
+                    <div className="text-sm text-muted-foreground font-medium">
+                      Tags:
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {problem.tags.map((tag, idx) => (
+                        <Badge
+                          key={idx}
+                          variant="outline"
+                          className="bg-amber-50 text-amber-700 border-amber-200 text-xs"
+                        >
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Save to playlist button */}
                 <Button
                   variant="outline"
-                  className="w-full gap-1 mt-2"
+                  className="w-full gap-2 mt-4 hover:bg-primary/5"
                   onClick={() => handleAddToPlaylist(problem.id)}
                 >
                   <Bookmark className="h-4 w-4" />
@@ -106,8 +141,13 @@ function ProblemTableMobileView({
           );
         })
       ) : (
-        <div className="text-center py-6 text-muted-foreground">
-          No problems found.
+        <div className="text-center py-12">
+          <div className="text-muted-foreground text-lg">
+            No problems found.
+          </div>
+          <div className="text-sm text-muted-foreground mt-1">
+            Try adjusting your filters or search criteria.
+          </div>
         </div>
       )}
     </div>

@@ -19,6 +19,7 @@ const defaultValues = {
   description: "",
   difficulty: "EASY",
   tags: ["Tag"],
+  companies: ["Company"],
   constraints: "",
   hints: "",
   editorial: "",

@@ -56,6 +56,15 @@ export default function ProblemForm({
     name: "tags",
   });
 
+  const {
+    fields: companyFields,
+    append: appendCompany,
+    remove: removeCompany,
+  } = useFieldArray({
+    control: form.control,
+    name: "companies",
+  });
+
   return (
     <div>
       <Card>
@@ -125,6 +134,50 @@ export default function ProblemForm({
                             removeTag(index);
                           }}
                           disabled={tagFields.length === 1}
+                          className="text-destructive hover:text-destructive/90"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Companies */}
+              <Card>
+                <CardHeader className="pb-3">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <BookOpen className="h-5 w-5" />
+                      Companies
+                    </CardTitle>
+                    <Button
+                      type="button"
+                      size="sm"
+                      onClick={() => appendCompany("New Company")}
+                    >
+                      <Plus className="h-4 w-4 mr-1" /> Add Name
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {companyFields.map((field, index) => (
+                      <div key={field.id} className="flex gap-2 items-center">
+                        <FormFieldInput
+                          form={form}
+                          name={`companies.${index}`}
+                          placeholder="Enter company"
+                          className="flex-1"
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => {
+                            removeCompany(index);
+                          }}
                           className="text-destructive hover:text-destructive/90"
                         >
                           <Trash2 className="h-4 w-4" />

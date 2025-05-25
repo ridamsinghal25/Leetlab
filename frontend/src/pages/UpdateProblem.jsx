@@ -27,6 +27,7 @@ function UpdateProblem() {
       description: problem.description || "",
       difficulty: problem.difficulty || "EASY",
       tags: problem.tags || ["Tag"],
+      companies: problem.companies || ["Company"],
       constraints: problem.constraints || "",
       hints: problem.hints || "",
       editorial: problem.editorial || "",
