@@ -47,7 +47,7 @@ export default function SignUpPage() {
       {/* Left Side - Form */}
       <div className="flex flex-col justify-center items-center p-4 sm:p-8 md:p-12">
         <div className="w-full">
-          <Card className="border-none shadow-none sm:border sm:shadow-sm sm:min-w-md">
+          <Card className="min-w-sm sm:min-w-md">
             <CardHeader className="space-y-1 text-center">
               <div className="flex flex-col items-center gap-2 group">
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
