@@ -33,6 +33,8 @@ difficulty: One of "EASY", "MEDIUM", "HARD" (choose based on the nature of the p
 
 tags: A relevant array of topic strings (each at least 4 characters)
 
+companies: A relevant array of company strings (each at least 4 characters)
+
 constraints: Input/output limits written as a string
 
 hints (optional): A tip to help solve the problem
@@ -59,6 +61,7 @@ referenceSolutions: Same languages, with working full solutions including standa
   "description": "Problem description here...",
   "difficulty": "EASY",
   "tags": ["Math", "Conditional"],
+  "companies": ["Google", "Amazon"],
   "constraints": "1 <= a, b <= 1000",
   "hints": "Use a simple comparison function.",
   "editorial": "The larger number is simply the maximum of the two values.",
