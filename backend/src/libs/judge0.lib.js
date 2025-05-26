@@ -34,6 +34,10 @@ export const pollBatchResults = async (tokens) => {
             tokens: tokens.join(","),
             base64_encoded: false,
           },
+          headers: {
+            "x-rapidapi-key": process.env.RAPID_API_X_KEY,
+            "x-rapidapi-host": "judge0-ce.p.rapidapi.com",
+          },
         }
       );
 
@@ -58,6 +62,13 @@ export const submitBatch = async (submissions) => {
     `${process.env.JUDGE0_API_URL}/submissions/batch?base64_encoded=false`,
     {
       submissions,
+    },
+    {
+      headers: {
+        "x-rapidapi-key": process.env.RAPID_API_X_KEY,
+        "x-rapidapi-host": "judge0-ce.p.rapidapi.com",
+        "Content-Type": "application/json",
+      },
     }
   );
 
