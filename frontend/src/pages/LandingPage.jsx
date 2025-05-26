@@ -18,7 +18,7 @@ export default function LandingPage() {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <Code2 className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold">CodePractice</span>
+            <span className="text-xl font-bold">LeetLab</span>
           </div>
         </div>
       </header>
