@@ -28,7 +28,7 @@ function ProblemTableMobileView({
           return (
             <Card
               key={problem.id}
-              className="overflow-hidden border-l-4 border-l-primary/20 hover:shadow-md transition-shadow"
+              className="overflow-hidden hover:shadow-md transition-shadow"
             >
               <CardContent className="p-4 space-y-4">
                 {/* Header with status and actions */}

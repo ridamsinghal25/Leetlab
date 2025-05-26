@@ -6,11 +6,11 @@ import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 const HomeLayout = () => {
-  const { isProblemsLoading, getAllProblems } = useProblemStore();
+  const { isProblemsLoading, getAllProblems, problems } = useProblemStore();
   const { authUser } = useAuthStore();
 
   useEffect(() => {
-    if (authUser) {
+    if (authUser && !problems.length) {
       getAllProblems();
     }
   }, [getAllProblems]);
