@@ -24,6 +24,7 @@ import PageLayout from "./layouts/PageLayouts";
 import { axiosInstance } from "./lib/axios";
 import ClientLoading from "./components/basic/CollaborativeEditorShimmerUI/ClientLoading";
 import PublicRoutes from "./protectedRoutes/PublicRoutes";
+import LandingPage from "./pages/LandingPage";
 
 const App = () => {
   const { authUser } = useAuthStore();
@@ -88,6 +89,8 @@ const App = () => {
             <Route path={ROUTES.SIGNUP} element={<SignUpPage />} />
 
             <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+
+            <Route path={ROUTES.LANDING} element={<LandingPage />} />
           </Route>
         </Route>
         <Route path="*" element={<PageNotFoundPage />} />

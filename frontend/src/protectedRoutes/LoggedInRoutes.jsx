@@ -9,7 +9,7 @@ function LoggedInRoutes() {
 
   useEffect(() => {
     if (!isCheckingAuth && !authUser && isLoginCheckDone) {
-      navigate(`${ROUTES.LOGIN}`);
+      navigate(`${ROUTES.LANDING}`);
     }
   }, [authUser, isCheckingAuth, navigate, isLoginCheckDone]);
 
