@@ -23,6 +23,7 @@ import LoggedInRoutes from "./protectedRoutes/LoggedInRoutes";
 import PageLayout from "./layouts/PageLayouts";
 import { axiosInstance } from "./lib/axios";
 import ClientLoading from "./components/basic/CollaborativeEditorShimmerUI/ClientLoading";
+import PublicRoutes from "./protectedRoutes/PublicRoutes";
 
 const App = () => {
   const { authUser } = useAuthStore();
@@ -82,15 +83,12 @@ const App = () => {
             </Route>
           </Route>
 
-          <Route
-            path={ROUTES.SIGNUP}
-            element={!authUser ? <SignUpPage /> : <Navigate to={ROUTES.HOME} />}
-          />
+          {/* Public routes */}
+          <Route element={<PublicRoutes />}>
+            <Route path={ROUTES.SIGNUP} element={<SignUpPage />} />
 
-          <Route
-            path={ROUTES.LOGIN}
-            element={!authUser ? <LoginPage /> : <Navigate to={ROUTES.HOME} />}
-          />
+            <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+          </Route>
         </Route>
         <Route path="*" element={<PageNotFoundPage />} />
       </Routes>
