@@ -14,6 +14,7 @@ import markedProblemForRevisionRoutes from "./src/routes/markedProblemForRevisio
 import { rateLimit } from "express-rate-limit";
 import requestIp from "request-ip";
 import liveblockRoutes from "./src/routes/liveblock.routes.js";
+import { healthcheck } from "./src/controllers/healthcheck.controller.js";
 
 dotenv.config();
 
@@ -65,6 +66,7 @@ app.use("/api/v1/like", likeRoutes);
 app.use("/api/v1/save-problem", savedProblemRoutes);
 app.use("/api/v1/mark-problem", markedProblemForRevisionRoutes);
 app.use("/api/v1/liveblock", liveblockRoutes);
+app.use("/api/v1/health", healthcheck);
 
 app.use((req, res) => {
   res.status(404).json({
