@@ -18,7 +18,7 @@ const AdminRoute = () => {
   }
 
   useEffect(() => {
-    if (authUser.role !== USER_ROLES.ADMIN) {
+    if (authUser?.role !== USER_ROLES.ADMIN) {
       navigate(ROUTES.HOME);
     }
   }, [authUser, navigate]);

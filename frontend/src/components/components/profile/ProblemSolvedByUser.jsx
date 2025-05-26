@@ -20,12 +20,16 @@ import {
 } from "@/constants/constants";
 import { ROUTES } from "@/constants/routes";
 import { ProblemSolvedShimmerUI } from "@/components/basic/ProfilePageShimmerUI/ProblemSolvedShimmerUI";
+import { useAuthStore } from "@/store/useAuthStore";
 
 function ProblemSolvedByUser() {
   const { getSolvedProblemByUser, solvedProblems, isFetchingSolvedProblems } =
     useProblemStore();
 
+  const { authUser } = useAuthStore();
+
   useEffect(() => {
+    if (!authUser) return;
     getSolvedProblemByUser();
   }, [getSolvedProblemByUser]);
 

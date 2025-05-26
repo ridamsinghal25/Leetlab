@@ -19,13 +19,13 @@ import { Loader2 } from "lucide-react";
 
 export function UploadAvatarModal({ user, open, onOpenChange }) {
   const { isLoading, uploadAvatar } = useAuthStore();
-  const [imagePreview, setImagePreview] = useState(user.image?.url || null);
+  const [imagePreview, setImagePreview] = useState(user?.image?.url || null);
   const inputRef = useRef(null);
 
   const uploadAvatarForm = useForm({
     resolver: zodResolver(uploadAvatarSchema),
     defaultValues: {
-      image: user.image || "",
+      image: user?.image || "",
     },
   });
 
@@ -88,7 +88,7 @@ export function UploadAvatarModal({ user, open, onOpenChange }) {
                   />
                 ) : (
                   <AvatarFallback className="text-3xl bg-primary/20">
-                    {user.name ? user.name.charAt(0) : "U"}
+                    {user?.name ? user.name.charAt(0) : "U"}
                   </AvatarFallback>
                 )}
               </Avatar>

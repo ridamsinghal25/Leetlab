@@ -15,6 +15,7 @@ import { useSaveStore } from "@/store/useSaveStore";
 import { useMarkForRevisionStore } from "@/store/useMarkForRevisionStore";
 import { useEffect } from "react";
 import { ProblemCard } from "@/components/components/activity/ProblemCard";
+import { useAuthStore } from "@/store/useAuthStore";
 
 export default function ActivityPage() {
   const { likedProblems, getLikes, isFetchingLikes } = useLikeStore();
@@ -23,7 +24,11 @@ export default function ActivityPage() {
   const { markedProblems, getMarkedProblems, isFetchingMarkedProblems } =
     useMarkForRevisionStore();
 
+  const { authUser } = useAuthStore();
+
   useEffect(() => {
+    if (!authUser) return;
+
     if (
       likedProblems.length > 0 ||
       savedProblems.length > 0 ||
