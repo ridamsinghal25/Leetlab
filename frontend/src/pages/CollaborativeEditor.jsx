@@ -19,12 +19,13 @@ import { COLLABORATIVE_EDITOR_LANGUAGES } from "@/constants/constants";
 import toast from "react-hot-toast";
 import { getLanguageId } from "@/lib/getLanguageInfo";
 import { useExecutionStore } from "@/store/useExecution";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "@/constants/routes";
 import SubmissionsView from "@/components/components/submissions/SubmissionsView";
-import { useAuthStore } from "@/store/useAuthStore";
-import { getRandomColor } from "@/lib/getRandomColor";
 import { Cursors } from "@/components/components/collaborativeEditor/Cursors";
+import { useErrorListener } from "@liveblocks/react";
+import { useSelf } from "@liveblocks/react";
+import { EditorShimmerUI } from "@/components/basic/CollaborativeEditorShimmerUI/EditorShimmerUI";
 
 export function CollaborativeEditor() {
   const [editorRef, setEditorRef] = useState();
@@ -43,14 +44,36 @@ export function CollaborativeEditor() {
   const yProvider = getYjsProviderForRoom(room);
 
   const { isExecuting, runCodeCollabEditor, submission } = useExecutionStore();
-  const { authUser } = useAuthStore();
+  const userInfo = useSelf((me) => me.info);
+  const navigate = useNavigate();
+
+  useErrorListener((error) => {
+    switch (error.code) {
+      case -1:
+        toast.error(error?.message || "Could not connect to room");
+        break;
+
+      case 4005:
+        toast.error(
+          error?.message || "Could not connect to room as it is full"
+        );
+        navigate(ROUTES.HOME);
+        break;
+
+      default:
+        toast.error(error?.message || "Something went wrong");
+        navigate(ROUTES.HOME);
+        break;
+    }
+  });
 
   // Set up Liveblocks Yjs provider and attach Monaco editor
   useEffect(() => {
     let binding;
     let awareness;
+    const localUser = userInfo;
 
-    if (!editorRef) return;
+    if (!editorRef || !yProvider || !localUser) return;
 
     const yDoc = yProvider.getYDoc();
     const yText = yDoc.getText("monaco");
@@ -65,11 +88,7 @@ export function CollaborativeEditor() {
     );
 
     // Set user information in awareness
-    awareness.setLocalStateField("user", {
-      name: authUser?.name,
-      color: getRandomColor(),
-      image: authUser?.image,
-    });
+    awareness.setLocalStateField("user", localUser);
 
     // Track active users
     const updateActiveUsers = () => {
@@ -87,9 +106,7 @@ export function CollaborativeEditor() {
 
     awareness.on("change", updateActiveUsers);
 
-    setTimeout(() => {
-      updateActiveUsers();
-    }, 3000);
+    updateActiveUsers();
 
     return () => {
       binding?.destroy();
@@ -97,7 +114,7 @@ export function CollaborativeEditor() {
         awareness.off("change", updateActiveUsers);
       }
     };
-  }, [editorRef, room, yProvider]);
+  }, [editorRef, room, yProvider, userInfo]);
 
   const handleOnMount = useCallback((e) => {
     setEditorRef(e);
@@ -123,6 +140,10 @@ export function CollaborativeEditor() {
 
     runCodeCollabEditor(code, language_id, stdin, expected_outputs);
   };
+
+  if (!userInfo) {
+    return <EditorShimmerUI />;
+  }
 
   return (
     <div>
@@ -167,8 +188,8 @@ export function CollaborativeEditor() {
                 </Avatar>
               ))}
               {activeUsers.length > 3 && (
-                <Avatar className="h-6 w-6 border-2 border-[#333333]">
-                  <AvatarFallback className="bg-amber-300">
+                <Avatar className="h-7 w-7 border-2 border-[#333333]">
+                  <AvatarFallback className="bg-amber-300 text-black">
                     +{activeUsers.length - 3}
                   </AvatarFallback>
                 </Avatar>

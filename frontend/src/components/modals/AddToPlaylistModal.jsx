@@ -53,8 +53,6 @@ export const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
     onClose();
   };
 
-  console.log("isFetchingPlaylistDetails", isFetchingPlaylistDetails);
-
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-md max-w-[75vw] rounded-lg">

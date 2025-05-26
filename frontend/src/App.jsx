@@ -21,9 +21,12 @@ import ActivityPage from "./pages/ActivityPage";
 import PageNotFoundPage from "./pages/PageNotFoundPage";
 import LoggedInRoutes from "./protectedRoutes/LoggedInRoutes";
 import PageLayout from "./layouts/PageLayouts";
+import { axiosInstance } from "./lib/axios";
+import ClientLoading from "./components/basic/CollaborativeEditorShimmerUI/ClientLoading";
 
 const App = () => {
   const { authUser } = useAuthStore();
+
   return (
     <div className="flex flex-col items-center justify-start  ">
       <Toaster />
@@ -45,12 +48,19 @@ const App = () => {
                 authUser ? (
                   <div>
                     <LiveblocksProvider
-                      publicApiKey={
-                        import.meta.env.VITE_LIVEBLOCK_EDITOR_PUBLIC_KEY
-                      }
+                      authEndpoint={async (room) => {
+                        const response = await axiosInstance.post(
+                          "/liveblock/auth",
+                          {
+                            room: JSON.stringify(room),
+                          }
+                        );
+
+                        return JSON.parse(response.data);
+                      }}
                     >
                       <RoomProvider id="my-room">
-                        <ClientSideSuspense fallback={<div>Loading...</div>}>
+                        <ClientSideSuspense fallback={<ClientLoading />}>
                           <CollaborativeEditor />
                         </ClientSideSuspense>
                       </RoomProvider>
