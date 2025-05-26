@@ -13,6 +13,7 @@ import savedProblemRoutes from "./src/routes/saveProblem.routes.js";
 import markedProblemForRevisionRoutes from "./src/routes/markedProblemForRevision.routes.js";
 import { rateLimit } from "express-rate-limit";
 import requestIp from "request-ip";
+import liveblockRoutes from "./src/routes/liveblock.routes.js";
 
 dotenv.config();
 
@@ -63,6 +64,7 @@ app.use("/api/v1/ai", aiRoutes);
 app.use("/api/v1/like", likeRoutes);
 app.use("/api/v1/save-problem", savedProblemRoutes);
 app.use("/api/v1/mark-problem", markedProblemForRevisionRoutes);
+app.use("/api/v1/liveblock", liveblockRoutes);
 
 app.use((req, res) => {
   res.status(404).json({

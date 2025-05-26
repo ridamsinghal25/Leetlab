@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@google/genai": "^0.14.0",
+    "@liveblocks/node": "^2.24.2",
     "@prisma/client": "^6.6.0",
     "axios": "^1.9.0",
     "bcryptjs": "^3.0.2",
