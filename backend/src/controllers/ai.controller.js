@@ -41,10 +41,12 @@ hints (optional): A tip to help solve the problem
 
 editorial (optional): Concise explanation of the optimal solution
 
-testcases: Array of objects with input and output strings (minimum 1)
+- testcases: An array of at least 1 object with both input and output as **non-empty strings**.
 
-examples: An object with 3 keys: JAVASCRIPT, PYTHON, JAVA. Each includes:
-
+- examples: An object with keys: JAVASCRIPT, PYTHON, and JAVA, each containing:
+  - input: Example input string (min length 1)
+  - output: Example output string (min length 1)
+  - explanation (optional): Add if helpful
 input: Example input
 
 output: Expected output

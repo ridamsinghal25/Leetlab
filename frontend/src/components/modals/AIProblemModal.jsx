@@ -38,7 +38,9 @@ export const AIProblemModal = ({ isOpen, onOpenChange, form }) => {
       form.reset(formData);
       onOpenChange();
     } else {
-      toast.error("Please regenerate problem data");
+      toast.error("There seems to be an issue with data please validate it");
+      form.reset(formData);
+      onOpenChange();
     }
   };
 

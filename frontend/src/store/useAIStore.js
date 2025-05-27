@@ -11,8 +11,6 @@ export const useAIStore = create((set) => ({
       const res = await axiosInstance.post("/ai", data);
 
       if (res.data.success) {
-        toast.success(res.data.message);
-
         return res.data.data;
       }
     } catch (error) {
