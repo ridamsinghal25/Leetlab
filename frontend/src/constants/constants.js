@@ -38,4 +38,4 @@ export const COLLABORATIVE_EDITOR_LANGUAGES = [
   { value: "JAVA", label: "Java" },
 ];
 
-export const DEFAULT_ROOM_ID = "default_room_id";
+export const ROOM_ID = "my-room";

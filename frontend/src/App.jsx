@@ -25,6 +25,7 @@ import { axiosInstance } from "./lib/axios";
 import ClientLoading from "./components/basic/CollaborativeEditorShimmerUI/ClientLoading";
 import PublicRoutes from "./protectedRoutes/PublicRoutes";
 import LandingPage from "./pages/LandingPage";
+import { ROOM_ID } from "./constants/constants";
 
 const App = () => {
   const { authUser } = useAuthStore();
@@ -61,7 +62,7 @@ const App = () => {
                         return JSON.parse(response.data);
                       }}
                     >
-                      <RoomProvider id="my-room">
+                      <RoomProvider id={ROOM_ID}>
                         <ClientSideSuspense fallback={<ClientLoading />}>
                           <CollaborativeEditor />
                         </ClientSideSuspense>

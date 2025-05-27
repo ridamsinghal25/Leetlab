@@ -6,20 +6,28 @@ const liveblocks = new Liveblocks({
 });
 
 export const liveblockAuth = async (req, res) => {
-  const user = req.user;
+  try {
+    const user = req.user;
 
-  const { status, body } = await liveblocks.identifyUser(
-    {
-      userId: user.id,
-    },
-    {
-      userInfo: {
-        name: user?.name,
-        color: getRandomColor(),
-        image: user?.image,
+    const { status, body } = await liveblocks.identifyUser(
+      {
+        userId: user.id,
       },
-    }
-  );
+      {
+        userInfo: {
+          name: user?.name,
+          color: getRandomColor(),
+          image: user?.image,
+        },
+      }
+    );
 
-  return res.status(status).json(body);
+    return res.status(status).json(body);
+  } catch (error) {
+    console.log("Error in liveblockAuth: ", error);
+    res.status(500).json({
+      error: "Error in liveblockAuth",
+      success: false,
+    });
+  }
 };
