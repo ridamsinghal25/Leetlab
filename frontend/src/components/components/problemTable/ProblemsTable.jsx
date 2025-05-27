@@ -59,7 +59,7 @@ export const ProblemsTable = ({ problems }) => {
   }, [problems, search, difficulty, selectedTag]);
 
   // Pagination logic
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
 
   const totalPages = Math.ceil(filteredProblems.length / itemsPerPage);
 

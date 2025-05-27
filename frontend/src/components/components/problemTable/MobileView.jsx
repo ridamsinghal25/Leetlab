@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Bookmark, Pencil, Trash } from "lucide-react";
+import { Bookmark, Building2, Pencil, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -20,8 +20,8 @@ function ProblemTableMobileView({
   return (
     <div className="block md:hidden space-y-4">
       {paginatedProblems.length > 0 ? (
-        paginatedProblems.map((problem) => {
-          const isSolved = problem.solvedBy.some(
+        paginatedProblems?.map((problem) => {
+          const isSolved = problem?.solvedBy?.some(
             (user) => user.userId === authUser?.id
           );
 

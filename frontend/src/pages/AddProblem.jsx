@@ -13,6 +13,7 @@ import { problemSchema } from "@/validations/zodValidations";
 import { ROUTES } from "@/constants/routes";
 import ProblemForm from "@/components/basic/ProblemForm";
 import { AIProblemModal } from "@/components/modals/AIProblemModal";
+import { useProblemStore } from "@/store/useProblemStore";
 
 const defaultValues = {
   title: "",
@@ -64,6 +65,7 @@ const AddProblem = () => {
   const [executionError, setExecutionError] = useState(null);
   const [isAskAIModalOpen, setIsAskAIModalOpen] = useState(false);
   const navigation = useNavigate();
+  const { addProblemToState } = useProblemStore();
 
   const addProblemForm = useForm({
     resolver: zodResolver(problemSchema),
@@ -87,6 +89,8 @@ const AddProblem = () => {
 
       if (res.data.success) {
         toast.success(res.data.message);
+
+        addProblemToState(res.data.problem);
         addProblemForm.reset(defaultValues);
         navigation(ROUTES.HOME);
       }
