@@ -14,7 +14,7 @@ export const useAIStore = create((set) => ({
         return res.data.data;
       }
     } catch (error) {
-      toast.error(error.response?.data?.error || "Error generating form data");
+      toast.error(error.response?.data?.error || "Error generating code");
     } finally {
       set({ isGenerating: false });
     }

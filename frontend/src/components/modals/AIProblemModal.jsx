@@ -29,18 +29,22 @@ export const AIProblemModal = ({ isOpen, onOpenChange, form }) => {
   });
 
   const handleFormSubmit = async (data) => {
-    const formData = await generateFormData(data);
+    try {
+      const formData = await generateFormData(data);
 
-    const isDataValid = problemSchema.safeParse(formData);
+      const isDataValid = problemSchema.safeParse(formData);
 
-    if (isDataValid.success) {
-      toast.success("Problem data generated successfully");
-      form.reset(formData);
-      onOpenChange();
-    } else {
-      toast.error("There seems to be an issue with data please validate it");
-      form.reset(formData);
-      onOpenChange();
+      if (isDataValid.success) {
+        toast.success("Problem data generated successfully");
+        form.reset(formData);
+        onOpenChange();
+      } else {
+        toast.error("There seems to be an issue with data please validate it");
+        form.reset(formData);
+        onOpenChange();
+      }
+    } catch (error) {
+      console.log("error", error);
     }
   };
 

@@ -86,18 +86,23 @@ referenceSolutions: Same languages, with working full solutions including standa
     }
   },
   "codeSnippets": {
-    "JAVASCRIPT": "\\nfunction getGreaterNumber(a, b) {\\n  // code\\n}\\n\\n// Please don't remove the code below\\nconst readline = require('readline');\\nconst rl = readline.createInterface({\\n  input: process.stdin,\\n  output: process.stdout,\\n});\\n\\nrl.on('line', (input) => {\\n  // Split the input string into two numbers\\n  const [a, b] = input.split(' ').map(Number);\\n  \\n  // Call our function to get the greater number\\n  const result = getGreaterNumber(a, b);\\n  \\n  // Output the result\\n  console.log(result);\\n  \\n  // Close the readline interface after processing\\n  rl.close();\\n});\\n// Please don't remove the code above",
-    "PYTHON": "def get_greater_number(a, b):\n    # Return the larger number\n    return 0\n\nimport sys\na, b = map(int, sys.stdin.read().split())\nprint(get_greater_number(a, b))",
-    "JAVA": "import java.util.Scanner;\n\npublic class Main {\n    public static int getGreaterNumber(int a, int b) {\n        // Return the larger number\n        return 0;\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(getGreaterNumber(a, b));\n    }\n}"
+    "JAVASCRIPT": "\\nfunction getGreaterNumber(a, b) {\\n  // code\\n}",
+    "PYTHON": "def get_greater_number(a, b):\n    # Return the larger number\n    return 0",
+    "JAVA": "public class Main {\n    public static int getGreaterNumber(int a, int b) {\n        // Return the larger number\n        return 0;\n    }"
   },
   "referenceSolutions": {
-    "JAVASCRIPT": "\\nfunction getGreaterNumber(a, b) {\\n  // Return the larger number\\n  return Math.max(a, b);\\n}\\n\\n// Please don't remove the code below\\nconst readline = require('readline');\\nconst rl = readline.createInterface({\\n  input: process.stdin,\\n  output: process.stdout,\\n});\\n\\nrl.on('line', (input) => {\\n  // Split the input string into two numbers\\n  const [a, b] = input.split(' ').map(Number);\\n  \\n  // Call our function to get the greater number\\n  const result = getGreaterNumber(a, b);\\n  \\n  // Output the result\\n  console.log(result);\\n  \\n  // Close the readline interface after processing\\n  rl.close();\\n});\\n// Please don't remove the code above",
-    "PYTHON": "def get_greater_number(a, b):\n    # Return the larger number\n    return max(a, b)\n\nimport sys\na, b = map(int, sys.stdin.read().split())\nprint(get_greater_number(a, b))",
-    "JAVA": "import java.util.Scanner;\n\npublic class Main {\n    public static int getGreaterNumber(int a, int b) {\n        // Return the larger number\n        return Math.max(a, b);\n    }\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(getGreaterNumber(a, b));\n    }\n}"
+    "JAVASCRIPT": "\\nfunction getGreaterNumber(a, b) {\\n  // Return the larger number\\n  return Math.max(a, b);\\n}",
+    "PYTHON": "def get_greater_number(a, b):\n    # Return the larger number\n    return max(a, b)",
+    "JAVA": "public class Main {\n    public static int getGreaterNumber(int a, int b) {\n        // Return the larger number\n        return Math.max(a, b);\n    }"
+  },
+  "stdin": {
+    "JAVASCRIPT": "const readline = require('readline');\\nconst rl = readline.createInterface({\n  input: process.stdin,\n  output: process.stdout,\n});\n\nrl.on('line', (input) => {\n  \n  const [a, b] = input.split(' ').map(Number);\n  \n  const result = getGreaterNumber(a, b);\n  console.log(result);\n  rl.close();\n});",
+    "PYTHON": "import sys\na, b = map(int, sys.stdin.read().split())\nprint(get_greater_number(a, b))",
+    "JAVA": "import java.util.Scanner;\n\n\n\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a = sc.nextInt();\n        int b = sc.nextInt();\n        System.out.println(getGreaterNumber(a, b));\n    }\n}"
   }
 }
 
-❗ Return only the valid JSON **without any markdown code blocks** (no backticks). Do not include explanation, headers, or commentary. And I want you to return a JSON response that I can extract using JSON.parse.
+❗❗❗❗ Return only the valid JSON **without any markdown code blocks** (no backticks). Do not include explanation, headers, or commentary. And I want you to return a JSON response that I can extract using JSON.parse.
 `;
 
     const result = await ai.models.generateContent({
