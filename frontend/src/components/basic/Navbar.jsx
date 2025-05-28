@@ -41,9 +41,9 @@ export default function Navbar() {
                   variant="ghost"
                   className="relative h-9 w-9 rounded-full p-0 sm:h-10 sm:w-10"
                 >
-                  <Avatar className="h-9 w-9 sm:h-10 sm:w-10 border-2 border-primary/20 hover:border-primary/40 transition-colors">
+                  <Avatar className="h-9 w-9 sm:h-10 sm:w-10 border-2 border-primary/40 hover:border-primary/60 transition-colors">
                     <AvatarImage
-                      src={authUser?.image}
+                      src={authUser?.image?.url}
                       alt={authUser?.name || "User"}
                     />
                     <AvatarFallback className="bg-primary/10 text-primary">

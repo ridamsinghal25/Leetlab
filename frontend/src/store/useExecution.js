@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 export const useExecutionStore = create((set, get) => ({
   isExecuting: false,
   submission: null,
+  collabCodeSubmission: null,
 
   executeCode: async (
     code,
@@ -88,7 +89,7 @@ export const useExecutionStore = create((set, get) => ({
       });
 
       if (res.data.success) {
-        set({ submission: res.data.submission });
+        set({ collabCodeSubmission: res.data.submission });
 
         toast.success(res.data.message);
       }
@@ -101,5 +102,9 @@ export const useExecutionStore = create((set, get) => ({
 
   setSubmission: () => {
     set({ submission: null });
+  },
+
+  setCollabCodeSubmission: () => {
+    set({ collabCodeSubmission: null });
   },
 }));

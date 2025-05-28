@@ -1,6 +1,6 @@
 import { getYjsProviderForRoom } from "@liveblocks/yjs";
 import { useRoom } from "@liveblocks/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Editor } from "@monaco-editor/react";
 import { MonacoBinding } from "y-monaco";
 import {
@@ -11,7 +11,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Play, Code2, Users, Loader2, ArrowLeft } from "lucide-react";
+import {
+  Play,
+  Code2,
+  Users,
+  Loader2,
+  ArrowLeft,
+  NotebookPen,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import TestPanel from "@/components/components/collaborativeEditor/TestPanel";
@@ -39,11 +46,18 @@ export function CollaborativeEditor() {
     },
   ]);
   const [showTestPanel, setShowTestPanel] = useState(true);
-  const [showSubmissions, setShowSubmissions] = useState(false);
+  const [showSubmissions, setShowSubmissions] = useState(true);
   const room = useRoom();
   const yProvider = getYjsProviderForRoom(room);
 
-  const { isExecuting, runCodeCollabEditor, submission } = useExecutionStore();
+  const submissionRef = useRef(null);
+
+  const {
+    isExecuting,
+    runCodeCollabEditor,
+    collabCodeSubmission,
+    setCollabCodeSubmission,
+  } = useExecutionStore();
   const userInfo = useSelf((me) => me.info);
   const navigate = useNavigate();
 
@@ -124,7 +138,7 @@ export function CollaborativeEditor() {
     setLanguage(value);
   };
 
-  const handleRunCode = () => {
+  const handleRunCode = async () => {
     if (!editorRef) return;
 
     if (!testCases.length) {
@@ -132,13 +146,18 @@ export function CollaborativeEditor() {
       return;
     }
 
+    setCollabCodeSubmission();
+
     const code = editorRef.getValue();
 
     const language_id = getLanguageId(language);
     const stdin = testCases.map((tc) => tc.input);
     const expected_outputs = testCases.map((tc) => tc.expectedOutput);
 
-    runCodeCollabEditor(code, language_id, stdin, expected_outputs);
+    await runCodeCollabEditor(code, language_id, stdin, expected_outputs);
+
+    console.log("first");
+    submissionRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   if (!userInfo) {
@@ -242,7 +261,7 @@ export function CollaborativeEditor() {
             >
               {showTestPanel ? "Hide Test Cases" : "Show Test Cases"}
             </Button>
-            {submission && (
+            {collabCodeSubmission && (
               <Button
                 variant="ghost"
                 size="sm"
@@ -260,14 +279,14 @@ export function CollaborativeEditor() {
         ) : null}
 
         {/* Main Content Area */}
-        <div className="flex min-h-[60vh] overflow-hidden">
+        <div className="flex min-h-[100vh] overflow-hidden">
           {/* Main Editor Area */}
           <div className="flex-1 flex flex-col overflow-hidden">
             <div className={"flex flex-1"}>
               <div className="flex-1 flex flex-col overflow-hidden">
                 <Editor
                   onMount={handleOnMount}
-                  height="60vh"
+                  height="100vh"
                   width="100%"
                   theme="vs-dark"
                   language={language.toLowerCase()}
@@ -275,7 +294,7 @@ export function CollaborativeEditor() {
                   options={{
                     tabSize: 2,
                     fontSize: 17,
-                    minimap: { enabled: true },
+                    minimap: { enabled: false },
                     scrollBeyondLastLine: false,
                     automaticLayout: true,
                     padding: { top: 16 },
@@ -305,8 +324,10 @@ export function CollaborativeEditor() {
 
         {/* Submissions section - Now with proper styling and visibility */}
       </div>
-      <div className="m-5">
-        {showSubmissions && <SubmissionsView submission={submission} />}
+      <div className="m-5" ref={submissionRef}>
+        {showSubmissions && (
+          <SubmissionsView submission={collabCodeSubmission} />
+        )}
       </div>
     </div>
   );
