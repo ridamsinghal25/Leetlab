@@ -7,8 +7,10 @@ export const useAuthStore = create((set, get) => ({
   isSigninUp: false,
   isLoggingIn: false,
   isCheckingAuth: false,
+  isLoggedIn: false,
   isLoginCheckDone: false,
   isLoading: false,
+  isVerifyingEmail: false,
 
   checkAuth: async () => {
     set({ isCheckingAuth: true });
@@ -35,6 +37,8 @@ export const useAuthStore = create((set, get) => ({
         set({ authUser: res.data.user });
 
         toast.success(res.data.message);
+
+        return res.data;
       }
     } catch (error) {
       toast.error(error.response?.data?.error || "Error signing up");
@@ -49,9 +53,11 @@ export const useAuthStore = create((set, get) => ({
       const res = await axiosInstance.post("/auth/login", data);
 
       if (res.data.success) {
-        set({ authUser: res.data.user });
+        set({ authUser: res.data.user, isLoggedIn: true });
 
         toast.success(res.data.message);
+
+        return res.data;
       }
     } catch (error) {
       toast.error(error.response?.data?.error || "Error logging in");
@@ -65,7 +71,7 @@ export const useAuthStore = create((set, get) => ({
       const res = await axiosInstance.post("/auth/logout");
 
       if (res.data.success) {
-        set({ authUser: null });
+        set({ authUser: null, isLoggedIn: false });
         toast.success("Logout successful");
       }
     } catch (error) {
@@ -106,6 +112,24 @@ export const useAuthStore = create((set, get) => ({
       toast.error(error.response?.data?.error || "Error updating password");
     } finally {
       set({ isLoading: false });
+    }
+  },
+
+  verifyEmail: async (data) => {
+    try {
+      set({ isVerifyingEmail: true });
+
+      const res = await axiosInstance.post("/auth/verify-email", data);
+
+      if (res.data.success) {
+        toast.success(res.data.message);
+
+        return res.data;
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.error || "Error verifying email");
+    } finally {
+      set({ isVerifyingEmail: false });
     }
   },
 }));

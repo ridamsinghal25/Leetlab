@@ -126,3 +126,11 @@ export const aiProblemSchema = z.object({
     .string()
     .min(20, "Problem description must be at least 20 characters"),
 });
+
+export const verifyEmailSchema = z.object({
+  verifyCode: z
+    .string()
+    .trim()
+    .regex(/^\d{6}$/, "Verification code must contain only digits")
+    .length(6, "verification code must be 6 digit"),
+});

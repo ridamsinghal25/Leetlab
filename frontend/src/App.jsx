@@ -26,6 +26,7 @@ import ClientLoading from "./components/basic/CollaborativeEditorShimmerUI/Clien
 import PublicRoutes from "./protectedRoutes/PublicRoutes";
 import LandingPage from "./pages/LandingPage";
 import { ROOM_ID } from "./constants/constants";
+import VerifyEmailPage from "./pages/VerifyEmailPage";
 
 const App = () => {
   const { authUser } = useAuthStore();
@@ -90,6 +91,8 @@ const App = () => {
             <Route path={ROUTES.SIGNUP} element={<SignUpPage />} />
 
             <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+
+            <Route path={ROUTES.VERIFY_EMAIL} element={<VerifyEmailPage />} />
 
             <Route path={ROUTES.LANDING} element={<LandingPage />} />
           </Route>
