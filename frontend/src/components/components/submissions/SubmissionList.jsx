@@ -72,10 +72,8 @@ const SubmissionsList = ({ submissions, isLoading }) => {
             className="border rounded-lg hover:shadow-md transition-shadow"
           >
             {/* Added Submission Number Indicator */}
-            <div className="bg-gray-100 px-4 py-2 rounded-t-lg border-b flex items-center">
-              <span className="font-medium text-gray-700">
-                Submission {index + 1}
-              </span>
+            <div className="px-4 py-2 rounded-t-lg border-b flex items-center">
+              <span className="font-medium">Submission {index + 1}</span>
             </div>
 
             <div className="p-4">

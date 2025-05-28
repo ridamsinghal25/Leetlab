@@ -57,7 +57,7 @@ export const ProblemTabsContent = ({
             <>
               <h3 className="text-xl font-bold mb-4">Constraints:</h3>
               <div className="bg-muted p-6 rounded-xl mb-6">
-                <pre className=" dark:bg-white/10 px-4 py-2 rounded-lg font-semibold text-black text-lg whitespace-pre-wrap">
+                <pre className=" dark:bg-white/10 px-4 py-2 rounded-lg font-semibold text-black dark:text-white text-lg whitespace-pre-wrap">
                   {problem.constraints}
                 </pre>
               </div>
@@ -77,23 +77,16 @@ export const ProblemTabsContent = ({
 
             {/* Table header */}
             <div className="w-full border-b border-gray-200">
-              <div className="grid grid-cols-2 py-3 bg-gray-50">
-                <div className="px-4 font-medium text-gray-900">Input</div>
-                <div className="px-4 font-medium text-gray-900">
-                  Expected Output
-                </div>
+              <div className="grid grid-cols-2 py-3">
+                <div className="px-4 font-medium">Input</div>
+                <div className="px-4 font-medium">Expected Output</div>
               </div>
             </div>
 
             {/* Table body */}
             <div className="w-full">
               {testCases?.map((testCase, index) => (
-                <div
-                  key={index}
-                  className={`grid grid-cols-2 py-4 border-b border-gray-200 ${
-                    index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                  }`}
-                >
+                <div key={index} className={`grid grid-cols-2 py-4 border-b`}>
                   <div className="px-4 font-mono">{testCase.input}</div>
                   <div className="px-4 font-mono">{testCase.output}</div>
                 </div>

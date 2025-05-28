@@ -88,7 +88,7 @@ function TestPanel({ testCases, setTestCases, setShowTestPanel }) {
           </Button>
         </div>
         {/* Note Panel */}
-        <div className="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 text-sm rounded-md">
+        <div className="mx-5 my-2 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 text-sm rounded-md">
           <div className="flex gap-2 items-center">
             Please make sure to add test cases in the code editor & also make
             sure to add the Standard Input/Output in the code.

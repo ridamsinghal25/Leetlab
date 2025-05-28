@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ROUTES } from "@/constants/routes";
 import { USER_ROLES } from "@/constants/constants";
+import { ModeToggle } from "../theme/ModeToggle";
 
 export default function Navbar() {
   const { authUser, logout } = useAuthStore();
@@ -32,8 +33,10 @@ export default function Navbar() {
         </Link>
 
         {/* User Menu & Mobile Menu */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4">
           {/* User Dropdown */}
+          <ModeToggle />
+
           {authUser && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

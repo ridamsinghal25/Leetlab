@@ -350,7 +350,7 @@ export default function ProblemForm({
                             </p>
                           </div>
                           {/* Judge0 Output Note */}
-                          <div className="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-900 p-4 rounded-xl shadow-md space-y-3 max-w-2xl mx-auto mt-6">
+                          <div className="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-900 p-4 rounded-xl shadow-md space-y-3 max-w-3xl mx-auto mt-6">
                             <div className="flex items-center space-x-2">
                               <h3 className="font-bold text-lg">
                                 ⚠️ Judge0 Output Tips
