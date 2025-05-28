@@ -63,4 +63,8 @@ export const useSubmissionStore = create((set, get) => ({
       );
     }
   },
+
+  addSubmissionToState: (submission) => {
+    set({ submission: [...get().submission, submission] });
+  },
 }));

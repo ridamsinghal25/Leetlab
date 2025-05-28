@@ -21,6 +21,7 @@ const ProblemPage = () => {
     getSubmissionForProblemByUser,
     getSubmissionCountForProblem,
     submissionCount,
+    addSubmissionToState,
   } = useSubmissionStore();
 
   const [code, setCode] = useState("");
@@ -29,13 +30,13 @@ const ProblemPage = () => {
   const [testCases, setTestCases] = useState([]);
   const [isCounting, setIsCounting] = useState(false);
 
-  const { executeCode, submission, isExecuting, runCode } = useExecutionStore();
+  const { executeCode, submission, isExecuting, runCode, setSubmission } =
+    useExecutionStore();
 
-  const [count, { startCountdown, stopCountdown, resetCountdown }] =
-    useCountdown({
-      countStart: COUNTDOWN.COUNTSTART,
-      intervalMs: COUNTDOWN.INTERVAL,
-    });
+  const [count, { startCountdown, _, resetCountdown }] = useCountdown({
+    countStart: COUNTDOWN.COUNTSTART,
+    intervalMs: COUNTDOWN.INTERVAL,
+  });
 
   useEffect(() => {
     if (id) {
@@ -87,20 +88,43 @@ const ProblemPage = () => {
 
     setIsCounting(true);
     startCountdown();
+    setSubmission();
 
     const language_id = getLanguageId(selectedLanguage);
     const stdin = problem.testcases.map((tc) => tc.input);
     const expected_outputs = problem.testcases.map((tc) => tc.output);
-    runCode(code, language_id, stdin, expected_outputs, id);
+    const standardInputOfCode = problem.stdin[selectedLanguage];
+
+    runCode(
+      code,
+      language_id,
+      stdin,
+      standardInputOfCode,
+      expected_outputs,
+      id
+    );
   };
 
-  const handleSubmitCode = (e) => {
+  const handleSubmitCode = async (e) => {
     e.preventDefault();
+
+    setSubmission();
 
     const language_id = getLanguageId(selectedLanguage);
     const stdin = problem.testcases.map((tc) => tc.input);
     const expected_outputs = problem.testcases.map((tc) => tc.output);
-    executeCode(code, language_id, stdin, expected_outputs, id);
+    const standardInputOfCode = problem.stdin[selectedLanguage];
+
+    const submission = await executeCode(
+      code,
+      language_id,
+      stdin,
+      standardInputOfCode,
+      expected_outputs,
+      id
+    );
+
+    addSubmissionToState(submission);
   };
 
   if (isProblemLoading || !problem) {

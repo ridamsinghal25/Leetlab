@@ -7,8 +7,14 @@ import {
 
 export const executeCode = async (req, res) => {
   try {
-    const { source_code, language_id, stdin, expected_outputs, problemId } =
-      req.body;
+    const {
+      code,
+      language_id,
+      stdin,
+      expected_outputs,
+      problemId,
+      standardInputOfCode,
+    } = req.body;
 
     const userId = req.user.id;
 
@@ -25,7 +31,7 @@ export const executeCode = async (req, res) => {
       });
     }
 
-    if (!source_code || !language_id || !problemId) {
+    if (!code || !language_id || !problemId || !standardInputOfCode) {
       return res.status(400).json({
         error: "Invalid or Missing fields",
         success: false,
@@ -44,6 +50,8 @@ export const executeCode = async (req, res) => {
         success: false,
       });
     }
+
+    const source_code = code.concat("\n\n", standardInputOfCode);
 
     // 2. Prepare each test cases for judge0 batch submission
     const submissions = stdin.map((input) => ({
@@ -86,7 +94,7 @@ export const executeCode = async (req, res) => {
       data: {
         userId,
         problemId,
-        sourceCode: source_code,
+        sourceCode: code,
         language: getLanguageName(language_id),
         stdin: stdin.join("\n"),
         stdout: JSON.stringify(detailedResults.map((res) => res.stdout)),
@@ -169,8 +177,14 @@ export const executeCode = async (req, res) => {
 
 export const runCode = async (req, res) => {
   try {
-    const { source_code, language_id, stdin, expected_outputs, problemId } =
-      req.body;
+    const {
+      code,
+      language_id,
+      stdin,
+      standardInputOfCode,
+      expected_outputs,
+      problemId,
+    } = req.body;
 
     const userId = req.user.id;
 
@@ -187,7 +201,7 @@ export const runCode = async (req, res) => {
       });
     }
 
-    if (!source_code || !language_id || !problemId) {
+    if (!code || !language_id || !problemId || !standardInputOfCode) {
       return res.status(400).json({
         error: "Invalid or Missing fields",
         success: false,
@@ -206,6 +220,8 @@ export const runCode = async (req, res) => {
         success: false,
       });
     }
+
+    const source_code = code.concat("\n\n", standardInputOfCode);
 
     // 2. Prepare each test cases for judge0 batch submission
     const submissions = stdin.map((input) => ({
@@ -247,7 +263,7 @@ export const runCode = async (req, res) => {
     let submission = {
       userId,
       problemId,
-      sourceCode: source_code,
+      sourceCode: code,
       language: getLanguageName(language_id),
       stdin: stdin.join("\n"),
       stdout: JSON.stringify(detailedResults.map((res) => res.stdout)),

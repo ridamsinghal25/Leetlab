@@ -57,7 +57,7 @@ export const ProblemTabsContent = ({
             <>
               <h3 className="text-xl font-bold mb-4">Constraints:</h3>
               <div className="bg-muted p-6 rounded-xl mb-6">
-                <pre className="bg-black/90 dark:bg-white/10 px-4 py-2 rounded-lg font-semibold text-white text-lg whitespace-pre-wrap">
+                <pre className=" dark:bg-white/10 px-4 py-2 rounded-lg font-semibold text-black text-lg whitespace-pre-wrap">
                   {problem.constraints}
                 </pre>
               </div>

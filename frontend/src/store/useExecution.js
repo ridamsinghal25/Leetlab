@@ -7,9 +7,10 @@ export const useExecutionStore = create((set, get) => ({
   submission: null,
 
   executeCode: async (
-    source_code,
+    code,
     language_id,
     stdin,
+    standardInputOfCode,
     expected_outputs,
     problemId
   ) => {
@@ -17,9 +18,10 @@ export const useExecutionStore = create((set, get) => ({
       set({ isExecuting: true });
 
       const res = await axiosInstance.post("/execute-code", {
-        source_code,
+        code,
         language_id,
         stdin,
+        standardInputOfCode,
         expected_outputs,
         problemId,
       });
@@ -28,6 +30,7 @@ export const useExecutionStore = create((set, get) => ({
         set({ submission: res.data.submission });
 
         toast.success(res.data.message);
+        return res.data.submission;
       }
     } catch (error) {
       toast.error(error.response?.data?.error || "Error executing code");
@@ -37,9 +40,10 @@ export const useExecutionStore = create((set, get) => ({
   },
 
   runCode: async (
-    source_code,
+    code,
     language_id,
     stdin,
+    standardInputOfCode,
     expected_outputs,
     problemId
   ) => {
@@ -47,9 +51,10 @@ export const useExecutionStore = create((set, get) => ({
       set({ isExecuting: true });
 
       const res = await axiosInstance.post("/execute-code/run", {
-        source_code,
+        code,
         language_id,
         stdin,
+        standardInputOfCode,
         expected_outputs,
         problemId,
       });
@@ -92,5 +97,9 @@ export const useExecutionStore = create((set, get) => ({
     } finally {
       set({ isExecuting: false });
     }
+  },
+
+  setSubmission: () => {
+    set({ submission: null });
   },
 }));
