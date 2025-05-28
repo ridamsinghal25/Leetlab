@@ -57,6 +57,17 @@ export const problemSchema = z.object({
       .min(10, "Python solution must be at least 10 characters"),
     JAVA: z.string().min(10, "Java solution must be at least 10 characters"),
   }),
+  stdin: z.object({
+    JAVASCRIPT: z
+      .string()
+      .min(10, "JavaScript standard inputs must be at least 10 characters"),
+    PYTHON: z
+      .string()
+      .min(10, "Python standard inputs must be at least 10 characters"),
+    JAVA: z
+      .string()
+      .min(10, "Java standard inputs must be at least 10 characters"),
+  }),
 });
 
 export const signUpSchema = z.object({

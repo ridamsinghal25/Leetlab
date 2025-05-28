@@ -57,6 +57,13 @@ const defaultValues = {
     PYTHON: "# Add your reference solution here",
     JAVA: "// Add your reference solution here",
   },
+  stdin: {
+    JAVASCRIPT:
+      "const readline = require('readline');\n\nconst rl = readline.createInterface({\n    input: process.stdin,\n    output: process.stdout\n});\n\nrl.on('line', (input) => {\n    console.log(lengthOfLongestSubstring(input));\n    rl.close();\n});",
+    PYTHON:
+      "import sys\n\nline = sys.stdin.readline().strip()\nprint(lengthOfLongestSubstring(line))",
+    JAVA: "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        String s = scanner.nextLine();\n        Solution sol = new Solution();\n        System.out.println(sol.lengthOfLongestSubstring(s));\n    }\n}",
+  },
 };
 
 const AddProblem = () => {

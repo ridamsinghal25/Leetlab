@@ -20,6 +20,7 @@ export const createProblem = async (req, res) => {
     testcases,
     codeSnippets,
     referenceSolutions,
+    stdin,
   } = req.body;
 
   if (req.user.role !== "ADMIN") {
@@ -38,7 +39,8 @@ export const createProblem = async (req, res) => {
     !constraints ||
     !testcases ||
     !codeSnippets ||
-    !referenceSolutions
+    !referenceSolutions ||
+    !stdin
   ) {
     return res.status(400).json({
       error: "All fields are required",
@@ -47,7 +49,9 @@ export const createProblem = async (req, res) => {
   }
 
   try {
-    for (const [language, solutionCode] of Object.entries(referenceSolutions)) {
+    for (const [language, referenceCode] of Object.entries(
+      referenceSolutions
+    )) {
       const languageId = getJudge0Language(language);
 
       if (!languageId) {
@@ -56,6 +60,10 @@ export const createProblem = async (req, res) => {
           success: false,
         });
       }
+
+      const standardInput = stdin[language];
+
+      const solutionCode = referenceCode.concat("\n\n", standardInput);
 
       const submissions = testcases.map(({ input, output }) => ({
         source_code: solutionCode,
@@ -76,7 +84,7 @@ export const createProblem = async (req, res) => {
           return res.status(400).json({
             error: `Testcase ${i + 1} failed for language ${language}`,
             executionError: {
-              stderr: result.stderr || result.compile_output,
+              stderr: result,
               description: result.status.description,
             },
             success: false,
@@ -101,6 +109,7 @@ export const createProblem = async (req, res) => {
         testcases,
         codeSnippets,
         referenceSolutions,
+        stdin,
         userId: req.user.id,
       },
     });
@@ -134,6 +143,7 @@ export const updateProblem = async (req, res) => {
       testcases,
       codeSnippets,
       referenceSolutions,
+      stdin,
     } = req.body;
 
     const { id } = req.params;
@@ -153,7 +163,8 @@ export const updateProblem = async (req, res) => {
       !constraints ||
       !testcases ||
       !codeSnippets ||
-      !referenceSolutions
+      !referenceSolutions ||
+      !stdin
     ) {
       return res.status(400).json({
         error: "All fields are required",
@@ -174,7 +185,9 @@ export const updateProblem = async (req, res) => {
       });
     }
 
-    for (const [language, solutionCode] of Object.entries(referenceSolutions)) {
+    for (const [language, referenceCode] of Object.entries(
+      referenceSolutions
+    )) {
       const languageId = getJudge0Language(language);
 
       if (!languageId) {
@@ -184,11 +197,15 @@ export const updateProblem = async (req, res) => {
         });
       }
 
+      const standardInput = stdin[language];
+
+      const solutionCode = referenceCode.concat("\n\n", standardInput);
+
       const submissions = testcases.map(({ input, output }) => ({
+        source_code: solutionCode,
+        language_id: languageId,
         stdin: formatCodeForPython(language, input),
         expected_output: formatCodeForPython(language, output),
-        language_id: languageId,
-        source_code: solutionCode,
       }));
 
       const submissionResults = await submitBatch(submissions);
@@ -199,13 +216,13 @@ export const updateProblem = async (req, res) => {
 
       for (let i = 0; i < results.length; i++) {
         const result = results[i];
-
         if (result.status.id !== 3) {
           return res.status(400).json({
             error: `Testcase ${i + 1} failed for language ${language}`,
             executionError: {
-              stderr: result.stderr || result.compile_output,
+              stderr: result,
               description: result.status.description,
+              expected_output: submissions[i].expected_output,
             },
             success: false,
           });
@@ -230,6 +247,7 @@ export const updateProblem = async (req, res) => {
         testcases,
         codeSnippets,
         referenceSolutions,
+        stdin,
         userId: req.user.id,
       },
     });

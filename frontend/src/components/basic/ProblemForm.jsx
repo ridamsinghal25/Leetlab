@@ -222,20 +222,19 @@ export default function ProblemForm({
                         </AccordionTrigger>
                         <AccordionContent className="px-4 pb-4">
                           <div className="flex justify-end">
-                            {index > 0 && (
-                              <Button
-                                type="button"
-                                variant="ghost"
-                                size="sm"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  removeTestCase(index);
-                                }}
-                                className="text-destructive hover:text-destructive/90 h-8"
-                              >
-                                <Trash2 className="h-4 w-4 mr-1" /> Remove
-                              </Button>
-                            )}
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                removeTestCase(index);
+                              }}
+                              className="text-destructive hover:text-destructive/90 h-8"
+                              disabled={testCaseFields.length === 1}
+                            >
+                              <Trash2 className="h-4 w-4 mr-1" /> Remove
+                            </Button>
                           </div>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <FormFieldTextarea
@@ -326,6 +325,113 @@ export default function ProblemForm({
                                   language
                                 ].message
                               }
+                            </p>
+                          )}
+                        </div>
+
+                        <div className="space-y-3">
+                          <Label className="text-base font-medium flex items-center gap-2">
+                            <CheckCircle2 className="h-4 w-4 text-green-500" />
+                            Standard Input/Output
+                          </Label>
+                          {/* Note for Java */}
+                          <div className="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 text-sm rounded-md">
+                            <p>
+                              <span className="font-semibold">
+                                Note for Java:
+                              </span>{" "}
+                              Import statements should be placed at the top of
+                              the Reference Solution and Starter Code, and must
+                              be removed from the{" "}
+                              <code className="bg-gray-100 px-1 rounded text-sm">
+                                stdin
+                              </code>{" "}
+                              section.
+                            </p>
+                          </div>
+                          {/* Judge0 Output Note */}
+                          <div className="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-900 p-4 rounded-xl shadow-md space-y-3 max-w-2xl mx-auto mt-6">
+                            <div className="flex items-center space-x-2">
+                              <h3 className="font-bold text-lg">
+                                ⚠️ Judge0 Output Tips
+                              </h3>
+                            </div>
+                            <ul className="list-disc pl-6 text-sm">
+                              <li>
+                                <span className="font-semibold">
+                                  No extra spaces:
+                                </span>
+                                <br />✅ Expected:{" "}
+                                <code className="bg-gray-100 px-1 rounded">
+                                  [1,2]
+                                </code>
+                                <br />❌ Common mistake:{" "}
+                                <code className="bg-gray-100 px-1 rounded">
+                                  [1, 2]
+                                </code>{" "}
+                                (space after comma)
+                              </li>
+                              <li>
+                                <span className="font-semibold">
+                                  Exact line breaks:
+                                </span>{" "}
+                                Use{" "}
+                                <code className="bg-gray-100 px-1 rounded">
+                                  println
+                                </code>{" "}
+                                or{" "}
+                                <code className="bg-gray-100 px-1 rounded">
+                                  \n
+                                </code>
+                                . Extra/missing newlines fail tests.
+                              </li>
+                              <li>
+                                <span className="font-semibold">
+                                  Matching data types:
+                                </span>{" "}
+                                Format output exactly as expected (e.g.,
+                                strings, numbers, brackets).
+                              </li>
+                            </ul>
+                            <div className="text-sm pt-2 border-t border-yellow-200">
+                              ✅ <span className="font-medium">Tip:</span>{" "}
+                              Always match output format exactly — even
+                              invisible differences matter.
+                            </div>
+                          </div>
+                          <div className="border rounded-md overflow-hidden">
+                            <Controller
+                              name={`stdin.${language}`}
+                              control={form.control}
+                              render={({ field }) => (
+                                <Editor
+                                  height="500px"
+                                  language={language.toLowerCase()}
+                                  theme="vs-dark"
+                                  value={field.value}
+                                  onChange={field.onChange}
+                                  options={{
+                                    minimap: { enabled: false },
+                                    fontSize: 14,
+                                    lineNumbers: "on",
+                                    roundedSelection: false,
+                                    scrollBeyondLastLine: false,
+                                    automaticLayout: true,
+                                    scrollbar: {
+                                      alwaysConsumeMouseWheel: false,
+                                      handleMouseWheel: true,
+                                    },
+                                    padding: {
+                                      top: 10,
+                                    },
+                                  }}
+                                />
+                              )}
+                            />
+                          </div>
+                          {form.formState.errors?.stdin?.[language] && (
+                            <p className="text-sm text-destructive">
+                              {form.formState.errors.stdin[language].message}
                             </p>
                           )}
                         </div>
@@ -471,10 +577,55 @@ export default function ProblemForm({
                 </span>
               </div>
               {executionError.stderr && (
-                <div className="bg-slate-50 p-3 font-mono text-sm text-slate-800 overflow-x-auto">
-                  <pre className="whitespace-pre-wrap break-words">
-                    {executionError.stderr}
-                  </pre>
+                <div className="bg-slate-50 p-3 font-mono text-sm text-slate-800 space-y-2">
+                  <div>
+                    <strong>Execute Output:</strong>{" "}
+                    <pre className="whitespace-pre-wrap break-words">
+                      {String(executionError.stderr?.stdout)}
+                    </pre>
+                  </div>
+                  <div>
+                    <strong>Expected Output:</strong>{" "}
+                    <pre className="whitespace-pre-wrap break-words">
+                      {String(executionError.expected_output)}
+                    </pre>
+                  </div>
+                  <div>
+                    <strong>Time:</strong> {executionError.stderr?.time}
+                  </div>
+                  <div>
+                    <strong>Memory:</strong> {executionError.stderr?.memory} KB
+                  </div>
+                  <div>
+                    <strong>Standard Error:</strong>
+                    <pre className="whitespace-pre-wrap break-words">
+                      {String(executionError.stderr?.stderr)}
+                    </pre>
+                  </div>
+                  <div>
+                    <strong>Compile Output:</strong>
+                    <pre className="whitespace-pre-wrap break-words">
+                      {String(executionError.stderr?.compile_output)}
+                    </pre>
+                  </div>
+                  <div>
+                    <strong>Error Message:</strong>{" "}
+                    {String(executionError.stderr?.message)}
+                  </div>
+                  {executionError.stderr?.status && (
+                    <div>
+                      <strong>status:</strong>
+                      <div className="ml-2">
+                        <div>
+                          <strong>id:</strong> {executionError.stderr.status.id}
+                        </div>
+                        <div>
+                          <strong>description:</strong>{" "}
+                          {executionError.stderr.status.description}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

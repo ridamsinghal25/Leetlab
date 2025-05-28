@@ -19,7 +19,11 @@ export const useAuthStore = create((set, get) => ({
       const res = await axiosInstance.get("/auth/check");
 
       if (res.data.success) {
-        set({ authUser: res.data.user, isLoginCheckDone: true });
+        set({
+          authUser: res.data.user,
+          isLoginCheckDone: true,
+          isLoggedIn: true,
+        });
       }
     } catch (error) {
       set({ authUser: null, isLoginCheckDone: true });
