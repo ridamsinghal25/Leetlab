@@ -8,6 +8,7 @@ import {
   register,
   updateUserPassword,
   uploadProfileImage,
+  verifyEmail,
 } from "../controllers/auth.controller.js";
 import { authMiddleware } from "../middleware/auth.middleware.js";
 import { upload } from "../middleware/multer.middleware.js";
@@ -19,6 +20,8 @@ authRoutes.post("/register", register);
 authRoutes.post("/login", login);
 
 authRoutes.post("/logout", authMiddleware, logout);
+
+authRoutes.post("/verify-email", verifyEmail);
 
 authRoutes.get("/check", authMiddleware, check);
 

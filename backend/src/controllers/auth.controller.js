@@ -7,6 +7,28 @@ import {
   uploadFilesToImagekit,
 } from "../libs/imagekit.js";
 import { removeUnusedMulterImageFilesOnError } from "../libs/helpers.js";
+import crypto from "crypto";
+import { USER_TEMPORARY_TOKEN_EXPIRY } from "../constants.js";
+import { sendEmail } from "../libs/email/sendEmail.js";
+import {
+  verificationEmailTemplate,
+  verificationPlainTextTemplate,
+} from "../libs/email/verificationEmailTemplate.js";
+
+function generateTemporaryOTPToken() {
+  const min = 100000;
+  const max = 999999;
+  const unHashedOTP = crypto.randomInt(min, max + 1).toString();
+
+  const hashedOTP = crypto
+    .createHash("sha256")
+    .update(unHashedOTP)
+    .digest("hex");
+
+  const tokenExpiry = new Date(Date.now() + USER_TEMPORARY_TOKEN_EXPIRY);
+
+  return { unHashedOTP, hashedOTP, tokenExpiry };
+}
 
 export const register = async (req, res) => {
   const { email, password, name } = req.body;
@@ -18,34 +40,64 @@ export const register = async (req, res) => {
       },
     });
 
-    if (existingUser) {
-      return res.status(400).json({
-        error: "User already exists",
-        success: false,
-      });
-    }
+    const { unHashedOTP, hashedOTP, tokenExpiry } = generateTemporaryOTPToken();
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = await db.user.create({
-      data: {
-        email,
-        password: hashedPassword,
-        name,
-        role: UserRole.USER,
-      },
+    let newUser;
+    if (existingUser) {
+      if (existingUser.isEmailVerified) {
+        return res.status(400).json({
+          error: "User already exists",
+          success: false,
+        });
+      } else {
+        newUser = await db.user.update({
+          where: {
+            id: existingUser.id,
+          },
+          data: {
+            password: existingUser.password,
+            name: existingUser.name,
+            emailVerificationToken: hashedOTP,
+            emailVerificationExpiry: tokenExpiry,
+          },
+        });
+      }
+    } else {
+      newUser = await db.user.create({
+        data: {
+          email,
+          password: hashedPassword,
+          name,
+          role: UserRole.USER,
+          isEmailVerified: false,
+          emailVerificationToken: hashedOTP,
+          emailVerificationExpiry: tokenExpiry,
+        },
+      });
+
+      if (!newUser) {
+        return res.status(500).json({
+          error: "Something went wrong while creating user",
+          success: false,
+        });
+      }
+    }
+
+    const emailMessage = await sendEmail({
+      email,
+      subject: "Verification Email",
+      htmlContent: verificationEmailTemplate(name, unHashedOTP),
+      textContent: verificationPlainTextTemplate(name, unHashedOTP),
     });
 
-    const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
-
-    res.cookie("jwt", token, {
-      httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV !== "development",
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-    });
+    if (!emailMessage.success) {
+      throw new ApiError(
+        500,
+        "Something went wrong while sending verification email."
+      );
+    }
 
     res.status(200).json({
       message: "User created successfully",
@@ -149,6 +201,62 @@ export const logout = async (req, res) => {
     console.error("Error logging out user:", error);
     res.status(500).json({
       error: "Error logging out user",
+      success: false,
+    });
+  }
+};
+
+export const verifyEmail = async (req, res) => {
+  try {
+    const { verifyCode } = req.body;
+
+    if (!verifyCode) {
+      return res.status(400).json({
+        error: "Verification code is required",
+        success: false,
+      });
+    }
+
+    const hashedOTP = crypto
+      .createHash("sha256")
+      .update(verifyCode)
+      .digest("hex");
+
+    const user = await db.user.findFirst({
+      where: {
+        emailVerificationToken: hashedOTP,
+        emailVerificationExpiry: {
+          gt: new Date(),
+        },
+      },
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        error: "Invalid verification code or expired",
+        success: false,
+      });
+    }
+
+    await db.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        isEmailVerified: true,
+        emailVerificationToken: null,
+        emailVerificationExpiry: null,
+      },
+    });
+
+    res.status(200).json({
+      message: "Email verified successfully",
+      success: true,
+    });
+  } catch (error) {
+    console.error("Error verifying email:", error);
+    res.status(500).json({
+      error: "Error verifying email",
       success: false,
     });
   }
