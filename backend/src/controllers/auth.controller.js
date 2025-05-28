@@ -108,6 +108,7 @@ export const register = async (req, res) => {
         name: newUser.name,
         role: newUser.role,
         image: newUser.image,
+        isEmailVerified: newUser.isEmailVerified,
       },
     });
   } catch (error) {
@@ -132,6 +133,13 @@ export const login = async (req, res) => {
     if (!isUserExists) {
       return res.status(401).json({
         error: "User does not exists",
+        success: false,
+      });
+    }
+
+    if (!isUserExists.isEmailVerified) {
+      return res.status(401).json({
+        error: "Please verify your email",
         success: false,
       });
     }

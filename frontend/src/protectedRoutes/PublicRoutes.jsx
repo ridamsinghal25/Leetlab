@@ -4,14 +4,14 @@ import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 function PublicRoutes() {
-  const { authUser, isLoginCheckDone } = useAuthStore();
+  const { isLoggedIn, isLoginCheckDone } = useAuthStore();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLoginCheckDone && authUser?.id) {
+    if (isLoginCheckDone && isLoggedIn) {
       navigate(`${ROUTES.HOME}`);
     }
-  }, [authUser, isLoginCheckDone, navigate]);
+  }, [isLoggedIn, isLoginCheckDone, navigate]);
 
   return <Outlet />;
 }

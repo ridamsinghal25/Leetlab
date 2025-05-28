@@ -35,8 +35,11 @@ export default function SignUpPage() {
 
   const onSubmit = async (data) => {
     try {
-      await signup(data); // your auth logic here
-      navigate(ROUTES.LOGIN);
+      const res = await signup(data); // your auth logic here
+
+      if (res.success) {
+        navigate(ROUTES.VERIFY_EMAIL);
+      }
     } catch (error) {
       console.error("SignUp failed:", error);
     }

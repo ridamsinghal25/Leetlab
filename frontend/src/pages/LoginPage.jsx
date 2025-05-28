@@ -34,8 +34,11 @@ export default function LoginPage() {
 
   const onSubmit = async (data) => {
     try {
-      await login(data); // your auth logic here
-      navigate(ROUTES.HOME);
+      const res = await login(data); // your auth logic here
+
+      if (res.success) {
+        navigate(ROUTES.HOME);
+      }
     } catch (error) {
       console.error("Login failed:", error);
     }
