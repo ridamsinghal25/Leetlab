@@ -3,13 +3,13 @@ import { ChevronLeft } from "lucide-react";
 
 export default function DesktopShimmerUI() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       {/* Header */}
       <header className="border-b p-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Skeleton className="h-6 w-24" />
         </div>
-        <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100">
+        <div className="flex items-center justify-center w-10 h-10 rounded-full">
           <Skeleton className="w-5 h-5 rounded-full" />
         </div>
       </header>
@@ -40,7 +40,7 @@ export default function DesktopShimmerUI() {
           {/* Problems Table */}
           <div className="mt-6 border rounded-lg overflow-hidden">
             {/* Table Header */}
-            <div className="grid grid-cols-12 gap-4 p-4 border-b bg-gray-50">
+            <div className="grid grid-cols-12 gap-4 p-4 border-b">
               <div className="col-span-1">
                 <Skeleton className="h-6 w-6" />
               </div>
