@@ -86,6 +86,7 @@ export const createProblem = async (req, res) => {
             executionError: {
               stderr: result,
               description: result.status.description,
+              expected_output: submissions[i].expected_output,
             },
             success: false,
           });

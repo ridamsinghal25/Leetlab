@@ -579,7 +579,7 @@ export default function ProblemForm({
               {executionError.stderr && (
                 <div className="bg-slate-50 p-3 font-mono text-sm text-slate-800 space-y-2">
                   <div>
-                    <strong>Execute Output:</strong>{" "}
+                    <strong>Your Output:</strong>{" "}
                     <pre className="whitespace-pre-wrap break-words">
                       {String(executionError.stderr?.stdout)}
                     </pre>

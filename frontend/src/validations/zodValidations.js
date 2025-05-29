@@ -17,25 +17,25 @@ export const problemSchema = z.object({
   testcases: z
     .array(
       z.object({
-        input: z.string().min(1, "Input is required"),
-        output: z.string().min(1, "Output is required"),
+        input: z.string(),
+        output: z.string(),
       })
     )
     .min(1, "At least one test case is required"),
   examples: z.object({
     JAVASCRIPT: z.object({
-      input: z.string().min(1, "Input is required"),
-      output: z.string().min(1, "Output is required"),
+      input: z.string(),
+      output: z.string(),
       explanation: z.string().optional(),
     }),
     PYTHON: z.object({
-      input: z.string().min(1, "Input is required"),
-      output: z.string().min(1, "Output is required"),
+      input: z.string(),
+      output: z.string(),
       explanation: z.string().optional(),
     }),
     JAVA: z.object({
-      input: z.string().min(1, "Input is required"),
-      output: z.string().min(1, "Output is required"),
+      input: z.string(),
+      output: z.string(),
       explanation: z.string().optional(),
     }),
   }),
