@@ -77,6 +77,10 @@ const ProblemPage = () => {
       setIsCounting(false);
       resetCountdown();
     }
+
+    return () => {
+      resetCountdown();
+    };
   }, [count]);
 
   const handleLanguageChange = (value) => {

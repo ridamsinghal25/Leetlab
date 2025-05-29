@@ -22,7 +22,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import TestPanel from "@/components/components/collaborativeEditor/TestPanel";
-import { COLLABORATIVE_EDITOR_LANGUAGES } from "@/constants/constants";
+import {
+  COLLABORATIVE_EDITOR_LANGUAGES,
+  COUNTDOWN,
+} from "@/constants/constants";
 import toast from "react-hot-toast";
 import { getLanguageId } from "@/lib/getLanguageInfo";
 import { useExecutionStore } from "@/store/useExecution";
@@ -33,6 +36,7 @@ import { Cursors } from "@/components/components/collaborativeEditor/Cursors";
 import { useErrorListener } from "@liveblocks/react";
 import { useSelf } from "@liveblocks/react";
 import { EditorShimmerUI } from "@/components/basic/CollaborativeEditorShimmerUI/EditorShimmerUI";
+import { useCountdown } from "usehooks-ts";
 
 export function CollaborativeEditor() {
   const [editorRef, setEditorRef] = useState();
@@ -49,6 +53,11 @@ export function CollaborativeEditor() {
   const [showSubmissions, setShowSubmissions] = useState(true);
   const room = useRoom();
   const yProvider = getYjsProviderForRoom(room);
+  const [isCounting, setIsCounting] = useState(false);
+  const [count, { startCountdown, _, resetCountdown }] = useCountdown({
+    countStart: COUNTDOWN.COUNTSTART,
+    intervalMs: COUNTDOWN.INTERVAL,
+  });
 
   const submissionRef = useRef(null);
 
@@ -130,6 +139,17 @@ export function CollaborativeEditor() {
     };
   }, [editorRef, room, yProvider, userInfo]);
 
+  useEffect(() => {
+    if (count === 0) {
+      setIsCounting(false);
+      resetCountdown();
+    }
+
+    return () => {
+      resetCountdown();
+    };
+  }, [count]);
+
   const handleOnMount = useCallback((e) => {
     setEditorRef(e);
   }, []);
@@ -146,6 +166,9 @@ export function CollaborativeEditor() {
       return;
     }
 
+    setIsCounting(true);
+    startCountdown();
+
     setCollabCodeSubmission();
 
     const code = editorRef.getValue();
@@ -156,7 +179,6 @@ export function CollaborativeEditor() {
 
     await runCodeCollabEditor(code, language_id, stdin, expected_outputs);
 
-    console.log("first");
     submissionRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -238,17 +260,24 @@ export function CollaborativeEditor() {
             </Select>
             <Button
               onClick={handleRunCode}
-              disabled={isExecuting}
+              disabled={isExecuting || isCounting}
               className="h-8 bg-[#0e639c] hover:bg-[#1177bb] text-white border-none"
             >
-              {isExecuting ? (
-                <div className="flex items-center">
+              {isCounting ? (
+                <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  <span>Running...</span>
-                </div>
+                  <span>{count}</span>
+                </>
               ) : (
-                <div className="flex items-center">
-                  <Play className="mr-2 h-4 w-4" />
+                <div className="flex items-center justify-center gap-2">
+                  {isExecuting ? (
+                    <div className="flex items-center">
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      <span>Running...</span>
+                    </div>
+                  ) : (
+                    <Play className="w-4 h-4" />
+                  )}
                   <span>Run Code</span>
                 </div>
               )}
