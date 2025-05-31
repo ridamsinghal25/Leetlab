@@ -15,7 +15,7 @@ import FormFieldInput from "../basic/FormFieldInput";
 import FormFieldTextarea from "../basic/FormFieldTextarea";
 import { useAIStore } from "@/store/useAIStore";
 import toast from "react-hot-toast";
-import { Loader2 } from "lucide-react";
+import { Loader2, TriangleAlert } from "lucide-react";
 
 export const AIProblemModal = ({ isOpen, onOpenChange, form }) => {
   const { isGenerating, generateFormData } = useAIStore();
@@ -57,6 +57,25 @@ export const AIProblemModal = ({ isOpen, onOpenChange, form }) => {
           </DialogTitle>
           <DialogDescription>Generate a problem using AI.</DialogDescription>
         </DialogHeader>
+
+        {/* Error Notice */}
+        <div className="bg-amber-50 border border-amber-200 rounded-md p-3 mb-4">
+          <div className="flex items-start">
+            <div className="flex-shrink-0">
+              <TriangleAlert
+                className="h-4 w-4 text-amber-400 mt-0.5"
+                fill="yellow"
+              />
+            </div>
+            <div className="ml-2">
+              <p className="text-sm text-amber-700">
+                <span className="font-medium">Note:</span> This AI generation
+                feature may occasionally encounter errors or timeouts. If
+                generation fails, please try again or try a different question.
+              </p>
+            </div>
+          </div>
+        </div>
 
         <Form {...aiProblemForm}>
           <form

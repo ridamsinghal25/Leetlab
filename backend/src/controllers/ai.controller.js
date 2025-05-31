@@ -53,9 +53,11 @@ output: Expected output
 
 explanation (optional): How the output is calculated
 
-codeSnippets: 3 entries (one for each language) with partial code including the **standard input parsing and main execution boilerplate**.
+codeSnippets: 3 entries (one for each language) with partial code snippets.
 
-referenceSolutions: Same languages, with working full solutions including standard input parsing and function call to produce the correct result.
+referenceSolutions: Same languages, with working full solutions to the problem.
+
+stdin: 3 entries (one for each language) with standard input for the problem.
 
 🧾 Example Output Format:
 {
@@ -102,7 +104,12 @@ referenceSolutions: Same languages, with working full solutions including standa
   }
 }
 
-❗❗❗❗ Return only the valid JSON **without any markdown code blocks** (no backticks). Do not include explanation, headers, or commentary. And I want you to return a JSON response that I can extract using JSON.parse.
+IMPORTANT:
+- Respond with *only* valid raw JSON.
+- Do NOT include markdown, code fences, comments, or any extra formatting.
+- The format must be a raw JSON object.
+
+ Repeat: Only the valid JSON **without any markdown code blocks** (no backticks). Do not include markdown, code fences, comments, explanation, headers, or commentary. And I want you to return a JSON response that I can extract using JSON.parse.
 `;
 
     const result = await ai.models.generateContent({
@@ -110,10 +117,18 @@ referenceSolutions: Same languages, with working full solutions including standa
       contents: prompt,
     });
 
-    const rawJson = result.text
-      .replace(/^```json\s*/, "")
-      .replace(/```$/, "")
-      .trim();
+    const match = result.text.match(/```json\s*([\s\S]*?)\s*```/i);
+
+    let rawJson;
+
+    if (match) {
+      rawJson = result.text
+        .replace(/^```json\s*/, "")
+        .replace(/```$/, "")
+        .trim();
+    } else {
+      rawJson = result.text.trim();
+    }
 
     return res.status(200).json({
       success: true,
