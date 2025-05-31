@@ -51,9 +51,9 @@ function ProblemPageHeader({ problem, submissionCount }) {
           <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
             <div className="hidden sm:flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-muted-foreground">
               <div className="flex items-center gap-1">
-                <Clock className="w-3 h-3 sm:w-4 sm:h-4 text-gray-700" />
-                <span className="hidden md:inline text-gray-700">Updated</span>
-                <span className="text-gray-700 truncate max-w-20 sm:max-w-none">
+                <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="hidden md:inline">Updated</span>
+                <span className="truncate max-w-20 sm:max-w-none">
                   {new Date(problem.createdAt).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "short",
@@ -68,21 +68,10 @@ function ProblemPageHeader({ problem, submissionCount }) {
               />
 
               <div className="hidden sm:flex items-center gap-1">
-                <Users className="w-3 h-3 sm:w-4 sm:h-4 text-gray-700" />
-                <span className="text-gray-700">
-                  {submissionCount} Submissions
-                </span>
+                <Users className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="">{submissionCount} Submissions</span>
               </div>
             </div>
-
-            {/* <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsBookmarked(!isBookmarked)}
-              className={`${isBookmarked ? "text-primary" : ""} flex-shrink-0`}
-            >
-              <Bookmark className="w-4 h-4 sm:w-5 sm:h-5" />
-            </Button> */}
           </div>
         </div>
       </div>
