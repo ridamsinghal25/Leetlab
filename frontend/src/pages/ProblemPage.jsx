@@ -33,13 +33,14 @@ const ProblemPage = () => {
   const { executeCode, submission, isExecuting, runCode, setSubmission } =
     useExecutionStore();
 
-  const [count, { startCountdown, _, resetCountdown }] = useCountdown({
-    countStart: COUNTDOWN.COUNTSTART,
-    intervalMs: COUNTDOWN.INTERVAL,
-  });
+  const [count, { startCountdown, stopCountdown, resetCountdown }] =
+    useCountdown({
+      countStart: COUNTDOWN.COUNTSTART,
+      intervalMs: COUNTDOWN.INTERVAL,
+    });
 
   useEffect(() => {
-    if (id) {
+    if (id && problem?.id !== id) {
       getProblemById(id);
       getSubmissionCountForProblem(id);
       getSubmissionForProblemByUser(id);
@@ -77,10 +78,6 @@ const ProblemPage = () => {
       setIsCounting(false);
       resetCountdown();
     }
-
-    return () => {
-      resetCountdown();
-    };
   }, [count]);
 
   const handleLanguageChange = (value) => {
@@ -95,8 +92,8 @@ const ProblemPage = () => {
     setSubmission();
 
     const language_id = getLanguageId(selectedLanguage);
-    const stdin = problem.testcases.map((tc) => tc.input);
-    const expected_outputs = problem.testcases.map((tc) => tc.output);
+    const stdin = testCases.map((tc) => tc.input);
+    const expected_outputs = testCases.map((tc) => tc.output);
     const standardInputOfCode = problem.stdin[selectedLanguage];
 
     runCode(
@@ -115,8 +112,8 @@ const ProblemPage = () => {
     setSubmission();
 
     const language_id = getLanguageId(selectedLanguage);
-    const stdin = problem.testcases.map((tc) => tc.input);
-    const expected_outputs = problem.testcases.map((tc) => tc.output);
+    const stdin = testCases.map((tc) => tc.input);
+    const expected_outputs = testCases.map((tc) => tc.output);
     const standardInputOfCode = problem.stdin[selectedLanguage];
 
     const submission = await executeCode(
@@ -152,7 +149,6 @@ const ProblemPage = () => {
             problem={problem}
             submissionsOfProblem={submissionsOfProblem}
             isSubmissionsLoading={isSubmissionsLoading}
-            testCases={testCases}
           />
 
           {/* Right side - Code editor  */}
@@ -167,6 +163,8 @@ const ProblemPage = () => {
             handleSubmitCode={handleSubmitCode}
             isCounting={isCounting}
             count={count}
+            testCases={testCases}
+            setTestCases={setTestCases}
           />
         </div>
 

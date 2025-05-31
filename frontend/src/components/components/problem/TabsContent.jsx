@@ -6,7 +6,6 @@ export const ProblemTabsContent = ({
   problem,
   submissions,
   isSubmissionsLoading,
-  testCases,
 }) => {
   switch (activeTab) {
     case "description":
@@ -27,7 +26,7 @@ export const ProblemTabsContent = ({
                       Input:
                     </div>
                     <div className="bg-black/90 dark:bg-white/10 px-4 py-2 rounded-lg font-semibold text-white">
-                      {example.input}
+                      {example.input.trim() ? example.input : "Empty String"}
                     </div>
                   </div>
                   <div className="mb-4">
@@ -35,7 +34,7 @@ export const ProblemTabsContent = ({
                       Output:
                     </div>
                     <div className="bg-black/90 dark:bg-white/10 px-4 py-2 rounded-lg font-semibold text-white">
-                      {example.output}
+                      {example.output.trim() ? example.output : "Empty String"}
                     </div>
                   </div>
                   {example.explanation && (
@@ -56,43 +55,13 @@ export const ProblemTabsContent = ({
           {problem.constraints && (
             <>
               <h3 className="text-xl font-bold mb-4">Constraints:</h3>
-              <div className="bg-muted p-6 rounded-xl mb-6">
-                <pre className=" dark:bg-white/10 px-4 py-2 rounded-lg font-semibold text-black dark:text-white text-lg whitespace-pre-wrap">
+              <div className="bg-muted rounded-xl mb-6">
+                <pre className=" dark:bg-white/10 px-4 py-2 rounded-lg text-black dark:text-white whitespace-pre-wrap">
                   {problem.constraints}
                 </pre>
               </div>
             </>
           )}
-
-          <>
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold">Test Cases</h3>
-              <div className="flex items-center gap-2">
-                <Info className="w-4 h-4 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">
-                  Run your code to see results
-                </span>
-              </div>
-            </div>
-
-            {/* Table header */}
-            <div className="w-full border-b border-gray-200">
-              <div className="grid grid-cols-2 py-3">
-                <div className="px-4 font-medium">Input</div>
-                <div className="px-4 font-medium">Expected Output</div>
-              </div>
-            </div>
-
-            {/* Table body */}
-            <div className="w-full">
-              {testCases?.map((testCase, index) => (
-                <div key={index} className={`grid grid-cols-2 py-4 border-b`}>
-                  <div className="px-4 font-mono">{testCase.input}</div>
-                  <div className="px-4 font-mono">{testCase.output}</div>
-                </div>
-              ))}
-            </div>
-          </>
         </div>
       );
     case "submissions":

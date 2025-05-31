@@ -1,10 +1,4 @@
-import {
-  FileText,
-  MessageSquare,
-  Lightbulb,
-  Code2,
-  MemoryStickIcon as Memory,
-} from "lucide-react";
+import { FileText, MessageSquare, Lightbulb, Code2 } from "lucide-react";
 import { ProblemTabsContent } from "@/components/components/problem/TabsContent";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PROBLEM_PAGE_TABS } from "@/constants/constants";
@@ -17,7 +11,6 @@ function ProblemTabs({
   problem,
   submissionsOfProblem,
   isSubmissionsLoading,
-  testCases,
 }) {
   return (
     <div className="w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r">
@@ -69,7 +62,6 @@ function ProblemTabs({
                 problem={problem}
                 submissions={submissionsOfProblem}
                 isSubmissionsLoading={isSubmissionsLoading}
-                testCases={testCases}
               />
             </div>
           </ScrollArea>
