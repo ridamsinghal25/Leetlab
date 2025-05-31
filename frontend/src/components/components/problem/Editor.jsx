@@ -8,6 +8,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import TestPanel from "./TestPanel";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 
 function CodeEditor({
   code,
@@ -20,10 +26,12 @@ function CodeEditor({
   handleSubmitCode,
   isCounting,
   count,
+  testCases,
+  setTestCases,
 }) {
   return (
     <div className="w-full lg:w-1/2 flex flex-col">
-      <div className="flex justify-between px-4 py-2 border-b">
+      <div className="flex justify-between px-4 py-[8.5px] border-b">
         <div className="flex items-center">
           <Terminal className="w-4 h-4 mr-2" />
           <h2 className="font-medium">Code Editor</h2>
@@ -43,39 +51,75 @@ function CodeEditor({
           </Select>
         </div>
       </div>
+      {/* Editor and Test Panel */}
+      <ResizablePanelGroup direction="vertical">
+        <div className="h-screen flex flex-col px-1">
+          <ResizablePanel defaultSize={60} className="rounded">
+            {/* Code Editor */}
 
-      <div className="flex-1 min-h-screen md:min-h-0">
-        <Editor
-          height="100%"
-          language={selectedLanguage.toLowerCase()}
-          theme="vs-dark"
-          value={code}
-          onChange={(value) => setCode(value || "")}
-          defaultLanguage="javascript"
-          defaultValue={code}
-          options={{
-            minimap: { enabled: false },
-            fontSize: 16,
-            lineNumbers: "on",
-            roundedSelection: false,
-            scrollBeyondLastLine: false,
-            readOnly: false,
-            automaticLayout: true,
-            mouseWheelScrollSensitivity: 1,
-            wordWrap: "on",
-            scrollbar: {
-              alwaysConsumeMouseWheel: false,
-              handleMouseWheel: true,
-            },
-            padding: {
-              top: 10,
-              right: 20,
-            },
-          }}
-        />
-      </div>
+            {/* <div className="pt-1"> */}
+            <Editor
+              className="mt-1 rounded border"
+              height="100%"
+              language={selectedLanguage.toLowerCase()}
+              theme="vs-dark"
+              value={code}
+              onChange={(value) => setCode(value || "")}
+              defaultLanguage="javascript"
+              defaultValue={code}
+              options={{
+                minimap: { enabled: false },
+                fontSize: 16,
+                lineNumbers: "on",
+                roundedSelection: false,
+                scrollBeyondLastLine: false,
+                readOnly: false,
+                automaticLayout: true,
+                mouseWheelScrollSensitivity: 1,
+                wordWrap: "on",
+                scrollbar: {
+                  alwaysConsumeMouseWheel: false,
+                  handleMouseWheel: true,
+                },
+                padding: {
+                  top: 10,
+                  right: 20,
+                },
+              }}
+            />
+            {/* </div> */}
+          </ResizablePanel>
+          <div className="h-1 bg-black transition-colors"></div>
+          <ResizableHandle withHandle />
 
-      <div className="p-4 border-t bg-muted/50">
+          <ResizablePanel
+            defaultSize={50}
+            maxSize={50}
+            minSize={7}
+            className="rounded pb-1"
+          >
+            {/* Test Panel */}
+            <div className="h-full bg-[#252526] border border-[#3e3e3e] flex flex-col rounded mb-2">
+              {/* Test Panel Header */}
+              <div className="bg-[#2d2d2d] border-b border-[#3e3e3e] px-3 py-2 flex items-center justify-between flex-shrink-0">
+                <div className="flex items-center gap-2">
+                  <Terminal className="w-4 h-4 text-green-400" />
+                  <span className="text-sm font-medium text-white">
+                    Testcases
+                  </span>
+                </div>
+              </div>
+
+              {/* Test Panel Content */}
+              <div className="flex-1 overflow-hidden">
+                <TestPanel testCases={testCases} setTestCases={setTestCases} />
+              </div>
+            </div>
+          </ResizablePanel>
+        </div>
+      </ResizablePanelGroup>
+
+      <div className="p-3 border-t bg-muted/50">
         <div className="flex justify-between items-center w-full">
           <div>
             <Button

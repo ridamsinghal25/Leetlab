@@ -37,6 +37,11 @@ import { useErrorListener } from "@liveblocks/react";
 import { useSelf } from "@liveblocks/react";
 import { EditorShimmerUI } from "@/components/basic/CollaborativeEditorShimmerUI/EditorShimmerUI";
 import { useCountdown } from "usehooks-ts";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 
 export function CollaborativeEditor() {
   const [editorRef, setEditorRef] = useState();
@@ -144,10 +149,6 @@ export function CollaborativeEditor() {
       setIsCounting(false);
       resetCountdown();
     }
-
-    return () => {
-      resetCountdown();
-    };
   }, [count]);
 
   const handleOnMount = useCallback((e) => {
@@ -310,45 +311,53 @@ export function CollaborativeEditor() {
         {/* Main Content Area */}
         <div className="flex min-h-[100vh] overflow-hidden">
           {/* Main Editor Area */}
-          <div className="flex-1 flex flex-col overflow-hidden">
-            <div className={"flex flex-1"}>
-              <div className="flex-1 flex flex-col overflow-hidden">
-                <Editor
-                  onMount={handleOnMount}
-                  height="100vh"
-                  width="100%"
-                  theme="vs-dark"
-                  language={language.toLowerCase()}
-                  defaultValue="// Start coding here..."
-                  options={{
-                    tabSize: 2,
-                    fontSize: 17,
-                    minimap: { enabled: false },
-                    scrollBeyondLastLine: false,
-                    automaticLayout: true,
-                    padding: { top: 16 },
-                    lineNumbers: "on",
-                    glyphMargin: true,
-                    folding: true,
-                    renderLineHighlight: "all",
-                    wordWrap: "on",
-                    scrollbar: {
-                      alwaysConsumeMouseWheel: false,
-                      handleMouseWheel: true,
-                    },
-                  }}
-                />
-              </div>
+          <ResizablePanelGroup direction="horizontal">
+            <div className="flex-1 flex flex-col overflow-hidden">
+              <div className={"flex flex-1"}>
+                <ResizablePanel defaultSize={70} minSize={30}>
+                  <div className="flex-1 flex flex-col overflow-hidden">
+                    <Editor
+                      onMount={handleOnMount}
+                      height="100vh"
+                      width="100%"
+                      theme="vs-dark"
+                      language={language.toLowerCase()}
+                      defaultValue="// Start coding here..."
+                      options={{
+                        tabSize: 2,
+                        fontSize: 17,
+                        minimap: { enabled: false },
+                        scrollBeyondLastLine: false,
+                        automaticLayout: true,
+                        padding: { top: 16 },
+                        lineNumbers: "on",
+                        glyphMargin: true,
+                        folding: true,
+                        renderLineHighlight: "all",
+                        wordWrap: "on",
+                        scrollbar: {
+                          alwaysConsumeMouseWheel: false,
+                          handleMouseWheel: true,
+                        },
+                      }}
+                    />
+                  </div>
+                </ResizablePanel>
 
-              {showTestPanel && (
-                <TestPanel
-                  testCases={testCases}
-                  setTestCases={setTestCases}
-                  setShowTestPanel={setShowTestPanel}
-                />
-              )}
+                {showTestPanel && <ResizableHandle withHandle />}
+
+                {showTestPanel && (
+                  <ResizablePanel defaultSize={30} minSize={20} maxSize={50}>
+                    <TestPanel
+                      testCases={testCases}
+                      setTestCases={setTestCases}
+                      setShowTestPanel={setShowTestPanel}
+                    />
+                  </ResizablePanel>
+                )}
+              </div>
             </div>
-          </div>
+          </ResizablePanelGroup>
         </div>
 
         {/* Submissions section - Now with proper styling and visibility */}
