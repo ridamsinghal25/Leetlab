@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Bookmark, Pencil, Trash } from "lucide-react";
+import { Bookmark, Loader2, Pencil, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -29,6 +29,7 @@ function ProblemTableDesktopView({
   authUser,
   handleDelete,
   handleAddToPlaylist,
+  isDeletingProblem,
 }) {
   return (
     <div className="hidden md:block rounded-lg border overflow-hidden bg-card">
@@ -183,9 +184,14 @@ function ProblemTableDesktopView({
                                     variant="destructive"
                                     size="icon"
                                     onClick={() => handleDelete(problem.id)}
-                                    className="h-8 w-8"
+                                    className="h-8 w-8 cursor-pointer"
+                                    disabled={isDeletingProblem}
                                   >
-                                    <Trash className="h-4 w-4" />
+                                    {isDeletingProblem ? (
+                                      <Loader2 className="h-4 w-4 animate-spin" />
+                                    ) : (
+                                      <Trash className="h-4 w-4" />
+                                    )}
                                   </Button>
                                 </TooltipTrigger>
                                 <TooltipContent>
@@ -206,7 +212,7 @@ function ProblemTableDesktopView({
                                     <Button
                                       variant="secondary"
                                       size="icon"
-                                      className="h-8 w-8"
+                                      className="h-8 w-8 cursor-pointer"
                                     >
                                       <Pencil className="h-4 w-4" />
                                     </Button>

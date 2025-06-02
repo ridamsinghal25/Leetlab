@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Bookmark, Building2, Pencil, Trash } from "lucide-react";
+import { Bookmark, Building2, Loader2, Pencil, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -16,6 +16,7 @@ function ProblemTableMobileView({
   authUser,
   handleDelete,
   handleAddToPlaylist,
+  isDeletingProblem,
 }) {
   return (
     <div className="block md:hidden space-y-4">
@@ -59,9 +60,14 @@ function ProblemTableMobileView({
                         variant="destructive"
                         size="icon"
                         onClick={() => handleDelete(problem.id)}
-                        className="h-8 w-8"
+                        className="h-8 w-8 cursor-pointer"
+                        disabled={isDeletingProblem}
                       >
-                        <Trash className="h-3.5 w-3.5" />
+                        {isDeletingProblem ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <Trash className="h-4 w-4" />
+                        )}
                       </Button>
                       <Link
                         to={ROUTES.UPDATE_PROBLEM.replace(":id", problem.id)}
@@ -69,7 +75,7 @@ function ProblemTableMobileView({
                         <Button
                           variant="secondary"
                           size="icon"
-                          className="h-8 w-8"
+                          className="h-8 w-8 cursor-pointer"
                         >
                           <Pencil className="h-3.5 w-3.5" />
                         </Button>

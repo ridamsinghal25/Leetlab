@@ -22,8 +22,7 @@ import { useProblemStore } from "@/store/useProblemStore";
 
 export const ProblemsTable = ({ problems }) => {
   const { authUser } = useAuthStore();
-  const { onDeleteProblem } = useActions();
-  const { isLoading, createPlaylist } = usePlaylistStore();
+  const { onDeleteProblem, isDeletingProblem } = useActions();
   const { deleteProblemFromState } = useProblemStore();
 
   const [search, setSearch] = useState("");
@@ -74,10 +73,6 @@ export const ProblemsTable = ({ problems }) => {
     await onDeleteProblem(id);
 
     deleteProblemFromState(id);
-  };
-
-  const handleCreatePlaylist = async (data) => {
-    await createPlaylist(data);
   };
 
   const handleAddToPlaylist = (problemId) => {
@@ -141,6 +136,7 @@ export const ProblemsTable = ({ problems }) => {
           authUser={authUser}
           handleDelete={handleDelete}
           handleAddToPlaylist={handleAddToPlaylist}
+          isDeletingProblem={isDeletingProblem}
         />
 
         {/* Desktop Table View (hidden on small screens) */}
@@ -149,6 +145,7 @@ export const ProblemsTable = ({ problems }) => {
           authUser={authUser}
           handleDelete={handleDelete}
           handleAddToPlaylist={handleAddToPlaylist}
+          isDeletingProblem={isDeletingProblem}
         />
 
         {/* Pagination */}
@@ -185,8 +182,6 @@ export const ProblemsTable = ({ problems }) => {
       <CreatePlaylistModal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
-        onSubmit={handleCreatePlaylist}
-        isLoading={isLoading}
       />
 
       <AddToPlaylistModal
