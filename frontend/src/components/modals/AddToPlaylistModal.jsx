@@ -43,7 +43,7 @@ export const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
   });
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && currentPlaylists.length === 0) {
       getPlayListDetails();
     }
   }, [isOpen, getPlayListDetails]);

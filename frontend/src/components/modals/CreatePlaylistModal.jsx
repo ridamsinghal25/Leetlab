@@ -14,13 +14,11 @@ import { Loader2 } from "lucide-react";
 import FormFieldInput from "../basic/FormFieldInput";
 import { Form } from "../ui/form";
 import FormFieldTextarea from "../basic/FormFieldTextarea";
+import { usePlaylistStore } from "@/store/usePlaylistStore";
 
-export const CreatePlaylistModal = ({
-  isOpen,
-  onClose,
-  onSubmit,
-  isLoading,
-}) => {
+export const CreatePlaylistModal = ({ isOpen, onClose }) => {
+  const { isLoading, createPlaylist } = usePlaylistStore();
+
   const playlistForm = useForm({
     resolver: zodResolver(playlistSchema),
     defaultValues: {
@@ -30,7 +28,7 @@ export const CreatePlaylistModal = ({
   });
 
   const handleFormSubmit = async (data) => {
-    await onSubmit(data);
+    await createPlaylist(data);
     playlistForm.reset();
     onClose();
   };

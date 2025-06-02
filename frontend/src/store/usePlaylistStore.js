@@ -8,6 +8,8 @@ export const usePlaylistStore = create((set, get) => ({
   isLoading: false,
   isFetchingPlaylists: false,
   isFetchingPlaylistDetails: false,
+  isDeletingPlaylist: false,
+  isRemovingProblem: false,
   error: null,
 
   createPlaylist: async (playlistData) => {
@@ -19,9 +21,33 @@ export const usePlaylistStore = create((set, get) => ({
       );
 
       if (response.data.success) {
-        set((state) => ({
-          playlists: [...state.playlists, response.data.playlist],
-        }));
+        set((state) => {
+          const newPlaylist = response.data.playlist;
+
+          const updatedState = {};
+
+          if (state.playlists.length > 0) {
+            updatedState.playlists = [
+              ...state.playlists,
+              { ...newPlaylist, problems: [] },
+            ];
+          }
+
+          if (state.currentPlaylists.length > 0) {
+            updatedState.currentPlaylists = [
+              ...state.currentPlaylists,
+              {
+                id: newPlaylist.id,
+                name: newPlaylist.name,
+              },
+            ];
+          }
+
+          return {
+            ...state,
+            ...updatedState,
+          };
+        });
 
         toast.success("Playlist created successfully");
         return response.data.playList;
@@ -80,10 +106,19 @@ export const usePlaylistStore = create((set, get) => ({
       if (response.data.success) {
         toast.success("Problem added to playlist");
 
-        // Refresh the playlist details
-        if (get().currentPlaylist?.id === playlistId) {
-          await get().getPlaylistDetails(playlistId);
-        }
+        const newProblem = response.data.playlist[0];
+
+        set((state) => ({
+          playlists: state.playlists?.map((playlist) => {
+            if (playlist.id === playlistId && newProblem) {
+              return {
+                ...playlist,
+                problems: [...playlist.problems, newProblem],
+              };
+            }
+            return playlist;
+          }),
+        }));
       }
     } catch (error) {
       toast.error(
@@ -96,34 +131,44 @@ export const usePlaylistStore = create((set, get) => ({
 
   removeProblemFromPlaylist: async (playlistId, problemIds) => {
     try {
-      set({ isLoading: true });
-      const response = await axiosInstance.post(
-        `/playlist/${playlistId}/remove-problems`,
+      set({ isRemovingProblem: true });
+
+      const response = await axiosInstance.patch(
+        `/playlist/${playlistId}/remove-problem`,
         {
-          problemIds,
+          problemIds: [problemIds],
         }
       );
 
       if (response.data.success) {
         toast.success("Problem removed from playlist");
 
-        // Refresh the playlist details
-        if (get().currentPlaylist?.id === playlistId) {
-          await get().getPlaylistDetails(playlistId);
-        }
+        set((state) => ({
+          playlists: state.playlists?.map((playlist) => {
+            if (playlist.id === playlistId) {
+              return {
+                ...playlist,
+                problems: playlist.problems.filter((problem) => {
+                  return problem.problemId !== problemIds;
+                }),
+              };
+            }
+            return playlist;
+          }),
+        }));
       }
     } catch (error) {
       toast.error(
         error.response?.data?.error || "Failed to remove problem from playlist"
       );
     } finally {
-      set({ isLoading: false });
+      set({ isRemovingProblem: false });
     }
   },
 
   deletePlaylist: async (playlistId) => {
     try {
-      set({ isLoading: true });
+      set({ isDeletingPlaylist: true });
       const res = await axiosInstance.delete(`/playlist/${playlistId}`);
 
       if (res.data.success) {
@@ -136,7 +181,7 @@ export const usePlaylistStore = create((set, get) => ({
     } catch (error) {
       toast.error(error.response?.data?.error || "Failed to delete playlist");
     } finally {
-      set({ isLoading: false });
+      set({ isDeletingPlaylist: false });
     }
   },
 }));

@@ -66,10 +66,26 @@ export const getAllPlayListDetailsOfUser = async (req, res) => {
       where: {
         userId,
       },
-      include: {
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        createdAt: true,
+        userId: true,
         problems: {
-          include: {
-            problem: true,
+          select: {
+            id: true,
+            problemId: true,
+            playlistId: true,
+            problem: {
+              select: {
+                id: true,
+                title: true,
+                description: true,
+                difficulty: true,
+                tags: true,
+              },
+            },
           },
         },
       },
@@ -93,6 +109,10 @@ export const getPlayListDetails = async (req, res) => {
   try {
     const playlist = await db.playlist.findMany({
       where: { userId: req.user.id },
+      select: {
+        id: true,
+        name: true,
+      },
     });
 
     if (!playlist) {
@@ -153,17 +173,31 @@ export const addProblemToPlaylist = async (req, res) => {
       });
     }
 
-    const problemInPlaylist = await db.problemInPlaylist.createMany({
+    const problemInPlaylist = await db.problemInPlaylist.createManyAndReturn({
       data: problemIds.map((problemId) => ({
         problemId,
         playlistId,
       })),
+      select: {
+        id: true,
+        problemId: true,
+        playlistId: true,
+        problem: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            difficulty: true,
+            tags: true,
+          },
+        },
+      },
     });
 
     return res.status(200).json({
       success: true,
       message: "Problem added to playlist successfully",
-      problemInPlaylist,
+      playlist: problemInPlaylist,
     });
   } catch (error) {
     console.error("Error adding problem to playlist:", error);

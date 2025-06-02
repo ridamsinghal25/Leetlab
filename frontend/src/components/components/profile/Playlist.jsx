@@ -1,5 +1,14 @@
-import { useEffect } from "react";
-import { ExternalLink, BookOpen, Clock, List, Tag } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  ExternalLink,
+  BookOpen,
+  Clock,
+  List,
+  Tag,
+  Loader2,
+  Trash,
+  Loader2Icon,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -21,17 +30,31 @@ import { usePlaylistStore } from "@/store/usePlaylistStore";
 import { EASY_DIFFICULTY, MEDIUM_DIFFICULTY } from "@/constants/constants";
 import { ROUTES } from "@/constants/routes";
 import { PlaylistShimmerUI } from "@/components/basic/ProfilePageShimmerUI/PlaylistShimmerUI";
+import { CreatePlaylistModal } from "@/components/modals/CreatePlaylistModal";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 function PlaylistProfile() {
+  const [isCreatePlaylistModalOpen, setIsCreatePlaylistModalOpen] =
+    useState(false);
   const {
     getAllPlayListDetailsOfUser,
+    removeProblemFromPlaylist,
+    isRemovingProblem,
     playlists,
     deletePlaylist,
+    isDeletingPlaylist,
     isFetchingPlaylists,
   } = usePlaylistStore();
 
   useEffect(() => {
-    getAllPlayListDetailsOfUser();
+    if (!playlists?.length) {
+      getAllPlayListDetailsOfUser();
+    }
   }, [getAllPlayListDetailsOfUser]);
 
   const handleDelete = async (id) => {
@@ -55,8 +78,15 @@ function PlaylistProfile() {
     <div className="w-full">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <h2 className="text-2xl font-bold">My Playlists</h2>
-        <Button>Create Playlist</Button>
+        <Button onClick={() => setIsCreatePlaylistModalOpen(true)}>
+          Create Playlist
+        </Button>
       </div>
+
+      <CreatePlaylistModal
+        isOpen={isCreatePlaylistModalOpen}
+        onClose={() => setIsCreatePlaylistModalOpen(false)}
+      />
 
       {playlists?.length === 0 ? (
         <Card>
@@ -65,7 +95,12 @@ function PlaylistProfile() {
             <p className="text-muted-foreground mt-2 text-center">
               Create your first playlist to organize problems!
             </p>
-            <Button className="mt-4">Create Playlist</Button>
+            <Button
+              className="mt-4"
+              onClick={() => setIsCreatePlaylistModalOpen(true)}
+            >
+              Create Playlist
+            </Button>
           </CardContent>
         </Card>
       ) : (
@@ -138,7 +173,7 @@ function PlaylistProfile() {
                                 </TableRow>
                               </TableHeader>
                               <TableBody>
-                                {playlist?.problems.map((item) => (
+                                {playlist?.problems?.map((item) => (
                                   <TableRow key={item.id}>
                                     <TableCell className="font-medium">
                                       <span className="line-clamp-1">
@@ -186,6 +221,35 @@ function PlaylistProfile() {
                                       </div>
                                     </TableCell>
                                     <TableCell className="text-right">
+                                      <TooltipProvider>
+                                        <Tooltip>
+                                          <TooltipTrigger asChild>
+                                            <Button
+                                              variant="destructive"
+                                              size="icon"
+                                              onClick={() =>
+                                                removeProblemFromPlaylist(
+                                                  playlist.id,
+                                                  item.problem.id
+                                                )
+                                              }
+                                              className="h-8 w-8 cursor-pointer"
+                                              disabled={isRemovingProblem}
+                                            >
+                                              {isRemovingProblem ? (
+                                                <Loader2Icon className="h-4 w-4 animate-spin" />
+                                              ) : (
+                                                <Trash className="h-4 w-4" />
+                                              )}
+                                            </Button>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                            <p>Remove problem</p>
+                                          </TooltipContent>
+                                        </Tooltip>
+                                      </TooltipProvider>
+                                    </TableCell>
+                                    <TableCell className="text-right">
                                       <Button
                                         variant="outline"
                                         size="sm"
@@ -217,8 +281,16 @@ function PlaylistProfile() {
                             variant="destructive"
                             size="sm"
                             onClick={() => handleDelete(playlist.id)}
+                            disabled={isDeletingPlaylist}
                           >
-                            Delete Playlist
+                            {isDeletingPlaylist ? (
+                              <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Deleting...
+                              </>
+                            ) : (
+                              "Delete Playlist"
+                            )}
                           </Button>
                         </div>
                       </div>
