@@ -27,7 +27,9 @@ function ProfileSubmission() {
   const [filter, setFilter] = useState("all");
 
   useEffect(() => {
-    getAllSubmissionsByUser();
+    if (submissions.length === 0) {
+      getAllSubmissionsByUser();
+    }
   }, [getAllSubmissionsByUser]);
 
   const formatDate = (dateString) => {

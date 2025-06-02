@@ -29,7 +29,7 @@ function ProblemSolvedByUser() {
   const { authUser } = useAuthStore();
 
   useEffect(() => {
-    if (!authUser) return;
+    if (!authUser || solvedProblems.length) return;
     getSolvedProblemByUser();
   }, [getSolvedProblemByUser]);
 

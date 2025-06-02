@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 export const useSubmissionStore = create((set, get) => ({
   isFetchingSubmissionsForProblem: false,
   submissions: [],
-  submission: null,
+  submission: [],
   submissionCount: null,
   isFetchingSubmissions: false,
 
@@ -66,5 +66,11 @@ export const useSubmissionStore = create((set, get) => ({
 
   addSubmissionToState: (submission) => {
     set({ submission: [...get().submission, submission] });
+
+    if (get().submissions.length > 0) {
+      const { testcases, ...rest } = submission;
+
+      set({ submissions: [...get().submissions, rest] });
+    }
   },
 }));
