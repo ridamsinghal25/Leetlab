@@ -30,7 +30,7 @@ function CodeEditor({
   setTestCases,
 }) {
   return (
-    <div className="w-full lg:w-1/2 flex flex-col">
+    <div className="w-full flex flex-col">
       <div className="flex justify-between px-4 py-[8.5px] border-b">
         <div className="flex items-center">
           <Terminal className="w-4 h-4 mr-2" />
@@ -54,12 +54,11 @@ function CodeEditor({
       {/* Editor and Test Panel */}
       <ResizablePanelGroup direction="vertical">
         <div className="h-screen flex flex-col px-1">
-          <ResizablePanel defaultSize={60} className="rounded">
+          <ResizablePanel defaultSize={60} className="rounded mb-1">
             {/* Code Editor */}
 
-            {/* <div className="pt-1"> */}
             <Editor
-              className="mt-1 rounded border"
+              className="mt-1 rounded border border-b-0 h-full"
               height="100%"
               language={selectedLanguage.toLowerCase()}
               theme="vs-dark"
@@ -69,7 +68,7 @@ function CodeEditor({
               defaultValue={code}
               options={{
                 minimap: { enabled: false },
-                fontSize: 16,
+                fontSize: 13,
                 lineNumbers: "on",
                 roundedSelection: false,
                 scrollBeyondLastLine: false,
@@ -87,17 +86,11 @@ function CodeEditor({
                 },
               }}
             />
-            {/* </div> */}
           </ResizablePanel>
-          <div className="h-1 bg-black transition-colors"></div>
-          <ResizableHandle withHandle />
 
-          <ResizablePanel
-            defaultSize={50}
-            maxSize={50}
-            minSize={7}
-            className="rounded pb-1"
-          >
+          <ResizableHandle className="hover:bg-blue-400" />
+
+          <ResizablePanel defaultSize={7} minSize={6} className="rounded mt-1">
             {/* Test Panel */}
             <div className="h-full bg-[#252526] border border-[#3e3e3e] flex flex-col rounded mb-2">
               {/* Test Panel Header */}
@@ -119,7 +112,7 @@ function CodeEditor({
         </div>
       </ResizablePanelGroup>
 
-      <div className="p-3 border-t bg-muted/50">
+      <div className="p-3 border-t bg-muted/50 mt-4">
         <div className="flex justify-between items-center w-full">
           <div>
             <Button

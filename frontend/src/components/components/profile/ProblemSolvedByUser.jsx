@@ -57,6 +57,27 @@ function ProblemSolvedByUser() {
         </Card>
       ) : (
         <>
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            {DIFFICULTIES_OPTIONS?.map((item) => (
+              <Card key={item}>
+                <CardContent className="p-6">
+                  <div className="flex flex-col">
+                    <span className="text-sm text-muted-foreground">
+                      {item}
+                    </span>
+                    <span className="text-3xl font-bold text-green-600">
+                      {
+                        solvedProblems.filter((p) => p.difficulty === item)
+                          .length
+                      }
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
           <Card>
             <Table>
               <TableHeader>
@@ -70,7 +91,7 @@ function ProblemSolvedByUser() {
               <TableBody>
                 {solvedProblems.map((problem) => (
                   <TableRow key={problem.id}>
-                    <TableCell className="font-medium">
+                    <TableCell className="font-medium max-w-[100px] sm:max-w-[200px] truncate block">
                       {problem.title}
                     </TableCell>
                     <TableCell>
@@ -126,27 +147,6 @@ function ProblemSolvedByUser() {
               </div>
             </CardFooter>
           </Card>
-
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-            {DIFFICULTIES_OPTIONS?.map((item) => (
-              <Card key={item}>
-                <CardContent className="p-6">
-                  <div className="flex flex-col">
-                    <span className="text-sm text-muted-foreground">
-                      {item}
-                    </span>
-                    <span className="text-3xl font-bold text-green-600">
-                      {
-                        solvedProblems.filter((p) => p.difficulty === item)
-                          .length
-                      }
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
         </>
       )}
     </div>

@@ -299,8 +299,9 @@ export default function ProblemForm({
                                   onChange={field.onChange}
                                   options={{
                                     minimap: { enabled: false },
-                                    fontSize: 14,
+                                    fontSize: 13,
                                     lineNumbers: "on",
+                                    wordWrap: "on",
                                     roundedSelection: false,
                                     scrollBeyondLastLine: false,
                                     automaticLayout: true,
@@ -412,11 +413,12 @@ export default function ProblemForm({
                                   onChange={field.onChange}
                                   options={{
                                     minimap: { enabled: false },
-                                    fontSize: 14,
+                                    fontSize: 13,
                                     lineNumbers: "on",
                                     roundedSelection: false,
                                     scrollBeyondLastLine: false,
                                     automaticLayout: true,
+                                    wordWrap: "on",
                                     scrollbar: {
                                       alwaysConsumeMouseWheel: false,
                                       handleMouseWheel: true,
@@ -454,11 +456,12 @@ export default function ProblemForm({
                                   onChange={field.onChange}
                                   options={{
                                     minimap: { enabled: false },
-                                    fontSize: 14,
+                                    fontSize: 13,
                                     lineNumbers: "on",
                                     roundedSelection: false,
                                     scrollBeyondLastLine: false,
                                     automaticLayout: true,
+                                    wordWrap: "on",
                                     scrollbar: {
                                       alwaysConsumeMouseWheel: false,
                                       handleMouseWheel: true,

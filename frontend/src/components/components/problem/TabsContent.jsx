@@ -1,14 +1,31 @@
-import { Info } from "lucide-react";
 import SubmissionsList from "@/components/components/submissions/SubmissionList";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { PROBLEM_PAGE_TABS } from "@/constants/constants";
+import { BookOpen, Copy, Lock } from "lucide-react";
+import toast from "react-hot-toast";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { anOldHope } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 export const ProblemTabsContent = ({
   activeTab,
   problem,
-  submissions,
+  submissionsOfProblem,
   isSubmissionsLoading,
+  selectedLanguage,
 }) => {
+  const copyToClipboard = async (code) => {
+    try {
+      await navigator.clipboard.writeText(code);
+
+      toast.success("Copied to clipboard");
+    } catch (error) {
+      toast.error("Failed to copy to clipboard");
+    }
+  };
+
   switch (activeTab) {
-    case "description":
+    case PROBLEM_PAGE_TABS.DESCRIPTION:
       return (
         <div className="prose max-w-none dark:prose-invert">
           <p className="text-lg mb-6">{problem.description}</p>
@@ -64,20 +81,105 @@ export const ProblemTabsContent = ({
           )}
         </div>
       );
-    case "submissions":
+    case PROBLEM_PAGE_TABS.SUBMISSIONS:
       return (
         <SubmissionsList
-          submissions={submissions}
+          submissions={submissionsOfProblem}
           isLoading={isSubmissionsLoading}
         />
       );
-    case "editorial":
+    case PROBLEM_PAGE_TABS.SOLUTION:
+      return (
+        <div>
+          {submissionsOfProblem?.length > 0 ? (
+            <div>
+              {problem.referenceSolutions && (
+                <div className="space-y-4 overflow-visible">
+                  <div className="flex items-center justify-between overflow-visible">
+                    <div className="flex items-center gap-2">
+                      <BookOpen className="h-4 w-4" />
+                      <h4 className="font-medium">Solution</h4>
+                    </div>
+                    <div className="flex items-center gap-2 relative z-10">
+                      <span className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded-md font-medium whitespace-nowrap">
+                        {selectedLanguage}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="w-full">
+                    <div className="w-full">
+                      <div className="flex items-center justify-end mb-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() =>
+                            copyToClipboard(
+                              problem.referenceSolutions[selectedLanguage]
+                            )
+                          }
+                          className="h-6 px-2 text-xs sm:h-8 sm:px-3 border-slate-300 hover:bg-slate-100 whitespace-nowrap"
+                        >
+                          <Copy className="h-3 w-3 mr-1" />
+                          <span className="hidden xs:inline">Copy</span>
+                        </Button>
+                      </div>
+
+                      <div className="relative rounded-md bg-muted w-full overflow-hidden">
+                        <div className="w-full overflow-x-auto scrollbar-thin scrollbar-thumb-slate-400 scrollbar-track-slate-200">
+                          <SyntaxHighlighter
+                            language={selectedLanguage}
+                            style={anOldHope}
+                            showLineNumbers
+                            wrapLongLines={true}
+                            className="!text-xs sm:!text-sm"
+                            customStyle={{
+                              margin: 0,
+                              padding: "0.75rem",
+                              background: "transparent",
+                              fontSize: "inherit",
+                            }}
+                          >
+                            {problem.referenceSolutions[selectedLanguage]}
+                          </SyntaxHighlighter>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="min-h-full flex items-center justify-center p-4">
+              <Card className="mt-20 rounded-2xl shadow-xl p-8 max-w-md w-full bg-white dark:bg-gray-800 text-center">
+                <div className="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mx-auto mb-4">
+                  <Lock className="w-8 h-8 text-gray-500 dark:text-gray-300" />
+                </div>
+
+                <h1 className="text-2xl font-semibold text-gray-800 dark:text-white mb-3">
+                  Solution Locked
+                </h1>
+
+                <p className="text-gray-600 dark:text-gray-300 mb-6 text-sm leading-relaxed">
+                  Please{" "}
+                  <span className="font-medium text-gray-800 dark:text-white">
+                    submit your code
+                  </span>{" "}
+                  to unlock and view the complete solution. This ensures you've
+                  attempted the problem before seeing the answer.
+                </p>
+              </Card>
+            </div>
+          )}
+        </div>
+      );
+    case PROBLEM_PAGE_TABS.EDITORIAL:
       return (
         <div className="p-4">
           {problem.editorial || "No editorial available"}
         </div>
       );
-    case "hints":
+    case PROBLEM_PAGE_TABS.HINTS:
       return (
         <div className="p-4">
           {problem?.hints ? (
