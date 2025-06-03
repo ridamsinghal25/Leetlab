@@ -176,7 +176,7 @@ function PlaylistProfile() {
                                 {playlist?.problems?.map((item) => (
                                   <TableRow key={item.id}>
                                     <TableCell className="font-medium">
-                                      <span className="line-clamp-1">
+                                      <span className="max-w-[100px] sm:max-w-[200px] truncate block">
                                         {item.problem.title}
                                       </span>
                                     </TableCell>

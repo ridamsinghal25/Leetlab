@@ -325,7 +325,7 @@ export function CollaborativeEditor() {
                       defaultValue="// Start coding here..."
                       options={{
                         tabSize: 2,
-                        fontSize: 17,
+                        fontSize: 16,
                         minimap: { enabled: false },
                         scrollBeyondLastLine: false,
                         automaticLayout: true,

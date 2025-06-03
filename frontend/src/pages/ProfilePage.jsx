@@ -67,14 +67,6 @@ export default function ProfilePage() {
           <h1 className="text-3xl font-bold">Profile</h1>
         </div>
 
-        {/* Profile Card */}
-        <ProfileCard
-          authUser={authUser}
-          userInfo={userInfo}
-          setShowEditProfileModal={toggleEditProfileModal}
-          setShowPasswordModal={togglePasswordModal}
-        />
-
         {/* Modals */}
         <ChangePasswordModal
           open={showPasswordModal}
@@ -88,12 +80,25 @@ export default function ProfilePage() {
         />
 
         {/* Tabs for different sections */}
-        <Tabs defaultValue="problems" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+        <Tabs defaultValue="profile" className="w-full">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="profile">Profile</TabsTrigger>
             <TabsTrigger value="problems">Problems Solved</TabsTrigger>
             <TabsTrigger value="playlists">Playlists</TabsTrigger>
             <TabsTrigger value="submissions">Submissions</TabsTrigger>
           </TabsList>
+
+          <TabsContent
+            value="profile"
+            className="mt-6 max-w-[550px] min-w-[550px] sm:max-w-none"
+          >
+            <ProfileCard
+              authUser={authUser}
+              userInfo={userInfo}
+              setShowEditProfileModal={toggleEditProfileModal}
+              setShowPasswordModal={togglePasswordModal}
+            />
+          </TabsContent>
 
           <TabsContent
             value="problems"

@@ -17,7 +17,10 @@ import {
 } from "@/components/ui/accordion";
 import { useSubmissionStore } from "@/store/useSubmissionStore";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import {
+  anOldHope,
+  docco,
+} from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { ACCEPTED } from "@/constants/constants";
 import { SubmissionShimmerUI } from "@/components/basic/ProfilePageShimmerUI/SubmissionShimmerUI";
 
@@ -170,7 +173,10 @@ function ProfileSubmission() {
                         <div className="relative rounded-md bg-muted p-4 overflow-x-auto">
                           <SyntaxHighlighter
                             language={submission.language}
-                            style={docco}
+                            style={anOldHope}
+                            showLineNumbers
+                            wrapLongLines
+                            className="rounded p-2"
                           >
                             {submission.sourceCode}
                           </SyntaxHighlighter>
@@ -202,7 +208,7 @@ function ProfileSubmission() {
                             <pre className="text-sm">
                               <code>
                                 {JSON.parse(submission.stdout)
-                                  ? JSON.parse(submission.stdout)
+                                  ? JSON.parse(submission.stdout)?.join("\n")
                                   : "No output"}
                               </code>
                             </pre>

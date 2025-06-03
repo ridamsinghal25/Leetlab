@@ -20,6 +20,7 @@ export const PROBLEM_PAGE_TABS = {
   SUBMISSIONS: "submissions",
   HINTS: "hints",
   EDITORIAL: "editorial",
+  SOLUTION: "solution",
 };
 
 export const USER_ROLES = {
