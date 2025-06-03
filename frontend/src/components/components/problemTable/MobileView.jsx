@@ -85,13 +85,14 @@ function ProblemTableMobileView({
                 </div>
 
                 {/* Problem title */}
-                <Link
-                  to={ROUTES.PROBLEM.replace(":id", problem.id)}
-                  className="font-semibold text-foreground text-lg hover:text-primary transition-colors block leading-tight"
-                >
-                  {problem.title}
-                </Link>
-
+                <div>
+                  <Link
+                    to={ROUTES.PROBLEM.replace(":id", problem.id)}
+                    className="px-2 py-1 rounded-md font-medium text-foreground hover:bg-primary hover:text-primary-foreground transition-colors duration-200 max-w-xs line-clamp-1"
+                  >
+                    {problem.title}
+                  </Link>
+                </div>
                 {/* Companies section */}
                 {problem.companies && problem.companies.length > 0 && (
                   <div className="space-y-2">

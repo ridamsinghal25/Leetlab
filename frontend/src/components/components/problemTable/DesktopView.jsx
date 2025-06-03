@@ -68,7 +68,7 @@ function ProblemTableDesktopView({
                     <TableCell className="max-w-xs">
                       <Link
                         to={ROUTES.PROBLEM.replace(":id", problem.id)}
-                        className="font-medium hover:text-primary transition-colors text-foreground"
+                        className="px-2 py-1 rounded-md font-medium text-foreground hover:bg-primary hover:text-primary-foreground transition-colors duration-200 max-w-[250px] truncate block"
                       >
                         {problem.title}
                       </Link>

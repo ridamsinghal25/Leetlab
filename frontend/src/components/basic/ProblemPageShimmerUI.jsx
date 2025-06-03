@@ -1,8 +1,9 @@
+import { PROBLEM_PAGE_TABS } from "@/constants/constants";
 import { Skeleton } from "../ui/skeleton";
 
 export function ProblemPageShimmer() {
   return (
-    <div className="space-y-6 w-full mx-2">
+    <div className="space-y-6 w-full h-full mx-2 mt-20">
       {/* Problem Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -10,7 +11,7 @@ export function ProblemPageShimmer() {
           <Skeleton className="h-8 w-40" />
           <Skeleton className="h-6 w-16 bg-red-100" />
         </div>
-        <div className="flex items-center gap-4">
+        <div className="items-center gap-4 hidden md:flex">
           <Skeleton className="h-8 w-40" />
           <Skeleton className="h-8 w-32" />
         </div>
@@ -19,19 +20,17 @@ export function ProblemPageShimmer() {
       {/* Tabs and Content */}
       <div className="border rounded-lg overflow-hidden">
         {/* Tabs */}
-        <div className="flex border-b">
-          {["Description", "Submissions", "Editorial", "Hints"].map(
-            (tab, index) => (
-              <div
-                key={index}
-                className={`px-4 py-1 ${
-                  index === 0 ? "border-b-2 border-gray-600" : ""
-                }`}
-              >
-                <Skeleton className="h-10 w-28" />
-              </div>
-            )
-          )}
+        <div className="flex flex-wrap border-b">
+          {Object.keys(PROBLEM_PAGE_TABS).map((tab, index) => (
+            <div
+              key={index}
+              className={`px-4 py-1 ${
+                index === 0 ? "border-b-2 border-gray-600" : ""
+              }`}
+            >
+              <Skeleton className="h-10 w-14 sm:w-20 md:w-24" />
+            </div>
+          ))}
         </div>
 
         {/* Content Area */}

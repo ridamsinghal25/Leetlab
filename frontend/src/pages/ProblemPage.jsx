@@ -7,10 +7,16 @@ import { getLanguageId } from "@/lib/getLanguageInfo";
 import ProblemPageHeader from "@/components/components/problem/Header";
 import ProblemTabs from "@/components/components/problem/Tabs";
 import CodeEditor from "@/components/components/problem/Editor";
-import { useCountdown } from "usehooks-ts";
+import { useCountdown, useMediaQuery } from "usehooks-ts";
 import { COUNTDOWN } from "@/constants/constants";
 import SubmissionsView from "@/components/components/submissions/SubmissionsView";
 import { ProblemPageShimmer } from "@/components/basic/ProblemPageShimmerUI";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
+import { MobileRestrictionCard } from "@/components/components/problem/MobileRestrictionCard";
 
 const ProblemPage = () => {
   const { id } = useParams();
@@ -39,6 +45,8 @@ const ProblemPage = () => {
       intervalMs: COUNTDOWN.INTERVAL,
     });
 
+  const isDesktop = useMediaQuery("(min-width: 850px)");
+
   useEffect(() => {
     if (id && problem?.id !== id) {
       getProblemById(id);
@@ -50,7 +58,9 @@ const ProblemPage = () => {
   useEffect(() => {
     if (problem) {
       const isAcceptedSubmission = submissionsOfProblem?.find(
-        (sub) => sub.status === "Accepted"
+        (sub) =>
+          sub.status === "Accepted" &&
+          sub.language?.toLowerCase() === selectedLanguage?.toLowerCase()
       );
 
       setTestCases(
@@ -60,11 +70,7 @@ const ProblemPage = () => {
         })) || []
       );
 
-      if (
-        isAcceptedSubmission &&
-        isAcceptedSubmission?.language?.toLowerCase() ===
-          selectedLanguage?.toLowerCase()
-      ) {
+      if (isAcceptedSubmission) {
         setCode(isAcceptedSubmission.sourceCode);
         return;
       }
@@ -136,38 +142,49 @@ const ProblemPage = () => {
     );
   }
 
+  if (!isDesktop) {
+    return <MobileRestrictionCard />;
+  }
+
   return (
     <div className="flex flex-col h-screen">
       <ProblemPageHeader problem={problem} submissionCount={submissionCount} />
 
-      <main className="container mx-auto px-0 py-0 lg:w-screen flex flex-col">
-        <div className="flex flex-col lg:h-screen lg:flex-row border rounded">
-          {/* Left side - Tabs  */}
-          <ProblemTabs
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            problem={problem}
-            submissionsOfProblem={submissionsOfProblem}
-            isSubmissionsLoading={isSubmissionsLoading}
-          />
+      <main className="mx-auto px-0 py-0 flex flex-col">
+        {/* Desktop: Resizable panels */}
+        <div className="border w-screen">
+          <ResizablePanelGroup direction="horizontal">
+            <ResizablePanel defaultSize={50} minSize={35} maxSize={70}>
+              <ProblemTabs
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                problem={problem}
+                submissionsOfProblem={submissionsOfProblem}
+                isSubmissionsLoading={isSubmissionsLoading}
+                selectedLanguage={selectedLanguage}
+              />
+            </ResizablePanel>
 
-          {/* Right side - Code editor  */}
-          <CodeEditor
-            code={code}
-            setCode={setCode}
-            selectedLanguage={selectedLanguage}
-            handleLanguageChange={handleLanguageChange}
-            problem={problem}
-            isExecuting={isExecuting}
-            handleRunCode={handleRunCode}
-            handleSubmitCode={handleSubmitCode}
-            isCounting={isCounting}
-            count={count}
-            testCases={testCases}
-            setTestCases={setTestCases}
-          />
+            <ResizableHandle className="hover:bg-blue-400 hover:w-0.5" />
+
+            <ResizablePanel defaultSize={50} minSize={30} maxSize={70}>
+              <CodeEditor
+                code={code}
+                setCode={setCode}
+                selectedLanguage={selectedLanguage}
+                handleLanguageChange={handleLanguageChange}
+                problem={problem}
+                isExecuting={isExecuting}
+                handleRunCode={handleRunCode}
+                handleSubmitCode={handleSubmitCode}
+                isCounting={isCounting}
+                count={count}
+                testCases={testCases}
+                setTestCases={setTestCases}
+              />
+            </ResizablePanel>
+          </ResizablePanelGroup>
         </div>
-
         {/* Submissions section */}
         <div className="m-5">
           <SubmissionsView
