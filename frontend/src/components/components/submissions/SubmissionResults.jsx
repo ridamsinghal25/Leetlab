@@ -124,7 +124,7 @@ const SubmissionResults = ({ submission, submissionIndex = 0 }) => {
                         {testCase.expected}
                       </TableCell>
                       <TableCell className="font-mono">
-                        {testCase.stdout || "-"}
+                        {testCase?.stdout}
                       </TableCell>
                       <TableCell>
                         {testCase.memory ? testCase.memory : "-"}

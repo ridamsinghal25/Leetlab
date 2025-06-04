@@ -16,8 +16,8 @@ import { ROUTES } from "@/constants/routes";
 function ProblemPageHeader({ problem, submissionCount }) {
   return (
     <header className="border-b bg-card shadow-sm h-16 py-2">
-      <div className="container mx-auto px-2 sm:px-4 h-full">
-        <div className="flex items-center justify-between h-full">
+      <div className="container px-2 sm:px-4 h-full">
+        <div className="flex items-center justify-between w-full h-full">
           <div className="flex items-center gap-1 sm:gap-2 overflow-hidden">
             <Button
               variant="ghost"

@@ -32,6 +32,8 @@ export const AIProblemModal = ({ isOpen, onOpenChange, form }) => {
     try {
       const formData = await generateFormData(data);
 
+      if (!formData) return;
+
       const isDataValid = problemSchema.safeParse(formData);
 
       if (isDataValid.success) {
