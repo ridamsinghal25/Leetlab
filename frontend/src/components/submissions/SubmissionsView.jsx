@@ -1,7 +1,7 @@
 import { AlertCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import SubmissionResults from "@/components/components/submissions/SubmissionResults";
+import SubmissionResults from "@/components/submissions/SubmissionResults";
 import { PROBLEM_PAGE_TABS } from "@/constants/constants";
 
 function SubmissionsView({ submissionsOfProblem, submission, activeTab }) {

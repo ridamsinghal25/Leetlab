@@ -1,8 +1,7 @@
 import { useState, useMemo } from "react";
 import { Plus, ChevronLeft, ChevronRight } from "lucide-react";
-import { useAuthStore } from "../../../store/useAuthStore";
-import { useActions } from "../../../store/useActions";
-import { usePlaylistStore } from "../../../store/usePlaylistStore";
+import { useAuthStore } from "../../store/useAuthStore";
+import { useActions } from "../../store/useActions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -13,8 +12,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CreatePlaylistModal } from "../../modals/CreatePlaylistModal";
-import { AddToPlaylistModal } from "../../modals/AddToPlaylistModal";
+import { CreatePlaylistModal } from "../modals/CreatePlaylistModal";
+import { AddToPlaylistModal } from "../modals/AddToPlaylistModal";
 import { DIFFICULTIES_OPTIONS } from "@/constants/constants";
 import ProblemTableMobileView from "./MobileView";
 import ProblemTableDesktopView from "./DesktopView";

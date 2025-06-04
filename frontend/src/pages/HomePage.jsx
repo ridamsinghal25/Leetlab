@@ -1,4 +1,4 @@
-import { ProblemsTable } from "@/components/components/problemTable/ProblemsTable";
+import { ProblemsTable } from "@/components/problemTable/ProblemsTable";
 import { useProblemStore } from "@/store/useProblemStore";
 
 const HomePage = () => {

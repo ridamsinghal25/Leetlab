@@ -3,14 +3,14 @@ import { ArrowLeft, Mail, User, Shield, IdCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuthStore } from "@/store/useAuthStore";
-import ProblemSolvedByUser from "@/components/components/profile/ProblemSolvedByUser";
-import PlaylistProfile from "@/components/components/profile/Playlist";
-import ProfileSubmission from "@/components/components/profile/Submission";
+import ProblemSolvedByUser from "@/components/profile/ProblemSolvedByUser";
+import PlaylistProfile from "@/components/profile/Playlist";
+import ProfileSubmission from "@/components/profile/Submission";
 import { ROUTES } from "@/constants/routes";
 import { useState } from "react";
 import ChangePasswordModal from "@/components/modals/ChangePasswordModal";
 import { UploadAvatarModal } from "@/components/modals/UploadAvatarModal";
-import ProfileCard from "@/components/components/profile/UserCard";
+import ProfileCard from "@/components/profile/UserCard";
 import { USER_ROLES } from "@/constants/constants";
 
 // Main Profile Component

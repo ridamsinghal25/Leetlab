@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import TestPanel from "@/components/components/collaborativeEditor/TestPanel";
+import TestPanel from "@/components/collaborativeEditor/TestPanel";
 import {
   COLLABORATIVE_EDITOR_LANGUAGES,
   COUNTDOWN,
@@ -31,8 +31,8 @@ import { getLanguageId } from "@/lib/getLanguageInfo";
 import { useExecutionStore } from "@/store/useExecution";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "@/constants/routes";
-import SubmissionsView from "@/components/components/submissions/SubmissionsView";
-import { Cursors } from "@/components/components/collaborativeEditor/Cursors";
+import SubmissionsView from "@/components/submissions/SubmissionsView";
+import { Cursors } from "@/components/collaborativeEditor/Cursors";
 import { useErrorListener } from "@liveblocks/react";
 import { useSelf } from "@liveblocks/react";
 import { EditorShimmerUI } from "@/components/basic/CollaborativeEditorShimmerUI/EditorShimmerUI";

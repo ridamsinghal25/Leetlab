@@ -4,19 +4,19 @@ import { useProblemStore } from "@/store/useProblemStore";
 import { useSubmissionStore } from "@/store/useSubmissionStore";
 import { useExecutionStore } from "@/store/useExecution";
 import { getLanguageId } from "@/lib/getLanguageInfo";
-import ProblemPageHeader from "@/components/components/problem/Header";
-import ProblemTabs from "@/components/components/problem/Tabs";
-import CodeEditor from "@/components/components/problem/Editor";
+import ProblemPageHeader from "@/components/problem/Header";
+import ProblemTabs from "@/components/problem/Tabs";
+import CodeEditor from "@/components/problem/Editor";
 import { useCountdown, useMediaQuery } from "usehooks-ts";
 import { COUNTDOWN } from "@/constants/constants";
-import SubmissionsView from "@/components/components/submissions/SubmissionsView";
+import SubmissionsView from "@/components/submissions/SubmissionsView";
 import { ProblemPageShimmer } from "@/components/basic/ProblemPageShimmerUI";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { MobileRestrictionCard } from "@/components/components/problem/MobileRestrictionCard";
+import { MobileRestrictionCard } from "@/components/problem/MobileRestrictionCard";
 
 const ProblemPage = () => {
   const { id } = useParams();

@@ -14,7 +14,7 @@ import { useLikeStore } from "@/store/useLikeStore";
 import { useSaveStore } from "@/store/useSaveStore";
 import { useMarkForRevisionStore } from "@/store/useMarkForRevisionStore";
 import { useEffect } from "react";
-import { ProblemCard } from "@/components/components/activity/ProblemCard";
+import { ProblemCard } from "@/components/activity/ProblemCard";
 import { useAuthStore } from "@/store/useAuthStore";
 
 export default function ActivityPage() {

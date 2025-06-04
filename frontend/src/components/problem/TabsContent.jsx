@@ -1,4 +1,4 @@
-import SubmissionsList from "@/components/components/submissions/SubmissionList";
+import SubmissionsList from "@/components/submissions/SubmissionList";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PROBLEM_PAGE_TABS } from "@/constants/constants";

@@ -7,7 +7,7 @@ import {
   FileInput,
   TableOfContents,
 } from "lucide-react";
-import { ProblemTabsContent } from "@/components/components/problem/TabsContent";
+import { ProblemTabsContent } from "@/components/problem/TabsContent";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PROBLEM_PAGE_TABS } from "@/constants/constants";
 import { ScrollArea } from "@/components/ui/scroll-area";
