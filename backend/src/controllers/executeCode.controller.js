@@ -71,7 +71,7 @@ export const executeCode = async (req, res) => {
     let allPassed = true;
 
     const detailedResults = results.map((result, i) => {
-      const stdout = result.stdout?.trim() || null;
+      const stdout = result.stdout?.trim();
       const expected_output = expected_outputs[i]?.trim();
       const passed = stdout === expected_output;
 
@@ -241,7 +241,7 @@ export const runCode = async (req, res) => {
     let allPassed = true;
 
     const detailedResults = results.map((result, i) => {
-      const stdout = result.stdout?.trim() || null;
+      const stdout = result.stdout?.trim();
       const expected_output = expected_outputs[i]?.trim();
       const passed = stdout === expected_output;
 
@@ -355,7 +355,7 @@ export const runCodeForCollaborativeEditor = async (req, res) => {
     let allPassed = true;
 
     const detailedResults = results.map((result, i) => {
-      const stdout = result.stdout?.trim() || null;
+      const stdout = result.stdout?.trim();
       const expected_output = expected_outputs[i]?.trim();
       const passed = stdout === expected_output;
 

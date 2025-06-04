@@ -117,15 +117,12 @@ IMPORTANT:
       contents: prompt,
     });
 
-    const match = result.text.match(/```json\s*([\s\S]*?)\s*```/i);
+    const matchData = result.text.match(/```json\s*([\s\S]*?)\s*```/i);
 
     let rawJson;
 
-    if (match) {
-      rawJson = result.text
-        .replace(/^```json\s*/, "")
-        .replace(/```$/, "")
-        .trim();
+    if (matchData) {
+      rawJson = matchData[1].trim();
     } else {
       rawJson = result.text.trim();
     }
