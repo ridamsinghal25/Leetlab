@@ -40,3 +40,17 @@ export const COLLABORATIVE_EDITOR_LANGUAGES = [
 ];
 
 export const ROOM_ID = "my-room";
+
+export const INDUSTRIES = [
+  { id: "web-dev", name: "Web Development" },
+  { id: "mobile-dev", name: "Mobile App Development" },
+  { id: "desktop-dev", name: "Desktop Application Development" },
+  { id: "ai", name: "Artificial Intelligence" },
+  { id: "ml", name: "Machine Learning" },
+  { id: "data-science", name: "Data Science & Analytics" },
+  { id: "cloud", name: "Cloud Computing" },
+  { id: "cybersecurity", name: "Cybersecurity" },
+  { id: "devops", name: "DevOps & Infrastructure" },
+  { id: "blockchain", name: "Blockchain Development" },
+  { id: "ui-ux", name: "UI/UX Design" },
+];

@@ -10,4 +10,6 @@ export const ROUTES = {
   PROFILE: "/profile",
   COLLABORATIVE_EDITOR: "/collaborative-editor",
   MY_ACTIVITIES: "/my-activities",
+  QUIZ: "/quiz",
+  NEWQUIZ: "/quiz/new",
 };
