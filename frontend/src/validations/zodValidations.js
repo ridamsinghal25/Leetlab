@@ -145,3 +145,10 @@ export const verifyEmailSchema = z.object({
     .regex(/^\d{6}$/, "Verification code must contain only digits")
     .length(6, "verification code must be 6 digit"),
 });
+
+export const generateQuizSchema = z.object({
+  industry: z.string().min(4, "Industry is required"),
+  skills: z
+    .array(z.string().min(4, "Skill must be at least 4 characters"))
+    .min(1, "At least one skill is required"),
+});

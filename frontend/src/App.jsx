@@ -27,6 +27,8 @@ import PublicRoutes from "./protectedRoutes/PublicRoutes";
 import LandingPage from "./pages/LandingPage";
 import { ROOM_ID } from "./constants/constants";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
+import QuizPage from "./pages/QuizPage";
+import NewQuizPage from "./pages/NewQuizPage";
 
 const App = () => {
   const { authUser } = useAuthStore();
@@ -77,6 +79,10 @@ const App = () => {
             />
 
             <Route path={ROUTES.MY_ACTIVITIES} element={<ActivityPage />} />
+
+            <Route path={ROUTES.QUIZ} element={<QuizPage />} />
+
+            <Route path={ROUTES.NEWQUIZ} element={<NewQuizPage />} />
 
             {/* Admin routes */}
             <Route element={<AdminRoute />}>
