@@ -27,6 +27,7 @@ export const ProblemsTable = ({ problems }) => {
   const [search, setSearch] = useState("");
   const [difficulty, setDifficulty] = useState("ALL");
   const [selectedTag, setSelectedTag] = useState("ALL");
+  const [selectedCompany, setSelectedCompany] = useState("ALL");
   const [currentPage, setCurrentPage] = useState(1);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isAddToPlaylistModalOpen, setIsAddToPlaylistModalOpen] =
@@ -42,6 +43,15 @@ export const ProblemsTable = ({ problems }) => {
     return Array.from(tagsSet);
   }, [problems]);
 
+  const allCompanies = useMemo(() => {
+    if (!Array.isArray(problems)) return [];
+
+    const companySet = new Set();
+    problems.forEach((p) => p.companies?.forEach((c) => companySet.add(c)));
+
+    return Array.from(companySet);
+  }, [problems]);
+
   // Filter problems based on search, difficulty, and tags
   const filteredProblems = useMemo(() => {
     return (problems || [])
@@ -53,8 +63,13 @@ export const ProblemsTable = ({ problems }) => {
       )
       .filter((problem) =>
         selectedTag === "ALL" ? true : problem.tags?.includes(selectedTag)
+      )
+      .filter((problem) =>
+        selectedCompany === "ALL"
+          ? true
+          : problem.companies?.includes(selectedCompany)
       );
-  }, [problems, search, difficulty, selectedTag]);
+  }, [problems, search, difficulty, selectedTag, selectedCompany]);
 
   // Pagination logic
   const itemsPerPage = 10;
@@ -93,7 +108,7 @@ export const ProblemsTable = ({ problems }) => {
       </CardHeader>
       <CardContent>
         {/* Filters - Responsive grid layout */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
           <Input
             type="text"
             placeholder="Search by title"
@@ -123,6 +138,19 @@ export const ProblemsTable = ({ problems }) => {
               {allTags.map((tag) => (
                 <SelectItem key={tag} value={tag}>
                   {tag}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={selectedCompany} onValueChange={setSelectedCompany}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select Company" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ALL">All Companies</SelectItem>
+              {allCompanies.map((company) => (
+                <SelectItem key={company} value={company}>
+                  {company}
                 </SelectItem>
               ))}
             </SelectContent>

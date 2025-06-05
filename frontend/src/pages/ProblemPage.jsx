@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useProblemStore } from "@/store/useProblemStore";
 import { useSubmissionStore } from "@/store/useSubmissionStore";
@@ -46,6 +46,11 @@ const ProblemPage = () => {
     });
 
   const isDesktop = useMediaQuery("(min-width: 850px)");
+  const submissionRef = useRef(null);
+
+  if (!isDesktop) {
+    return <MobileRestrictionCard />;
+  }
 
   useEffect(() => {
     if (id && problem?.id !== id) {
@@ -90,7 +95,7 @@ const ProblemPage = () => {
     setSelectedLanguage(value);
   };
 
-  const handleRunCode = (e) => {
+  const handleRunCode = async (e) => {
     e.preventDefault();
 
     setIsCounting(true);
@@ -102,7 +107,7 @@ const ProblemPage = () => {
     const expected_outputs = testCases.map((tc) => tc.output);
     const standardInputOfCode = problem.stdin[selectedLanguage];
 
-    runCode(
+    await runCode(
       code,
       language_id,
       stdin,
@@ -110,6 +115,8 @@ const ProblemPage = () => {
       expected_outputs,
       id
     );
+
+    submissionRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleSubmitCode = async (e) => {
@@ -132,6 +139,7 @@ const ProblemPage = () => {
     );
 
     addSubmissionToState(submission);
+    submissionRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   if (isProblemLoading || !problem) {
@@ -140,10 +148,6 @@ const ProblemPage = () => {
         <ProblemPageShimmer />
       </div>
     );
-  }
-
-  if (!isDesktop) {
-    return <MobileRestrictionCard />;
   }
 
   return (
@@ -186,7 +190,7 @@ const ProblemPage = () => {
           </ResizablePanelGroup>
         </div>
         {/* Submissions section */}
-        <div className="m-5">
+        <div className="m-5" ref={submissionRef}>
           <SubmissionsView
             submissionsOfProblem={submissionsOfProblem}
             submission={submission}
