@@ -33,7 +33,7 @@ function ProblemTableDesktopView({
 }) {
   return (
     <div className="hidden md:block rounded-lg border overflow-hidden bg-card">
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto dark:bg-black">
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/50">
@@ -80,7 +80,7 @@ function ProblemTableDesktopView({
                             <Badge
                               key={idx}
                               variant="secondary"
-                              className="bg-blue-50 text-blue-700 border-blue-200 text-xs font-medium"
+                              className="bg-blue-100 text-blue-700 border-blue-200 text-xs font-medium"
                             >
                               {company}
                             </Badge>
@@ -124,7 +124,7 @@ function ProblemTableDesktopView({
                             <Badge
                               key={idx}
                               variant="outline"
-                              className="bg-amber-50 text-amber-700 border-amber-200 text-xs"
+                              className="bg-amber-100 text-amber-700 border-amber-200 text-xs"
                             >
                               {tag}
                             </Badge>

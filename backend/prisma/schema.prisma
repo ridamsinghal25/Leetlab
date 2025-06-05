@@ -25,6 +25,13 @@ enum Difficulty {
   HARD
 }
 
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
 model User {
   id        String   @id @default(uuid())
   name      String?
@@ -35,6 +42,7 @@ model User {
   isEmailVerified Boolean @default(false)
   emailVerificationToken String?
   emailVerificationExpiry DateTime?
+  isSubscribed Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -45,6 +53,9 @@ model User {
   likedProblems Like[]
   savedProblems SavedProblem[]
   markedProblems MarkForRevision[]
+
+  orders Order[]
+  quizAssessments QuizAssessment[]
 }
 
 model Problem {
@@ -208,6 +219,41 @@ model MarkForRevision {
   @@unique([userId, problemId])
 }
 
+model QuizAssessment {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  quizScore     Float     // Overall quiz score
+  questions     Json[]    // Array of {question, answer, userAnswer, isCorrect}
+  improvementTip String?  // AI-generated improvement tip
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([userId])
+}
+
+model Order {
+  id               String   @id @default(uuid())
+  paymentSessionId String?
+  cfOrderId        String   @unique
+  userId           String
+  orderAmount      Float
+  orderCurrency    String   @default("INR")
+  orderExpiryTime  DateTime
+  orderNote        String?
+  orderStatus      PaymentStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  sheetPurchaseId        String?
+  sheetCreationPaymentId String?
+
+  @@index([userId])
+  @@index([cfOrderId])
+}
 /*
   Prisma commands
   1. npx prisma generate
