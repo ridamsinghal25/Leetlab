@@ -15,6 +15,7 @@ import { rateLimit } from "express-rate-limit";
 import requestIp from "request-ip";
 import liveblockRoutes from "./src/routes/liveblock.routes.js";
 import { healthcheck } from "./src/controllers/healthcheck.controller.js";
+import quizRoutes from "./src/routes/quiz.routes.js";
 
 dotenv.config();
 
@@ -24,7 +25,7 @@ app.use(requestIp.mw());
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 200, // limit each IP to 100 requests per windowMs
+  max: 1000, // limit each IP to 100 requests per windowMs
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
   keyGenerator: (req) => {
@@ -66,6 +67,7 @@ app.use("/api/v1/like", likeRoutes);
 app.use("/api/v1/save-problem", savedProblemRoutes);
 app.use("/api/v1/mark-problem", markedProblemForRevisionRoutes);
 app.use("/api/v1/liveblock", liveblockRoutes);
+app.use("/api/v1/quiz", quizRoutes);
 app.use("/api/v1/health", healthcheck);
 
 app.use((req, res) => {
