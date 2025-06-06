@@ -16,6 +16,7 @@ import requestIp from "request-ip";
 import liveblockRoutes from "./src/routes/liveblock.routes.js";
 import { healthcheck } from "./src/controllers/healthcheck.controller.js";
 import quizRoutes from "./src/routes/quiz.routes.js";
+import cashfreeRoutes from "./src/routes/cashfree.routes.js";
 
 dotenv.config();
 
@@ -69,6 +70,7 @@ app.use("/api/v1/mark-problem", markedProblemForRevisionRoutes);
 app.use("/api/v1/liveblock", liveblockRoutes);
 app.use("/api/v1/quiz", quizRoutes);
 app.use("/api/v1/health", healthcheck);
+app.use("/api/v1/cashfree", cashfreeRoutes);
 
 app.use((req, res) => {
   res.status(404).json({

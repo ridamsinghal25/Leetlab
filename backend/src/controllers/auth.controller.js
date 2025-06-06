@@ -109,6 +109,7 @@ export const register = async (req, res) => {
         role: newUser.role,
         image: newUser.image,
         isEmailVerified: newUser.isEmailVerified,
+        isSubscribed: newUser.isSubscribed,
       },
     });
   } catch (error) {
@@ -182,6 +183,7 @@ export const login = async (req, res) => {
         name: isUserExists.name,
         role: isUserExists.role,
         image: isUserExists.image,
+        isSubscribed: isUserExists.isSubscribed,
       },
     });
   } catch (error) {
@@ -390,6 +392,7 @@ export const uploadProfileImage = async (req, res, next) => {
         email: true,
         image: true,
         role: true,
+        isSubscribed: true,
       },
     });
 

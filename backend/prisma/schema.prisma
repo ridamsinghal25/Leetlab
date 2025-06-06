@@ -26,8 +26,8 @@ enum Difficulty {
 }
 
 enum PaymentStatus {
-  PENDING
-  COMPLETED
+  ACTIVE
+  PAID
   FAILED
   REFUNDED
 }
@@ -236,24 +236,24 @@ model Order {
   id               String   @id @default(uuid())
   paymentSessionId String?
   cfOrderId        String   @unique
+  orderId          String   @unique
   userId           String
   orderAmount      Float
   orderCurrency    String   @default("INR")
   orderExpiryTime  DateTime
   orderNote        String?
-  orderStatus      PaymentStatus @default(PENDING)
+  orderStatus      PaymentStatus @default(ACTIVE)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  sheetPurchaseId        String?
-  sheetCreationPaymentId String?
-
   @@index([userId])
+  @@index([orderId])
   @@index([cfOrderId])
 }
+
 /*
   Prisma commands
   1. npx prisma generate
