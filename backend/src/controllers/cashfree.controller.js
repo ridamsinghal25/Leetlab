@@ -177,7 +177,7 @@ export const getOrder = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const updateOrders = await prisma.order.updateMany({
+    await db.order.updateMany({
       where: {
         orderExpiryTime: {
           lt: new Date(), // current time

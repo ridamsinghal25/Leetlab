@@ -191,6 +191,11 @@ export const addProblemToPlaylist = async (req, res) => {
             tags: true,
           },
         },
+        playlist: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
 

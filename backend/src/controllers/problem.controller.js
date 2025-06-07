@@ -285,6 +285,21 @@ export const getAllProblems = async (req, res) => {
             userId: req.user.id,
           },
         },
+        problemsPlaylists: {
+          where: {
+            playlist: {
+              userId: req.user.id,
+            },
+          },
+          select: {
+            playlist: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
       },
       skip: (skip - 1) * take,
       take,
