@@ -32,7 +32,7 @@ function ProblemTableMobileView({
   isDeletingProblem,
 }) {
   return (
-    <div className="block md:hidden space-y-4">
+    <div className="block lg:hidden space-y-4">
       {paginatedProblems.length > 0 ? (
         paginatedProblems?.map((problem) => {
           const isSolved = problem?.solvedBy?.some(
@@ -76,11 +76,7 @@ function ProblemTableMobileView({
                         className="h-8 w-8 cursor-pointer"
                         disabled={isDeletingProblem}
                       >
-                        {isDeletingProblem ? (
-                          <Loader2 className="h-4 w-4 animate-spin" />
-                        ) : (
-                          <Trash className="h-4 w-4" />
-                        )}
+                        <Trash className="h-4 w-4" />
                       </Button>
                       <Link
                         to={ROUTES.UPDATE_PROBLEM.replace(":id", problem.id)}

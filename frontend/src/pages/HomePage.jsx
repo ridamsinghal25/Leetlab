@@ -143,7 +143,7 @@ const HomePage = () => {
         {isProblemsLoading ? (
           <ProblemsShimmerUI />
         ) : (
-          <Card className="w-full max-w-6xl md:min-w-5xl mx-auto border-none shadow-lg">
+          <Card className="w-full mx-auto border-none shadow-lg">
             <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
               <CardTitle className="text-2xl font-bold">Problems</CardTitle>
               <Button

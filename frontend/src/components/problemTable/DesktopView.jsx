@@ -32,7 +32,7 @@ function ProblemTableDesktopView({
   isDeletingProblem,
 }) {
   return (
-    <div className="hidden md:block rounded-lg border overflow-hidden bg-card">
+    <div className="hidden lg:block rounded-lg border overflow-hidden bg-card">
       <div className="overflow-x-auto dark:bg-black">
         <Table>
           <TableHeader>
@@ -215,11 +215,7 @@ function ProblemTableDesktopView({
                                     className="h-8 w-8 cursor-pointer"
                                     disabled={isDeletingProblem}
                                   >
-                                    {isDeletingProblem ? (
-                                      <Loader2 className="h-4 w-4 animate-spin" />
-                                    ) : (
-                                      <Trash className="h-4 w-4" />
-                                    )}
+                                    <Trash className="h-4 w-4" />
                                   </Button>
                                 </TooltipTrigger>
                                 <TooltipContent>

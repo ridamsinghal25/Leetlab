@@ -50,6 +50,7 @@ const ProblemPage = () => {
 
   useEffect(() => {
     if (id && problem?.id !== id) {
+      setSubmission();
       getProblemById(id);
       getSubmissionCountForProblem(id);
       getSubmissionForProblemByUser(id);
