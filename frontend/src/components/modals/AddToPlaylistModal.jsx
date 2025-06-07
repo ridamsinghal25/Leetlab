@@ -26,6 +26,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useProblemStore } from "@/store/useProblemStore";
 
 export const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
   const {
@@ -35,6 +36,7 @@ export const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
     isFetchingPlaylistDetails,
     isLoading,
   } = usePlaylistStore();
+  const { updateProblemsPlaylistInfoInState } = useProblemStore();
 
   const selectPlaylistForm = useForm({
     defaultValues: {
@@ -49,7 +51,19 @@ export const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
   }, [isOpen, getPlayListDetails]);
 
   const handleSubmit = async (data) => {
-    await addProblemToPlaylist(data.playlistId, [problemId]);
+    const res = await addProblemToPlaylist(data.playlistId, [problemId]);
+
+    if (res.success) {
+      const playlist = res.playlist[0];
+
+      const playlistDetails = {
+        id: playlist.playlistId,
+        name: playlist.playlist.name,
+      };
+
+      updateProblemsPlaylistInfoInState(playlist.problemId, playlistDetails);
+    }
+
     onClose();
   };
 

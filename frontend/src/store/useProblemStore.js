@@ -110,4 +110,25 @@ export const useProblemStore = create((set, get) => ({
       problem: updatedProblem,
     });
   },
+
+  updateProblemsPlaylistInfoInState: (problemId, playlistDetails) => {
+    if (!problemId) return;
+
+    set((state) => ({
+      problems: state.problems?.map((problem) => {
+        if (problem.id === problemId) {
+          return {
+            ...problem,
+            problemsPlaylists: [
+              ...(problem.problemsPlaylists || []),
+              {
+                playlist: playlistDetails,
+              },
+            ],
+          };
+        }
+        return problem;
+      }),
+    }));
+  },
 }));

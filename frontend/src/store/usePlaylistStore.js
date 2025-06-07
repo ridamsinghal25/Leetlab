@@ -119,6 +119,8 @@ export const usePlaylistStore = create((set, get) => ({
             return playlist;
           }),
         }));
+
+        return response.data;
       }
     } catch (error) {
       toast.error(
