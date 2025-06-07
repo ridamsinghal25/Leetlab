@@ -99,20 +99,12 @@ function Reactions({ problem }) {
                   onClick={handleSave}
                   disabled={isSaving || !authUser.isSubscribed}
                 >
-                  {isSaved ? (
-                    <>
-                      <BookmarkIcon
-                        className="h-5 w-5 text-primary"
-                        fill="white"
-                      />
-                      <span className="text-primary">Saved</span>
-                    </>
-                  ) : (
-                    <>
-                      <BookmarkIcon className="h-5 w-5" />
-                      <span>Save</span>
-                    </>
-                  )}
+                  <BookmarkIcon
+                    className={`h-5 w-5 text-primary ${
+                      isSaved ? "fill-primary text-primary" : "fill-none"
+                    }`}
+                  />
+                  <span className="text-primary">Saved</span>
                 </Button>
               </div>
             </TooltipTrigger>
@@ -138,17 +130,13 @@ function Reactions({ problem }) {
                 onClick={handleMark}
                 disabled={isMarking || !authUser.isSubscribed}
               >
-                {isMarked ? (
-                  <>
-                    <FlagIcon className="h-5 w-5 text-primary" fill="white" />
-                    <span className="text-primary">Marked Problem</span>
-                  </>
-                ) : (
-                  <>
-                    <FlagIcon className="h-5 w-5" />
-                    <span>Mark for Revision</span>
-                  </>
-                )}
+                <FlagIcon
+                  className={`h-5 w-5 text-primary ${
+                    isMarked ? "fill-primary text-primary" : "fill-none"
+                  }`}
+                  fill="white"
+                />
+                <span className="text-primary">Marked Problem</span>
               </Button>
             </div>
           </TooltipTrigger>

@@ -27,7 +27,7 @@ function NewQuizPage() {
     resolver: zodResolver(generateQuizSchema),
     defaultValues: {
       industry: "",
-      skills: ["Skill 1", "Skill 2"],
+      skills: ["Skill"],
     },
   });
 

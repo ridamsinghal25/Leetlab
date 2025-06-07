@@ -263,14 +263,40 @@ function ProblemTableDesktopView({
                                 className="gap-1 whitespace-nowrap hover:bg-primary/5"
                                 onClick={() => handleAddToPlaylist(problem.id)}
                               >
-                                <Bookmark className="h-4 w-4" />
+                                <Bookmark
+                                  className={`h-4 w-4 transition-colors ${
+                                    problem.problemsPlaylists?.length
+                                      ? "fill-primary text-primary" // use your theme's primary
+                                      : "fill-none text-muted-foreground dark:text-muted"
+                                  }`}
+                                />
                                 <span className="hidden lg:inline">
                                   Save to Playlist
                                 </span>
                               </Button>
                             </TooltipTrigger>
                             <TooltipContent>
-                              <p>Save to playlist</p>
+                              {problem.problemsPlaylists?.length > 0 ? (
+                                <div className="flex items-center gap-1 max-w-[250px]">
+                                  <div className="whitespace-nowrap">
+                                    Saved to
+                                  </div>
+                                  <div className="flex gap-0.5 min-w-0 flex-1">
+                                    {problem.problemsPlaylists?.map(
+                                      ({ playlist }) => (
+                                        <p
+                                          key={playlist.id}
+                                          className="inline-flex items-center px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full truncate max-w-[80px]"
+                                        >
+                                          {playlist.name}
+                                        </p>
+                                      )
+                                    )}
+                                  </div>
+                                </div>
+                              ) : (
+                                <p>Save to playlist</p>
+                              )}
                             </TooltipContent>
                           </Tooltip>
                         </TooltipProvider>

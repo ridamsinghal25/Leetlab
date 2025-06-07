@@ -123,7 +123,7 @@ export default function ProblemForm({
                     <Button
                       type="button"
                       size="sm"
-                      onClick={() => appendTag("New Tag")}
+                      onClick={() => appendTag("")}
                     >
                       <Plus className="h-4 w-4 mr-1" /> Add Tag
                     </Button>
@@ -168,7 +168,7 @@ export default function ProblemForm({
                     <Button
                       type="button"
                       size="sm"
-                      onClick={() => appendCompany("New Company")}
+                      onClick={() => appendCompany("")}
                     >
                       <Plus className="h-4 w-4 mr-1" /> Add Name
                     </Button>
