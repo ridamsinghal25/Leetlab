@@ -32,7 +32,7 @@ function ProblemTableDesktopView({
   isDeletingProblem,
 }) {
   return (
-    <div className="hidden lg:block rounded-lg border overflow-hidden bg-card">
+    <div className="hidden md:block rounded-lg border overflow-hidden bg-card">
       <div className="overflow-x-auto dark:bg-black">
         <Table>
           <TableHeader>

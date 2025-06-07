@@ -32,7 +32,7 @@ function ProblemTableMobileView({
   isDeletingProblem,
 }) {
   return (
-    <div className="block lg:hidden space-y-4">
+    <div className="block md:hidden space-y-4">
       {paginatedProblems.length > 0 ? (
         paginatedProblems?.map((problem) => {
           const isSolved = problem?.solvedBy?.some(
