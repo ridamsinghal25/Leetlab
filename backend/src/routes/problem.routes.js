@@ -4,6 +4,7 @@ import {
   createProblem,
   deleteProblem,
   getAllProblems,
+  getAllProblemsCount,
   getAllProblemsSolvedByUser,
   getProblemById,
   updateProblem,
@@ -18,7 +19,7 @@ problemRoutes.post(
   createProblem
 );
 
-problemRoutes.get("/get-all-problems", authMiddleware, getAllProblems);
+problemRoutes.post("/get-all-problems", authMiddleware, getAllProblems);
 
 problemRoutes.get("/get-problem/:id", authMiddleware, getProblemById);
 
@@ -41,5 +42,7 @@ problemRoutes.get(
   authMiddleware,
   getAllProblemsSolvedByUser
 );
+
+problemRoutes.get("/get-problems-count", authMiddleware, getAllProblemsCount);
 
 export default problemRoutes;

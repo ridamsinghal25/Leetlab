@@ -276,7 +276,8 @@ export const updateProblem = async (req, res) => {
 
 export const getAllProblems = async (req, res) => {
   try {
-    // Get all the problem and also check that this is solved by current user or not
+    const { skip = 1, take = 8 } = req.body;
+
     const problems = await db.problem.findMany({
       include: {
         solvedBy: {
@@ -285,12 +286,27 @@ export const getAllProblems = async (req, res) => {
           },
         },
       },
+      skip: (skip - 1) * take,
+      take,
     });
 
     if (!problems) {
       return res.status(404).json({
         error: "No problems found",
         success: false,
+      });
+    }
+
+    if (!req.user.isSubscribed) {
+      const updatedProblem = problems.map((problem) => ({
+        ...problem,
+        companies: [],
+      }));
+
+      return res.status(200).json({
+        success: true,
+        message: "Problems fetched successfully",
+        problems: updatedProblem,
       });
     }
 
@@ -311,6 +327,7 @@ export const getAllProblems = async (req, res) => {
 export const getProblemById = async (req, res) => {
   try {
     const { id } = req.params;
+    const user = req.user;
 
     const problem = await db.problem.findUnique({
       where: {
@@ -347,6 +364,7 @@ export const getProblemById = async (req, res) => {
 
     const problemWithLikeStatus = {
       ...rest,
+      referenceSolutions: user.isSubscribed ? rest.referenceSolutions : {},
       isLiked: isLikedByUser,
       likesCount,
       isSaved: isSavedByUser,
@@ -442,6 +460,24 @@ export const getAllProblemsSolvedByUser = async (req, res) => {
     console.error("Error fetching problems:", error);
     res.status(500).json({
       error: "Failed to fetch problems",
+      success: false,
+    });
+  }
+};
+
+export const getAllProblemsCount = async (req, res) => {
+  try {
+    const problemsCount = await db.problem.count();
+
+    return res.status(200).json({
+      success: true,
+      message: "Problems count fetched successfully",
+      problemsCount,
+    });
+  } catch (error) {
+    console.error("Error fetching problems count:", error);
+    return res.status(500).json({
+      error: "Failed to fetch problems count",
       success: false,
     });
   }

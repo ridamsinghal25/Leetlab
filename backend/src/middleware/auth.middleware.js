@@ -7,7 +7,8 @@ export const authMiddleware = async (req, res, next) => {
 
     if (!token) {
       return res.status(401).json({
-        message: "Unauthorized - No token provided",
+        error: "Unauthorized - No token provided",
+        success: false,
       });
     }
 
@@ -15,7 +16,8 @@ export const authMiddleware = async (req, res, next) => {
 
     if (!decodedToken) {
       return res.status(401).json({
-        message: "Unauthorized - Invalid token",
+        error: "Unauthorized - Invalid token",
+        success: false,
       });
     }
 
@@ -35,7 +37,8 @@ export const authMiddleware = async (req, res, next) => {
 
     if (!user) {
       return res.status(404).json({
-        message: "User not found",
+        error: "User not found",
+        success: false,
       });
     }
 
@@ -45,6 +48,7 @@ export const authMiddleware = async (req, res, next) => {
     console.error("Error authenticating user:", error);
     res.status(500).json({
       error: "Error authenticating user",
+      success: false,
     });
   }
 };
@@ -64,7 +68,8 @@ export const checkAdmin = async (req, res, next) => {
 
     if (!user || user.role !== "ADMIN") {
       return res.status(403).json({
-        message: "Forbidden - User is not an admin",
+        error: "Forbidden - User is not an admin",
+        success: false,
       });
     }
 
@@ -73,6 +78,7 @@ export const checkAdmin = async (req, res, next) => {
     console.error("Error checking admin status:", error);
     res.status(500).json({
       error: "Error checking admin status",
+      success: false,
     });
   }
 };
