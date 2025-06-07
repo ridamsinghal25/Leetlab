@@ -3,25 +3,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function DesktopShimmerUI() {
   return (
     <div className="min-h-screen">
-      {/* Header */}
-      <header className="border-b p-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Skeleton className="h-6 w-24" />
-        </div>
-        <div className="flex items-center justify-center w-10 h-10 rounded-full">
-          <Skeleton className="w-5 h-5 rounded-full" />
-        </div>
-      </header>
-
       {/* Main Content */}
       <div className="space-y-8 mb-10">
-        {/* Welcome Section */}
-        <div className="text-center space-y-4 max-w-3xl mx-auto mt-24">
-          <Skeleton className="h-16 w-3/4 mx-auto" />
-          <Skeleton className="h-7 w-full mx-auto" />
-          <Skeleton className="h-7 w-5/6 mx-auto" />
-        </div>
-
         {/* Problems Section */}
         <div className="mt-16 space-y-4 mx-28">
           <div className="flex items-center justify-between mb-6">
@@ -58,7 +41,7 @@ export default function DesktopShimmerUI() {
             </div>
 
             {/* Problem Rows */}
-            {[...Array(8)].map((_, index) => (
+            {[...Array(5)].map((_, index) => (
               <div key={index} className="grid grid-cols-12 gap-4 p-4 border-b">
                 <div className="col-span-1">
                   <Skeleton className="h-6 w-6" />

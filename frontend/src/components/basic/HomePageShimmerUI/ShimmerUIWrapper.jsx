@@ -2,7 +2,7 @@ import { useMediaQuery } from "usehooks-ts";
 import MobileShimmer from "./MobileShimmerUI";
 import DesktopShimmerUI from "./DesktopShimmerUI";
 
-export function HomeShimmerWrapper() {
+export function ProblemsShimmerUI() {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   return <>{isMobile ? <MobileShimmer /> : <DesktopShimmerUI />}</>;

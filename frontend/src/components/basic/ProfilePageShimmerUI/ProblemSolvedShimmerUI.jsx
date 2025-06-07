@@ -16,6 +16,20 @@ export function ProblemSolvedShimmerUI() {
         <Skeleton className="h-8 w-48" />
       </div>
 
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <Card key={index}>
+            <CardContent className="p-6">
+              <div className="flex flex-col">
+                <Skeleton className="h-4 w-20 mb-2" />
+                <Skeleton className="h-8 w-12" />
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
       <Card>
         <Table>
           <TableHeader>
@@ -63,20 +77,6 @@ export function ProblemSolvedShimmerUI() {
           </div>
         </CardFooter>
       </Card>
-
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-        {Array.from({ length: 3 }).map((_, index) => (
-          <Card key={index}>
-            <CardContent className="p-6">
-              <div className="flex flex-col">
-                <Skeleton className="h-4 w-20 mb-2" />
-                <Skeleton className="h-8 w-12" />
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
     </div>
   );
 }
