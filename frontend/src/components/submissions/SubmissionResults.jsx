@@ -109,7 +109,6 @@ const SubmissionResults = ({ submission, submissionIndex = 0 }) => {
                 <TableBody>
                   {submission.testcases?.map((testCase) => (
                     <TableRow key={testCase.id || testCase.testCase}>
-                      {console.log("testCase", testCase)}
                       <TableCell>
                         {testCase.passed ? (
                           <div className="flex items-center gap-2 text-green-600">
