@@ -3,8 +3,10 @@ import Editor from "@monaco-editor/react";
 import {
   AlertCircle,
   BookOpen,
+  Check,
   CheckCircle2,
   Code2,
+  Copy,
   Lightbulb,
   Plus,
   Trash2,
@@ -30,6 +32,7 @@ import FormFieldInput from "../basic/FormFieldInput";
 import { Form } from "../ui/form";
 import FormFieldTextarea from "../basic/FormFieldTextarea";
 import FormFieldSelect from "../basic/FormFieldSelect";
+import { useState } from "react";
 
 export default function ProblemForm({
   form,
@@ -38,6 +41,7 @@ export default function ProblemForm({
   isUpdateMode,
   executionError,
 }) {
+  const [isCopyingCode, setIsCopyingCode] = useState(false);
   const {
     fields: testCaseFields,
     append: appendTestCase,
@@ -64,6 +68,15 @@ export default function ProblemForm({
     control: form.control,
     name: "companies",
   });
+
+  async function copyCodeToClipboard(language) {
+    setIsCopyingCode(true);
+    const { referenceSolutions, stdin } = form.getValues();
+
+    const code = referenceSolutions[language].concat("\n\n", stdin[language]);
+
+    await navigator.clipboard.writeText(code);
+  }
 
   return (
     <div>
@@ -269,6 +282,24 @@ export default function ProblemForm({
                 {Object.keys(LANGUAGES).map((language) => (
                   <TabsContent key={language} value={language} className="mt-0">
                     <Card>
+                      <div className="flex justify-end mr-4">
+                        <Button
+                          type="button"
+                          onClick={() => copyCodeToClipboard(language)}
+                        >
+                          {isCopyingCode ? (
+                            <>
+                              <Check className="h-4 w-4 mr-1" /> Copied
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="h-4 w-4 mr-1" />
+                              {language.charAt(0).toUpperCase() +
+                                language.slice(1).toLowerCase()}
+                            </>
+                          )}
+                        </Button>
+                      </div>
                       <CardHeader>
                         <CardTitle className="text-lg flex items-center gap-2">
                           <Code2 className="h-5 w-5" />
@@ -296,7 +327,10 @@ export default function ProblemForm({
                                   language={language.toLowerCase()}
                                   theme="vs-dark"
                                   value={field.value}
-                                  onChange={field.onChange}
+                                  onChange={(e) => {
+                                    field.onChange(e);
+                                    setIsCopyingCode(false);
+                                  }}
                                   options={{
                                     minimap: { enabled: false },
                                     fontSize: 13,
@@ -410,7 +444,10 @@ export default function ProblemForm({
                                   language={language.toLowerCase()}
                                   theme="vs-dark"
                                   value={field.value}
-                                  onChange={field.onChange}
+                                  onChange={(e) => {
+                                    field.onChange(e);
+                                    setIsCopyingCode(false);
+                                  }}
                                   options={{
                                     minimap: { enabled: false },
                                     fontSize: 13,
