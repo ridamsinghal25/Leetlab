@@ -23,16 +23,16 @@ const SubmissionResults = ({ submission, submissionIndex = 0 }) => {
   const avgMemory =
     memoryArr
       ?.map((m) => Number.parseFloat(m)) // remove ' KB' using parseFloat
-      .reduce((a, b) => a + b, 0) / memoryArr.length;
+      ?.reduce((a, b) => a + b, 0) / memoryArr?.length;
 
   const avgTime =
     timeArr
       ?.map((t) => Number.parseFloat(t)) // remove ' s' using parseFloat
-      .reduce((a, b) => a + b, 0) / timeArr.length;
+      ?.reduce((a, b) => a + b, 0) / timeArr?.length;
 
-  const passedTests = submission.testcases.filter((tc) => tc.passed).length;
+  const passedTests = submission.testcases?.filter((tc) => tc.passed).length;
 
-  const totalTests = submission.testcases.length;
+  const totalTests = submission.testcases?.length;
 
   const successRate = (passedTests / totalTests) * 100;
 
@@ -73,7 +73,9 @@ const SubmissionResults = ({ submission, submissionIndex = 0 }) => {
                   <Clock className="w-4 h-4" />
                   Avg. Runtime
                 </p>
-                <div className="text-lg font-bold">{avgTime.toFixed(3)} s</div>
+                <div className="text-lg font-bold">
+                  {avgTime ? avgTime.toFixed(3) : "0.000"} s
+                </div>
               </CardContent>
             </Card>
             <Card>
@@ -105,8 +107,9 @@ const SubmissionResults = ({ submission, submissionIndex = 0 }) => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {submission.testcases.map((testCase) => (
+                  {submission.testcases?.map((testCase) => (
                     <TableRow key={testCase.id || testCase.testCase}>
+                      {console.log("testCase", testCase)}
                       <TableCell>
                         {testCase.passed ? (
                           <div className="flex items-center gap-2 text-green-600">
@@ -124,12 +127,14 @@ const SubmissionResults = ({ submission, submissionIndex = 0 }) => {
                         {testCase.expected}
                       </TableCell>
                       <TableCell className="font-mono">
-                        {testCase?.stdout}
+                        {testCase.stdout ? testCase.stdout : "-"}
                       </TableCell>
                       <TableCell>
-                        {testCase.memory ? testCase.memory : "-"}
+                        {testCase.memory ? testCase.memory : "0 KB"}
                       </TableCell>
-                      <TableCell>{testCase.time}</TableCell>
+                      <TableCell>
+                        {testCase.time ? testCase.time : "0.000 s"}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

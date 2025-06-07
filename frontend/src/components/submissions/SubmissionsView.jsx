@@ -12,7 +12,7 @@ function SubmissionsView({ submissionsOfProblem, submission, activeTab }) {
         <Card className="mb-6">
           <CardContent className="p-6">
             <h3 className="text-xl font-bold">Your Submissions</h3>
-            {submissionsOfProblem.map((submission, submissionIndex) => (
+            {submissionsOfProblem?.map((submission, submissionIndex) => (
               <SubmissionResults
                 key={submission.id}
                 submission={submission}
@@ -31,7 +31,7 @@ function SubmissionsView({ submissionsOfProblem, submission, activeTab }) {
                   <div className="bg-destructive/5 px-4 py-2 flex items-center gap-2">
                     <AlertCircle className="h-4 w-4 text-destructive" />
                   </div>
-                  {submission.stderr && (
+                  {submission?.stderr && (
                     <div className="bg-slate-50 p-3 font-mono text-sm text-slate-800 overflow-x-auto">
                       <pre className="whitespace-pre-wrap break-words">
                         {submission.stderr}

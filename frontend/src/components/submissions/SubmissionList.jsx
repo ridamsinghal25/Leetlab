@@ -33,13 +33,13 @@ const SubmissionsList = ({ submissions, isLoading }) => {
 
   // Helper function to calculate average runtime
   const calculateAverageTime = (timeData) => {
-    const timeArray = safeParse(timeData).map((t) =>
+    const timeArray = safeParse(timeData)?.map((t) =>
       Number.parseFloat(t.split(" ")[0])
     );
 
-    if (timeArray.length === 0) return 0;
+    if (timeArray?.length === 0) return 0;
 
-    return timeArray.reduce((acc, curr) => acc + curr, 0) / timeArray.length;
+    return timeArray?.reduce((acc, curr) => acc + curr, 0) / timeArray?.length;
   };
 
   // Loading state
@@ -98,7 +98,7 @@ const SubmissionsList = ({ submissions, isLoading }) => {
                 <div className="flex flex-wrap items-center gap-4 text-muted-foreground">
                   <div className="flex items-center gap-1">
                     <Clock className="w-4 h-4" />
-                    <span>{avgTime.toFixed(3)} s</span>
+                    <span>{avgTime ? avgTime.toFixed(3) : "0.000"} s</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <Memory className="w-4 h-4" />
