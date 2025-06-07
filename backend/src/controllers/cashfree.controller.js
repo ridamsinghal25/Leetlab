@@ -113,8 +113,6 @@ export const verifyOrder = async (req, res) => {
 
     const orderData = order.data;
 
-    console.log("orderData", orderData);
-
     if (!orderData) {
       return res.status(400).json({
         error: "Order not found",
@@ -178,6 +176,19 @@ export const verifyOrder = async (req, res) => {
 export const getOrder = async (req, res) => {
   try {
     const userId = req.user.id;
+
+    const updateOrders = await prisma.order.updateMany({
+      where: {
+        orderExpiryTime: {
+          lt: new Date(), // current time
+        },
+        orderStatus: "ACTIVE", // only update active orders
+        userId,
+      },
+      data: {
+        orderStatus: "EXPIRED",
+      },
+    });
 
     const orders = await db.order.findMany({
       where: {

@@ -1,5 +1,6 @@
 import { db } from "../libs/db.js";
 import {
+  formatCodeForPython,
   getLanguageName,
   pollBatchResults,
   submitBatch,
@@ -51,13 +52,15 @@ export const executeCode = async (req, res) => {
       });
     }
 
+    const languageName = getLanguageName(language_id).toUpperCase();
+
     const source_code = code.concat("\n\n", standardInputOfCode);
 
     // 2. Prepare each test cases for judge0 batch submission
     const submissions = stdin.map((input) => ({
       source_code,
       language_id,
-      stdin: input,
+      stdin: formatCodeForPython(languageName, input),
     }));
 
     // 3. Send batch of submissions to judge0
@@ -72,7 +75,10 @@ export const executeCode = async (req, res) => {
 
     const detailedResults = results.map((result, i) => {
       const stdout = result.stdout?.trim();
-      const expected_output = expected_outputs[i]?.trim();
+      const expected_output = formatCodeForPython(
+        languageName,
+        expected_outputs[i]?.trim()
+      );
       const passed = stdout === expected_output;
 
       if (!passed) allPassed = false;
@@ -221,13 +227,15 @@ export const runCode = async (req, res) => {
       });
     }
 
+    const languageName = getLanguageName(language_id).toUpperCase();
+
     const source_code = code.concat("\n\n", standardInputOfCode);
 
     // 2. Prepare each test cases for judge0 batch submission
     const submissions = stdin.map((input) => ({
       source_code,
       language_id,
-      stdin: input,
+      stdin: formatCodeForPython(languageName, input),
     }));
 
     // 3. Send batch of submissions to judge0
@@ -242,7 +250,10 @@ export const runCode = async (req, res) => {
 
     const detailedResults = results.map((result, i) => {
       const stdout = result.stdout?.trim();
-      const expected_output = expected_outputs[i]?.trim();
+      const expected_output = formatCodeForPython(
+        languageName,
+        expected_outputs[i]?.trim()
+      );
       const passed = stdout === expected_output;
 
       if (!passed) allPassed = false;
@@ -337,11 +348,13 @@ export const runCodeForCollaborativeEditor = async (req, res) => {
       });
     }
 
+    const languageName = getLanguageName(language_id).toUpperCase();
+
     // 2. Prepare each test cases for judge0 batch submission
     const submissions = stdin.map((input) => ({
       source_code,
       language_id,
-      stdin: input,
+      stdin: formatCodeForPython(languageName, input),
     }));
 
     // 3. Send batch of submissions to judge0
@@ -356,7 +369,10 @@ export const runCodeForCollaborativeEditor = async (req, res) => {
 
     const detailedResults = results.map((result, i) => {
       const stdout = result.stdout?.trim();
-      const expected_output = expected_outputs[i]?.trim();
+      const expected_output = formatCodeForPython(
+        languageName,
+        expected_outputs[i]?.trim()
+      );
       const passed = stdout === expected_output;
 
       if (!passed) allPassed = false;

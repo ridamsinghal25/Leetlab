@@ -28,8 +28,7 @@ enum Difficulty {
 enum PaymentStatus {
   ACTIVE
   PAID
-  FAILED
-  REFUNDED
+  EXPIRED
 }
 
 model User {
