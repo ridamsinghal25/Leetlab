@@ -22,7 +22,7 @@ function ProfileCard({
               {authUser?.image?.url ? (
                 <AvatarImage
                   src={authUser.image?.url || "/placeholder.svg"}
-                  alt={authUser.name}
+                  alt={authUser?.name}
                 />
               ) : (
                 <AvatarFallback className="text-3xl bg-primary/20">

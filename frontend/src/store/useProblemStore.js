@@ -1,25 +1,34 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios.js";
 import toast from "react-hot-toast";
+import lodash from "lodash";
 
 export const useProblemStore = create((set, get) => ({
   isProblemLoading: false,
   isProblemsLoading: false,
   isFetchingSolvedProblems: false,
+  isFetchingProblemsCount: false,
   problems: [],
   problem: null,
   solvedProblems: [],
+  problemsCount: null,
 
-  getAllProblems: async () => {
+  getAllProblems: async (skip, take) => {
     try {
       set({ isProblemsLoading: true });
-      const res = await axiosInstance.get("/problem/get-all-problems");
+      const res = await axiosInstance.post("/problem/get-all-problems", {
+        skip,
+        take,
+      });
 
       if (res.data.success) {
-        set({ problems: res.data.problems });
+        const problems = [...get().problems, ...res.data.problems];
+        const uniqueProblems = lodash.uniqWith(problems, lodash.isEqual);
+        set({ problems: uniqueProblems });
       }
     } catch (error) {
       toast.error(error.response?.data?.error || "Error getting all problems");
+      console.log("errror", error);
     } finally {
       set({ isProblemsLoading: false });
     }
@@ -56,6 +65,24 @@ export const useProblemStore = create((set, get) => ({
       );
     } finally {
       set({ isFetchingSolvedProblems: false });
+    }
+  },
+
+  getAllProblemsCount: async () => {
+    try {
+      set({ isFetchingProblemsCount: true });
+      const res = await axiosInstance.get("/problem/get-problems-count");
+
+      if (res.data.success) {
+        set({ problemsCount: res.data.problemsCount });
+        return res.data.problemsCount;
+      }
+    } catch (error) {
+      toast.error(
+        error.response?.data?.error || "Error getting all problems count"
+      );
+    } finally {
+      set({ isFetchingProblemsCount: false });
     }
   },
 

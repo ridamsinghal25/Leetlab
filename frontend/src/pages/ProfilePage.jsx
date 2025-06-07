@@ -1,5 +1,12 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, Mail, User, Shield, IdCard } from "lucide-react";
+import {
+  ArrowLeft,
+  Mail,
+  User,
+  Shield,
+  IdCard,
+  IndianRupee,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuthStore } from "@/store/useAuthStore";
@@ -31,9 +38,9 @@ export default function ProfilePage() {
       icon: <Mail className="h-5 w-5 text-primary" />,
     },
     {
-      label: "User ID",
-      value: authUser?.id,
-      icon: <IdCard className="h-5 w-5 text-primary" />,
+      label: "Subscription Plan",
+      value: authUser?.isSubscribed ? "Pro" : "Free",
+      icon: <IndianRupee className="h-5 w-5 text-primary" />,
     },
     {
       label: "Role",

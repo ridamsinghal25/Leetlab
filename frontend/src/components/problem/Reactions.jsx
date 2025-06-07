@@ -4,6 +4,13 @@ import { useLikeStore } from "@/store/useLikeStore";
 import { Button } from "@/components/ui/button";
 import { useSaveStore } from "@/store/useSaveStore";
 import { useMarkForRevisionStore } from "@/store/useMarkForRevisionStore";
+import { useAuthStore } from "@/store/useAuthStore";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 function Reactions({ problem }) {
   const [isLiked, setIsLiked] = useState(problem.isLiked);
@@ -14,6 +21,7 @@ function Reactions({ problem }) {
   const { isSaving, toggleSave, toggleSavedProblemFromState } = useSaveStore();
   const { isMarking, toggleMark, toggleMarkedProblemFromState } =
     useMarkForRevisionStore();
+  const { authUser } = useAuthStore();
 
   const handleLike = async () => {
     await toggleLike(problem.id);
@@ -39,7 +47,7 @@ function Reactions({ problem }) {
       <div className="flex items-center gap-4">
         <Button
           variant="outline"
-          className="flex items-center gap-1.5 text-sm hover:text-primary transition-colors"
+          className="flex items-center gap-1.5 text-sm hover:text-primary transition-colors cursor-pointer"
           aria-label="Like this problem"
           onClick={handleLike}
           disabled={isLiking}
@@ -51,46 +59,76 @@ function Reactions({ problem }) {
           )}
           <span>{likesCount}</span>
         </Button>
-        <Button
-          variant="outline"
-          className="flex items-center gap-1.5 text-sm hover:text-primary transition-colors"
-          aria-label="Save this problem"
-          onClick={handleSave}
-          disabled={isSaving}
-        >
-          {isSaved ? (
-            <>
-              <BookmarkIcon className="h-5 w-5 text-primary" fill="primary" />
-              <span className="text-primary">Saved</span>
-            </>
-          ) : (
-            <>
-              <BookmarkIcon className="h-5 w-5" />
-              <span>Save</span>
-            </>
-          )}
-        </Button>
+
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="cursor-pointer">
+                <Button
+                  variant="outline"
+                  className="flex items-center gap-1.5 text-sm hover:text-primary transition-colors"
+                  aria-label="Save this problem"
+                  onClick={handleSave}
+                  disabled={isSaving || !authUser.isSubscribed}
+                >
+                  {isSaved ? (
+                    <>
+                      <BookmarkIcon
+                        className="h-5 w-5 text-primary"
+                        fill="primary"
+                      />
+                      <span className="text-primary">Saved</span>
+                    </>
+                  ) : (
+                    <>
+                      <BookmarkIcon className="h-5 w-5" />
+                      <span>Save</span>
+                    </>
+                  )}
+                </Button>
+              </div>
+            </TooltipTrigger>
+            {!authUser?.isSubscribed && (
+              <TooltipContent>
+                <p className="text-amber-600">Upgrade to pro plan</p>
+              </TooltipContent>
+            )}
+          </Tooltip>
+        </TooltipProvider>
       </div>
 
-      <Button
-        variant="outline"
-        className="flex items-center gap-1.5 text-sm hover:text-primary transition-colors"
-        aria-label="Mark for revision"
-        onClick={handleMark}
-        disabled={isMarking}
-      >
-        {isMarked ? (
-          <>
-            <FlagIcon className="h-5 w-5 text-primary" fill="primary" />
-            <span className="text-primary">Marked Problem</span>
-          </>
-        ) : (
-          <>
-            <FlagIcon className="h-5 w-5" />
-            <span>Mark for Revision</span>
-          </>
-        )}
-      </Button>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className="cursor-pointer">
+              <Button
+                variant="outline"
+                className="flex items-center gap-1.5 text-sm hover:text-primary transition-colors"
+                aria-label="Mark for revision"
+                onClick={handleMark}
+                disabled={isMarking || !authUser.isSubscribed}
+              >
+                {isMarked ? (
+                  <>
+                    <FlagIcon className="h-5 w-5 text-primary" fill="primary" />
+                    <span className="text-primary">Marked Problem</span>
+                  </>
+                ) : (
+                  <>
+                    <FlagIcon className="h-5 w-5" />
+                    <span>Mark for Revision</span>
+                  </>
+                )}
+              </Button>
+            </div>
+          </TooltipTrigger>
+          {!authUser?.isSubscribed && (
+            <TooltipContent>
+              <p className="text-amber-600">Upgrade to pro plan</p>
+            </TooltipContent>
+          )}
+        </Tooltip>
+      </TooltipProvider>
     </div>
   );
 }

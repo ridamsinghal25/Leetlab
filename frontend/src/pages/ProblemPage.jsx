@@ -48,10 +48,6 @@ const ProblemPage = () => {
   const isDesktop = useMediaQuery("(min-width: 850px)");
   const submissionRef = useRef(null);
 
-  if (!isDesktop) {
-    return <MobileRestrictionCard />;
-  }
-
   useEffect(() => {
     if (id && problem?.id !== id) {
       getProblemById(id);
@@ -148,6 +144,10 @@ const ProblemPage = () => {
         <ProblemPageShimmer />
       </div>
     );
+  }
+
+  if (!isDesktop) {
+    return <MobileRestrictionCard />;
   }
 
   return (

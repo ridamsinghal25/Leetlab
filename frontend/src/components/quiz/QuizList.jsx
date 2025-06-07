@@ -11,10 +11,18 @@ import {
 import QuizResultModal from "../modals/QuizResultModal";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/constants/routes";
+import { useAuthStore } from "@/store/useAuthStore";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function QuizList({ assessments }) {
   const [selectedQuiz, setSelectedQuiz] = useState(null);
   const [toggleQuizModal, setToggleQuizModal] = useState(false);
+  const { authUser } = useAuthStore();
   const navigate = useNavigate();
 
   return (
@@ -30,9 +38,25 @@ export default function QuizList({ assessments }) {
                 Review your past quiz performance
               </CardDescription>
             </div>
-            <Button onClick={() => navigate(ROUTES.NEWQUIZ)}>
-              Start New Quiz
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="cursor-pointer">
+                    <Button
+                      onClick={() => navigate(ROUTES.NEWQUIZ)}
+                      disabled={!authUser?.isSubscribed}
+                    >
+                      Start New Quiz
+                    </Button>
+                  </div>
+                </TooltipTrigger>
+                {!authUser?.isSubscribed && (
+                  <TooltipContent>
+                    <p className="text-amber-600">Upgrade to pro plan</p>
+                  </TooltipContent>
+                )}
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </CardHeader>
         <CardContent>
