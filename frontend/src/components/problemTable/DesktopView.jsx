@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Bookmark, Loader2, Pencil, Trash } from "lucide-react";
+import { Bookmark, Loader2, Lock, Pencil, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -74,47 +74,75 @@ function ProblemTableDesktopView({
                       </Link>
                     </TableCell>
                     <TableCell className="max-w-sm">
-                      {problem.companies && problem.companies.length > 0 ? (
-                        <div className="flex flex-wrap gap-1">
-                          {problem.companies.slice(0, 3).map((company, idx) => (
-                            <Badge
-                              key={idx}
-                              variant="secondary"
-                              className="bg-blue-100 text-blue-700 border-blue-200 text-xs font-medium"
-                            >
-                              {company}
-                            </Badge>
-                          ))}
-                          {problem.companies.length > 3 && (
-                            <TooltipProvider>
-                              <Tooltip>
-                                <TooltipTrigger asChild>
+                      {authUser?.isSubscribed ? (
+                        <div>
+                          {problem?.companies &&
+                          problem?.companies.length > 0 ? (
+                            <div className="flex flex-wrap gap-1">
+                              {problem.companies
+                                .slice(0, 3)
+                                .map((company, idx) => (
                                   <Badge
-                                    variant="outline"
-                                    className="text-xs cursor-help"
+                                    key={idx}
+                                    variant="secondary"
+                                    className="bg-blue-100 text-blue-700 border-blue-200 text-xs font-medium"
                                   >
-                                    +{problem.companies.length - 3} more
+                                    {company}
                                   </Badge>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                  <div className="space-y-1">
-                                    {problem.companies
-                                      .slice(3)
-                                      .map((company, idx) => (
-                                        <div key={idx} className="text-sm">
-                                          {company}
-                                        </div>
-                                      ))}
-                                  </div>
-                                </TooltipContent>
-                              </Tooltip>
-                            </TooltipProvider>
+                                ))}
+                              {problem.companies.length > 3 && (
+                                <TooltipProvider>
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <Badge
+                                        variant="outline"
+                                        className="text-xs cursor-help"
+                                      >
+                                        +{problem.companies.length - 3} more
+                                      </Badge>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      <div className="space-y-1">
+                                        {problem.companies
+                                          .slice(3)
+                                          .map((company, idx) => (
+                                            <div key={idx} className="text-sm">
+                                              {company}
+                                            </div>
+                                          ))}
+                                      </div>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </TooltipProvider>
+                              )}
+                            </div>
+                          ) : (
+                            <span className="text-muted-foreground text-sm">
+                              No companies
+                            </span>
                           )}
                         </div>
                       ) : (
-                        <span className="text-muted-foreground text-sm">
-                          No companies
-                        </span>
+                        <div>
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  size="icon"
+                                  className="cursor-pointer"
+                                >
+                                  <Lock className="w-4 h-4" />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p className="text-amber-600">
+                                  Upgrade to pro plan
+                                </p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        </div>
                       )}
                     </TableCell>
                     <TableCell className="max-w-sm">

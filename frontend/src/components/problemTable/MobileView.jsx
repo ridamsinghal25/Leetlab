@@ -1,5 +1,12 @@
 import { Link } from "react-router-dom";
-import { Bookmark, Building2, Loader2, Pencil, Trash } from "lucide-react";
+import {
+  Bookmark,
+  Building2,
+  Loader2,
+  Lock,
+  Pencil,
+  Trash,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -10,6 +17,12 @@ import {
   USER_ROLES,
 } from "@/constants/constants";
 import { ROUTES } from "@/constants/routes";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 function ProblemTableMobileView({
   paginatedProblems,
@@ -94,25 +107,50 @@ function ProblemTableMobileView({
                   </Link>
                 </div>
                 {/* Companies section */}
-                {problem.companies && problem.companies.length > 0 && (
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Building2 className="h-4 w-4" />
-                      <span className="font-medium">Asked by:</span>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {problem.companies.map((company, idx) => (
-                        <Badge
-                          key={idx}
-                          variant="secondary"
-                          className="bg-blue-50 text-blue-700 border-blue-200 text-xs font-medium"
-                        >
-                          {company}
-                        </Badge>
-                      ))}
-                    </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Building2 className="h-4 w-4" />
+                    <span className="font-medium">Asked by:</span>
                   </div>
-                )}
+                  {authUser?.isSubscribed ? (
+                    <div>
+                      {problem?.companies && problem?.companies.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          {problem.companies.map((company, idx) => (
+                            <Badge
+                              key={idx}
+                              variant="secondary"
+                              className="bg-blue-50 text-blue-700 border-blue-200 text-xs font-medium"
+                            >
+                              {company}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="ml-2">
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              className="cursor-pointer"
+                            >
+                              <Lock className="w-4 h-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p className="text-amber-600">
+                              Upgrade to pro plan
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                  )}
+                </div>
 
                 {/* Tags section */}
                 {problem.tags && problem.tags.length > 0 && (

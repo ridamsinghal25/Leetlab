@@ -54,3 +54,5 @@ export const INDUSTRIES = [
   { id: "blockchain", name: "Blockchain Development" },
   { id: "ui-ux", name: "UI/UX Design" },
 ];
+
+export const PROBLEMS_PER_PAGE = 8;

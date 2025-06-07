@@ -1,6 +1,15 @@
 import { Link } from "react-router-dom";
 import { useAuthStore } from "@/store/useAuthStore";
-import { Code, LogOut, User, PlusCircle, SquareActivity } from "lucide-react";
+import {
+  Code,
+  LogOut,
+  User,
+  PlusCircle,
+  SquareActivity,
+  ListCheck,
+  IndianRupee,
+  Wallet,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -15,6 +24,39 @@ import {
 import { ROUTES } from "@/constants/routes";
 import { USER_ROLES } from "@/constants/constants";
 import { ModeToggle } from "../theme/ModeToggle";
+
+const MENU_ITEMS = [
+  {
+    icon: User,
+    name: "My Profile",
+    route: ROUTES.PROFILE,
+  },
+  {
+    icon: Code,
+    name: "Collab Code",
+    route: ROUTES.COLLABORATIVE_EDITOR,
+  },
+  {
+    icon: SquareActivity,
+    name: "My Activities",
+    route: ROUTES.MY_ACTIVITIES,
+  },
+  {
+    icon: ListCheck,
+    name: "Quizzes",
+    route: ROUTES.QUIZ,
+  },
+  {
+    icon: IndianRupee,
+    name: "Pricings",
+    route: ROUTES.PRICING,
+  },
+  {
+    icon: Wallet,
+    name: "Billing",
+    route: ROUTES.BILLING,
+  },
+];
 
 export default function Navbar() {
   const { authUser, logout } = useAuthStore();
@@ -59,40 +101,23 @@ export default function Navbar() {
                 <DropdownMenuLabel>
                   <div className="flex flex-col space-y-1">
                     <p className="text-sm font-medium leading-none">
-                      {authUser.name}
+                      {authUser?.name}
                     </p>
                     <p className="text-xs leading-none text-muted-foreground">
-                      {authUser.email}
+                      {authUser?.email}
                     </p>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem asChild>
-                    <Link to={ROUTES.PROFILE} className="cursor-pointer">
-                      <User className="mr-2 h-4 w-4" />
-                      <span>My Profile</span>
-                    </Link>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuGroup>
-                  <DropdownMenuItem asChild>
-                    <Link
-                      to={ROUTES.COLLABORATIVE_EDITOR}
-                      className="cursor-pointer"
-                    >
-                      <Code className="mr-2 h-4 w-4" />
-                      <span>Collab Code</span>
-                    </Link>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuGroup>
-                  <DropdownMenuItem asChild>
-                    <Link to={ROUTES.MY_ACTIVITIES} className="cursor-pointer">
-                      <SquareActivity className="mr-2 h-4 w-4" />
-                      <span>My Activities</span>
-                    </Link>
-                  </DropdownMenuItem>
+                  {MENU_ITEMS.map(({ icon: Icon, name, route }) => (
+                    <DropdownMenuItem asChild key={name}>
+                      <Link to={route} className="cursor-pointer">
+                        <Icon className="mr-2 h-4 w-4" />
+                        <span>{name}</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 {authUser?.role === USER_ROLES.ADMIN && (
