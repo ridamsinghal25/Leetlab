@@ -12,4 +12,6 @@ export const ROUTES = {
   MY_ACTIVITIES: "/my-activities",
   QUIZ: "/quiz",
   NEWQUIZ: "/quiz/new",
+  PRICING: "/pricing",
+  BILLING: "/billing",
 };

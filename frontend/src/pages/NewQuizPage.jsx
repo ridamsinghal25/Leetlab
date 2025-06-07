@@ -53,7 +53,7 @@ function NewQuizPage() {
                   </Link>
                 </Button>
                 <Brain className="h-6 w-6 text-primary" />
-                <CardTitle className="text-2xl">Quiz</CardTitle>
+                <CardTitle className="text-2xl">Start a Quiz</CardTitle>
               </div>
             </div>
           </CardHeader>

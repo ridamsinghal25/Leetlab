@@ -17,7 +17,7 @@ function QuizPage() {
     if (!quizzes.length) {
       getQuizAssessments();
     }
-  }, [quizzes]);
+  }, [getQuizAssessments]);
 
   if (isFetchingQuizzes) {
     return <QuizPageShimmerUI />;
@@ -34,7 +34,7 @@ function QuizPage() {
                   <ArrowLeft className="h-5 w-5" />
                 </Link>
               </Button>
-              <CardTitle className="text-3xl">Interview Preparation</CardTitle>
+              <CardTitle className="text-3xl">Your Quizzes</CardTitle>
             </div>
           </div>
         </CardHeader>

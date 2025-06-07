@@ -5,7 +5,6 @@ import LoginPage from "./pages/LoginPage";
 import { useAuthStore } from "./store/useAuthStore";
 import { Toaster } from "react-hot-toast";
 import ProblemPage from "./pages/ProblemPage";
-import HomeLayout from "./layouts/HomeLayout";
 import AddProblem from "./pages/AddProblem";
 import ProfilePage from "./pages/ProfilePage";
 import AdminRoute from "./protectedRoutes/AdminRoute";
@@ -29,6 +28,9 @@ import { ROOM_ID } from "./constants/constants";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
 import QuizPage from "./pages/QuizPage";
 import NewQuizPage from "./pages/NewQuizPage";
+import PricingPage from "./pages/PricingPage";
+import BillingPage from "./pages/BillingPage";
+import PaidUserRoutes from "./protectedRoutes/PaidUsersRoute";
 
 const App = () => {
   const { authUser } = useAuthStore();
@@ -41,9 +43,8 @@ const App = () => {
           {/* Logged in routes */}
           <Route element={<LoggedInRoutes />}>
             {/* Home routes */}
-            <Route element={<HomeLayout />}>
-              <Route path={ROUTES.HOME} element={<HomePage />} />
-            </Route>
+
+            <Route path={ROUTES.HOME} element={<HomePage />} />
 
             <Route path={ROUTES.PROBLEM} element={<ProblemPage />} />
             <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
@@ -82,7 +83,13 @@ const App = () => {
 
             <Route path={ROUTES.QUIZ} element={<QuizPage />} />
 
-            <Route path={ROUTES.NEWQUIZ} element={<NewQuizPage />} />
+            <Route element={<PaidUserRoutes />}>
+              <Route path={ROUTES.NEWQUIZ} element={<NewQuizPage />} />
+            </Route>
+
+            <Route path={ROUTES.PRICING} element={<PricingPage />} />
+
+            <Route path={ROUTES.BILLING} element={<BillingPage />} />
 
             {/* Admin routes */}
             <Route element={<AdminRoute />}>
