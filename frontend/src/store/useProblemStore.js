@@ -28,7 +28,6 @@ export const useProblemStore = create((set, get) => ({
       }
     } catch (error) {
       toast.error(error.response?.data?.error || "Error getting all problems");
-      console.log("errror", error);
     } finally {
       set({ isProblemsLoading: false });
     }
@@ -99,6 +98,16 @@ export const useProblemStore = create((set, get) => ({
   addProblemToState: (problem) => {
     set({
       problems: [...get().problems, { ...problem, solvedBy: [] }],
+    });
+  },
+
+  updateProblemInState: (updatedProblem) => {
+    if (!get().problem) {
+      return;
+    }
+
+    set({
+      problem: updatedProblem,
     });
   },
 }));

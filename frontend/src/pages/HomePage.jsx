@@ -82,7 +82,7 @@ const HomePage = () => {
   }, [problems, search, difficulty, selectedTag, selectedCompany]);
 
   useEffect(() => {
-    if (!problemsCount) {
+    if (!problemsCount && authUser) {
       getAllProblemsCount();
     }
   }, []);
@@ -96,7 +96,8 @@ const HomePage = () => {
   useEffect(() => {
     if (
       problems.length < currentPage * PROBLEMS_PER_PAGE &&
-      problems.length !== problemsCount
+      problems.length !== problemsCount &&
+      authUser
     ) {
       getAllProblems(currentPage, PROBLEMS_PER_PAGE);
     }

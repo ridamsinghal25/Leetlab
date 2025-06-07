@@ -11,6 +11,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useProblemStore } from "@/store/useProblemStore";
 
 function Reactions({ problem }) {
   const [isLiked, setIsLiked] = useState(problem.isLiked);
@@ -21,6 +22,7 @@ function Reactions({ problem }) {
   const { isSaving, toggleSave, toggleSavedProblemFromState } = useSaveStore();
   const { isMarking, toggleMark, toggleMarkedProblemFromState } =
     useMarkForRevisionStore();
+  const { updateProblemInState } = useProblemStore();
   const { authUser } = useAuthStore();
 
   const handleLike = async () => {
@@ -28,18 +30,44 @@ function Reactions({ problem }) {
     toggleLikedProblemFromState(problem.id, problem);
     setIsLiked(!isLiked);
     setLikesCount((prevCount) => (isLiked ? prevCount - 1 : prevCount + 1));
+
+    updateProblemInState({
+      ...problem,
+      isLiked: !isLiked,
+      likesCount: isLiked ? likesCount - 1 : likesCount + 1,
+    });
   };
 
   const handleSave = async () => {
-    await toggleSave(problem.id);
+    const res = await toggleSave(problem.id);
+
+    if (!res.success) {
+      return;
+    }
+
     toggleSavedProblemFromState(problem.id, problem);
     setIsSaved(!isSaved);
+
+    updateProblemInState({
+      ...problem,
+      isSaved: !isSaved,
+    });
   };
 
   const handleMark = async () => {
-    await toggleMark(problem.id);
+    const res = await toggleMark(problem.id);
+
+    if (!res.success) {
+      return;
+    }
+
     toggleMarkedProblemFromState(problem.id, problem);
     setIsMarked(!isMarked);
+
+    updateProblemInState({
+      ...problem,
+      isMarked: !isMarked,
+    });
   };
 
   return (
@@ -75,7 +103,7 @@ function Reactions({ problem }) {
                     <>
                       <BookmarkIcon
                         className="h-5 w-5 text-primary"
-                        fill="primary"
+                        fill="white"
                       />
                       <span className="text-primary">Saved</span>
                     </>
@@ -90,7 +118,9 @@ function Reactions({ problem }) {
             </TooltipTrigger>
             {!authUser?.isSubscribed && (
               <TooltipContent>
-                <p className="text-amber-600">Upgrade to pro plan</p>
+                <p className="text-amber-600">
+                  Upgrade to pro plan to save problem
+                </p>
               </TooltipContent>
             )}
           </Tooltip>
@@ -110,7 +140,7 @@ function Reactions({ problem }) {
               >
                 {isMarked ? (
                   <>
-                    <FlagIcon className="h-5 w-5 text-primary" fill="primary" />
+                    <FlagIcon className="h-5 w-5 text-primary" fill="white" />
                     <span className="text-primary">Marked Problem</span>
                   </>
                 ) : (
@@ -124,7 +154,9 @@ function Reactions({ problem }) {
           </TooltipTrigger>
           {!authUser?.isSubscribed && (
             <TooltipContent>
-              <p className="text-amber-600">Upgrade to pro plan</p>
+              <p className="text-amber-600">
+                Upgrade to pro plan to mark problem
+              </p>
             </TooltipContent>
           )}
         </Tooltip>

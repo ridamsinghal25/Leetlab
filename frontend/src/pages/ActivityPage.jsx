@@ -29,15 +29,17 @@ export default function ActivityPage() {
   useEffect(() => {
     if (!authUser) return;
 
-    if (
-      likedProblems.length > 0 ||
-      savedProblems.length > 0 ||
-      markedProblems.length > 0
-    )
-      return;
-    getLikes();
-    getSavedProblems();
-    getMarkedProblems();
+    if (!likedProblems.length) {
+      getLikes();
+    }
+
+    if (!savedProblems.length) {
+      getSavedProblems();
+    }
+
+    if (!markedProblems.length) {
+      getMarkedProblems();
+    }
   }, [getLikes, getSavedProblems, getMarkedProblems]);
 
   return (

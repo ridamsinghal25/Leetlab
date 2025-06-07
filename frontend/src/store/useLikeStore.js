@@ -49,6 +49,10 @@ export const useLikeStore = create((set, get) => ({
 
       set({ likedProblems: updatedLikedProblems });
     } else {
+      if (!get().likedProblems.length > 0) {
+        return;
+      }
+
       set({
         likedProblems: [
           ...get().likedProblems,

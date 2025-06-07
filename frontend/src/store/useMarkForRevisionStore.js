@@ -31,6 +31,7 @@ export const useMarkForRevisionStore = create((set, get) => ({
 
       if (res.data.success) {
         toast.success(res.data.message);
+        return res.data;
       }
     } catch (error) {
       toast.error(error.response?.data?.error || "Error toggling mark");
@@ -51,6 +52,10 @@ export const useMarkForRevisionStore = create((set, get) => ({
 
       set({ markedProblems: updatedMarkedProblems });
     } else {
+      if (!get().markedProblems.length > 0) {
+        return;
+      }
+
       set({
         markedProblems: [
           ...get().markedProblems,

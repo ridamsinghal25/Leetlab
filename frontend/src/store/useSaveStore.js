@@ -31,6 +31,7 @@ export const useSaveStore = create((set, get) => ({
 
       if (res.data.success) {
         toast.success(res.data.message);
+        return res.data;
       }
     } catch (error) {
       toast.error(error.response?.data?.error || "Error toggling save");
@@ -51,6 +52,10 @@ export const useSaveStore = create((set, get) => ({
 
       set({ savedProblems: updatedSavedProblems });
     } else {
+      if (!get().savedProblems.length > 0) {
+        return;
+      }
+
       set({
         savedProblems: [
           ...get().savedProblems,
