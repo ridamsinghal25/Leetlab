@@ -9,7 +9,7 @@ export const checkPaidUsers = async (req, res, next) => {
         id: userId,
       },
       select: {
-        role: true,
+        isSubscribed: true,
       },
     });
 

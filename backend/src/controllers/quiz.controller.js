@@ -75,8 +75,6 @@ export const saveQuizResult = async (req, res) => {
 
     const user = req.user;
 
-    console.log({ questions, userAnswers, score });
-
     if (
       !questions?.length ||
       !userAnswers?.length ||

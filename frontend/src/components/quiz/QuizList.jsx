@@ -52,7 +52,9 @@ export default function QuizList({ assessments }) {
                 </TooltipTrigger>
                 {!authUser?.isSubscribed && (
                   <TooltipContent>
-                    <p className="text-amber-600">Upgrade to pro plan</p>
+                    <p className="text-amber-600">
+                      Upgrade to pro plan to start a new quiz
+                    </p>
                   </TooltipContent>
                 )}
               </Tooltip>

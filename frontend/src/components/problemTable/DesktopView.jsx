@@ -137,7 +137,7 @@ function ProblemTableDesktopView({
                               </TooltipTrigger>
                               <TooltipContent>
                                 <p className="text-amber-600">
-                                  Upgrade to pro plan
+                                  Upgrade to pro plan to view companies
                                 </p>
                               </TooltipContent>
                             </Tooltip>
