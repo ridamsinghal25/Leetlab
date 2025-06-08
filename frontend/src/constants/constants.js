@@ -50,3 +50,10 @@ export const INDUSTRIES = [
 ];
 
 export const PROBLEMS_PER_PAGE = 8;
+
+export const DEMO_PROBLEMS_ID = [
+  "076f1cdb-85b0-4ffe-ace0-4d02d7915cf4",
+  "0d6b5602-b3bc-4480-af9a-3e421ce26aa6",
+  "200e1e9b-260b-4f71-bc29-d39ac5f039cf",
+  "25508fd9-24e2-416f-a3d0-a2c8822cad45",
+];

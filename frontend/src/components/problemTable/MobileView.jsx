@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
+  DEMO_PROBLEMS_ID,
   EASY_DIFFICULTY,
   MEDIUM_DIFFICULTY,
   USER_ROLES,
@@ -37,7 +38,7 @@ function ProblemTableMobileView({
               key={problem.id}
               className="overflow-hidden hover:shadow-md transition-shadow"
             >
-              {index < 4 && (
+              {problem?.id && DEMO_PROBLEMS_ID.includes(problem.id) && (
                 <CardHeader>
                   <Badge>Demo</Badge>
                 </CardHeader>

@@ -18,6 +18,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import {
+  DEMO_PROBLEMS_ID,
   EASY_DIFFICULTY,
   MEDIUM_DIFFICULTY,
   USER_ROLES,
@@ -65,14 +66,12 @@ function ProblemTableDesktopView({
                           disabled
                           className="data-[state=checked]:bg-green-600 data-[state=checked]:border-green-600 flex-shrink-0"
                         />
-                        {index < 4 && (
-                          <Badge
-                            variant="secondary"
-                            className="bg-purple-100 text-purple-800 border-purple-200 text-xs px-2 py-1"
-                          >
-                            Demo
-                          </Badge>
-                        )}
+                        {problem?.id &&
+                          DEMO_PROBLEMS_ID.includes(problem.id) && (
+                            <div>
+                              <Badge>Demo</Badge>
+                            </div>
+                          )}
                       </div>
                     </TableCell>
                     <TableCell className="max-w-xs">
