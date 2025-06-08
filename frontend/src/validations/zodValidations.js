@@ -152,3 +152,7 @@ export const generateQuizSchema = z.object({
     .array(z.string().min(4, "Skill must be at least 4 characters"))
     .min(1, "At least one skill is required"),
 });
+
+export const selectPlaylistSchema = z.object({
+  playlistId: z.string().min(1, "Playlist is required"),
+});

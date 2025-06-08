@@ -27,6 +27,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useProblemStore } from "@/store/useProblemStore";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { selectPlaylistSchema } from "@/validations/zodValidations";
 
 export const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
   const {
@@ -39,6 +41,7 @@ export const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
   const { updateProblemsPlaylistInfoInState } = useProblemStore();
 
   const selectPlaylistForm = useForm({
+    resolver: zodResolver(selectPlaylistSchema),
     defaultValues: {
       playlistId: "",
     },
@@ -101,12 +104,20 @@ export const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
                     </FormControl>
                     <SelectContent>
                       {isFetchingPlaylistDetails ? (
-                        <SelectItem key={"loading-playlist"} disabled>
+                        <SelectItem
+                          key={"loading-playlist"}
+                          value="__loading__"
+                          disabled
+                        >
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                           Loading...
                         </SelectItem>
                       ) : currentPlaylists.length === 0 ? (
-                        <SelectItem key={"no-playlist-found"} disabled>
+                        <SelectItem
+                          key={"no-playlist-found"}
+                          value="__empty__"
+                          disabled
+                        >
                           No playlist found
                         </SelectItem>
                       ) : (

@@ -183,7 +183,7 @@ function ProblemTableMobileView({
                     <TooltipContent>
                       {problem.problemsPlaylists?.length > 0 ? (
                         <div className="flex items-center gap-1 max-w-[250px]">
-                          <div className="whitespace-nowrap">Saved to</div>
+                          <div className="whitespace-nowrap">Saved in</div>
                           <div className="flex gap-0.5 min-w-0 flex-1">
                             {problem.problemsPlaylists?.map(({ playlist }) => (
                               <p
