@@ -49,7 +49,7 @@ function ProblemTableDesktopView({
           </TableHeader>
           <TableBody>
             {paginatedProblems.length > 0 ? (
-              paginatedProblems.map((problem) => {
+              paginatedProblems.map((problem, index) => {
                 const isSolved = problem.solvedBy.some(
                   (user) => user.userId === authUser?.id
                 );
@@ -58,12 +58,22 @@ function ProblemTableDesktopView({
                     key={problem.id}
                     className="hover:bg-muted/30 transition-colors"
                   >
-                    <TableCell>
-                      <Checkbox
-                        checked={isSolved}
-                        disabled
-                        className="data-[state=checked]:bg-green-600 data-[state=checked]:border-green-600"
-                      />
+                    <TableCell className="relative">
+                      <div className="flex items-center gap-3">
+                        <Checkbox
+                          checked={isSolved}
+                          disabled
+                          className="data-[state=checked]:bg-green-600 data-[state=checked]:border-green-600 flex-shrink-0"
+                        />
+                        {index < 4 && (
+                          <Badge
+                            variant="secondary"
+                            className="bg-purple-100 text-purple-800 border-purple-200 text-xs px-2 py-1"
+                          >
+                            Demo
+                          </Badge>
+                        )}
+                      </div>
                     </TableCell>
                     <TableCell className="max-w-xs">
                       <Link

@@ -7,12 +7,18 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 
 export default function TestPanel({ testCases, setTestCases }) {
+  const [tabValue, setTabValue] = useState("case-1");
+
   const addTestCase = () => {
     setTestCases([...testCases, { input: "", output: "" }]);
+    setTabValue(`case-${testCases.length + 1}`);
   };
 
   const removeTestCase = (index) => {
     setTestCases((prev) => prev.filter((_, i) => i !== index));
+    if (testCases.length === index + 1) {
+      setTabValue(`case-${testCases.length - 1}`);
+    }
   };
 
   const onTestCaseValueChange = (value, field, index) => {
@@ -25,7 +31,12 @@ export default function TestPanel({ testCases, setTestCases }) {
     <div className="h-full flex flex-col">
       {/* Content */}
       <div className="flex-1 overflow-hidden">
-        <Tabs defaultValue="case-1" className="h-full flex flex-col">
+        <Tabs
+          defaultValue="case-1"
+          value={tabValue}
+          onValueChange={setTabValue}
+          className="h-full flex flex-col"
+        >
           {/* Tab List */}
           <div className="flex items-center px-3 py-2 border-b border-zinc-700 flex-shrink-0">
             <TabsList className="bg-transparent gap-1 h-8">

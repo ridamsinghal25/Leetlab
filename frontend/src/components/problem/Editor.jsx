@@ -90,7 +90,7 @@ function CodeEditor({
 
           <ResizableHandle className="hover:bg-blue-400" />
 
-          <ResizablePanel defaultSize={7} minSize={6} className="rounded mt-1">
+          <ResizablePanel defaultSize={8} minSize={6} className="rounded mt-1">
             {/* Test Panel */}
             <div className="h-full bg-[#252526] border border-[#3e3e3e] flex flex-col rounded mb-2">
               {/* Test Panel Header */}

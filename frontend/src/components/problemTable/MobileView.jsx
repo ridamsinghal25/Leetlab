@@ -3,7 +3,7 @@ import { Bookmark, Building2, Lock, Pencil, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   EASY_DIFFICULTY,
   MEDIUM_DIFFICULTY,
@@ -27,7 +27,7 @@ function ProblemTableMobileView({
   return (
     <div className="block lg:hidden space-y-4">
       {paginatedProblems.length > 0 ? (
-        paginatedProblems?.map((problem) => {
+        paginatedProblems?.map((problem, index) => {
           const isSolved = problem?.solvedBy?.some(
             (user) => user.userId === authUser?.id
           );
@@ -37,6 +37,11 @@ function ProblemTableMobileView({
               key={problem.id}
               className="overflow-hidden hover:shadow-md transition-shadow"
             >
+              {index < 4 && (
+                <CardHeader>
+                  <Badge>Demo</Badge>
+                </CardHeader>
+              )}
               <CardContent className="p-4 space-y-4">
                 {/* Header with status and actions */}
                 <div className="flex items-center justify-between">
