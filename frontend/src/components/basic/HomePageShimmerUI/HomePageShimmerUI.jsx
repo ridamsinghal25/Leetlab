@@ -5,10 +5,10 @@ import MobileShimmer from "./MobileShimmerUI";
 import DesktopShimmerUI from "./DesktopShimmerUI";
 
 export function HomePageShimmerUI() {
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isMobile = useMediaQuery("(max-width: 1024px)");
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen w-full">
       {/* Header */}
       <header className="border-b p-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -25,17 +25,17 @@ export function HomePageShimmerUI() {
       {/* Welcome Section - Responsive */}
       <div
         className={`text-center space-y-4 max-w-3xl mx-auto ${
-          isMobile ? "mt-8 px-4" : "mt-24"
+          isMobile ? "mt-20 px-4" : "mt-24"
         }`}
       >
         <Skeleton
-          className={`mx-auto ${isMobile ? "h-8 w-full" : "h-16 w-3/4"}`}
+          className={`mx-auto ${isMobile ? "h-12 w-full" : "h-16 w-3/4"}`}
         />
         <Skeleton
-          className={`mx-auto ${isMobile ? "h-4 w-full" : "h-7 w-full"}`}
+          className={`mx-auto ${isMobile ? "h-7 w-5/6" : "h-7 w-full"}`}
         />
         <Skeleton
-          className={`mx-auto ${isMobile ? "h-4 w-5/6" : "h-7 w-5/6"}`}
+          className={`mx-auto ${isMobile ? "h-7 w-4/6" : "h-7 w-5/6"}`}
         />
       </div>
 

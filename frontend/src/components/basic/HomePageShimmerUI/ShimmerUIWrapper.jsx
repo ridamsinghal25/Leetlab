@@ -3,7 +3,7 @@ import MobileShimmer from "./MobileShimmerUI";
 import DesktopShimmerUI from "./DesktopShimmerUI";
 
 export function ProblemsShimmerUI() {
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isMobile = useMediaQuery("(max-width: 1024px)");
 
   return <>{isMobile ? <MobileShimmer /> : <DesktopShimmerUI />}</>;
 }

@@ -6,17 +6,19 @@ export default function DesktopShimmerUI() {
       {/* Main Content */}
       <div className="space-y-8 mb-10">
         {/* Problems Section */}
-        <div className="mt-16 space-y-4 mx-28">
+        <div className="mt-16 space-y-4 mx-8 xl:mx-28">
           <div className="flex items-center justify-between mb-6">
             <Skeleton className="h-8 w-32" />
             <Skeleton className="h-10 w-40" />
           </div>
 
           {/* Search and Filters */}
-          <div className="flex items-center space-x-4">
-            <Skeleton className="h-10 flex-grow" />
-            <Skeleton className="h-10 w-40" />
-            <Skeleton className="h-10 w-32" />
+          <Skeleton className="h-10 w-full" />
+
+          <div className="flex items-center justify-between mb-6">
+            <Skeleton className="h-10 w-44" />
+            <Skeleton className="h-10 w-44" />
+            <Skeleton className="h-10 w-44" />
           </div>
 
           {/* Problems Table */}
@@ -62,7 +64,7 @@ export default function DesktopShimmerUI() {
                   <Skeleton className="h-6 w-16 rounded-full" />
                 </div>
                 <div className="col-span-2">
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 justify-end">
                     <Skeleton className="h-8 w-8" />
                     <Skeleton className="h-8 w-8" />
                     <Skeleton className="h-8 w-24" />

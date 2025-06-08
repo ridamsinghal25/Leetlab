@@ -1,28 +1,24 @@
-import { ChevronLeft, Circle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function MobileShimmer() {
   return (
-    <div className="min-h-screen w-screen mx-20">
+    <div className="min-h-screen w-full px-4 md:px-8">
       {/* Content */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="mx-auto py-8">
         {/* Problems Section */}
         <div className="mt-12 space-y-4">
+          {/* Create Playlist Button */}
           <div className="flex items-center justify-between mb-6">
             <Skeleton className="h-8 w-32" />
             <Skeleton className="h-10 w-32" />
           </div>
 
-          {/* Create Playlist Button */}
+          {/* Search and Filters */}
+
           <Skeleton className="h-12 w-full" />
 
-          {/* Search and Filters */}
           <div className="flex items-center justify-between mb-6">
-            <Skeleton className="h-10 w-52" />
             <Skeleton className="h-10 w-32" />
-          </div>
-
-          <div className="flex items-center justify-between mb-6">
             <Skeleton className="h-10 w-32" />
             <Skeleton className="h-10 w-32" />
           </div>
@@ -39,7 +35,7 @@ export default function MobileShimmer() {
                   <Skeleton className="h-6 w-24 bg-red-100" />
                 </div>
                 <div className="flex items-center gap-2">
-                  <Skeleton className="h-8 w-3" />
+                  <Skeleton className="h-8 w-8" />
                   <Skeleton className="h-8 w-8" />
                 </div>
               </div>

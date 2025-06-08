@@ -1,12 +1,5 @@
 import { Link } from "react-router-dom";
-import {
-  Bookmark,
-  Building2,
-  Loader2,
-  Lock,
-  Pencil,
-  Trash,
-} from "lucide-react";
+import { Bookmark, Building2, Lock, Pencil, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -32,7 +25,7 @@ function ProblemTableMobileView({
   isDeletingProblem,
 }) {
   return (
-    <div className="block md:hidden space-y-4">
+    <div className="block lg:hidden space-y-4">
       {paginatedProblems.length > 0 ? (
         paginatedProblems?.map((problem) => {
           const isSolved = problem?.solvedBy?.some(

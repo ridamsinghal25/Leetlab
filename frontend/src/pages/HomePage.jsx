@@ -126,7 +126,7 @@ const HomePage = () => {
   }
 
   return (
-    <div>
+    <div className="w-full">
       <Navbar />
 
       <section className="min-h-screen flex flex-col items-center px-4 py-8 sm:py-16 relative">
@@ -143,7 +143,7 @@ const HomePage = () => {
         {isProblemsLoading ? (
           <ProblemsShimmerUI />
         ) : (
-          <Card className="w-full max-w-6xl md:min-w-5xl mx-auto border-none shadow-lg">
+          <Card className="w-full max-w-6xl mx-auto border-none shadow-lg">
             <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
               <CardTitle className="text-2xl font-bold">Problems</CardTitle>
               <Button
@@ -156,7 +156,7 @@ const HomePage = () => {
             </CardHeader>
             <CardContent>
               {/* Filters - Responsive grid layout */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+              <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
                 <Input
                   type="text"
                   placeholder="Search by title"
