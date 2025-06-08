@@ -466,10 +466,13 @@ export const getAllProblemsSolvedByUser = async (req, res) => {
       },
     });
 
+    const totalProblems = await db.problem.count();
+
     res.status(200).json({
       success: true,
       message: "Problems fetched successfully",
       problems,
+      totalProblems,
     });
   } catch (error) {
     console.error("Error fetching problems:", error);

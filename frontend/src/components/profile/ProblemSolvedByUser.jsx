@@ -1,8 +1,14 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Tag, ExternalLink, CheckCircle } from "lucide-react";
+import { Tag, ExternalLink, CheckCircle, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -21,10 +27,16 @@ import {
 import { ROUTES } from "@/constants/routes";
 import { ProblemSolvedShimmerUI } from "@/components/basic/ProfilePageShimmerUI/ProblemSolvedShimmerUI";
 import { useAuthStore } from "@/store/useAuthStore";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 function ProblemSolvedByUser() {
-  const { getSolvedProblemByUser, solvedProblems, isFetchingSolvedProblems } =
-    useProblemStore();
+  const {
+    getSolvedProblemByUser,
+    solvedProblems,
+    isFetchingSolvedProblems,
+    totalProblems,
+  } = useProblemStore();
 
   const { authUser } = useAuthStore();
 
@@ -32,6 +44,11 @@ function ProblemSolvedByUser() {
     if (!authUser || solvedProblems.length) return;
     getSolvedProblemByUser();
   }, [getSolvedProblemByUser]);
+
+  // Calculate progress percentage
+  const progressPercentage = Math.round(
+    (solvedProblems.length / totalProblems) * 100
+  );
 
   if (isFetchingSolvedProblems) {
     return <ProblemSolvedShimmerUI />;
@@ -57,6 +74,50 @@ function ProblemSolvedByUser() {
         </Card>
       ) : (
         <>
+          {/* Progress Overview Card */}
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Target className="h-5 w-5" />
+                Progress Overview
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col justify-center items-center gap-6">
+                <div className="w-32 h-32 flex-shrink-0">
+                  <CircularProgressbar
+                    value={solvedProblems.length}
+                    text={`${progressPercentage}%`}
+                    maxValue={totalProblems}
+                    styles={buildStyles({
+                      textSize: "16px",
+                      pathColor:
+                        progressPercentage >= 75
+                          ? "#10b981"
+                          : progressPercentage >= 50
+                          ? "#f59e0b"
+                          : "#ef4444",
+                      textColor: "#374151",
+                      trailColor: "#f3f4f6",
+                      pathTransitionDuration: 0.5,
+                    })}
+                  />
+                </div>
+                <div className="flex flex-col items-center text-center md:text-left">
+                  <h3 className="text-2xl font-bold text-green-600">
+                    {solvedProblems.length} / {totalProblems}
+                  </h3>
+                  <p className="text-muted-foreground">Problems Completed</p>
+                  <div className="mt-2">
+                    <span className="text-sm text-muted-foreground">
+                      {totalProblems - solvedProblems.length} problems remaining
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             {DIFFICULTIES_OPTIONS?.map((item) => (

@@ -1,4 +1,10 @@
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
@@ -8,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Target } from "lucide-react";
 
 export function ProblemSolvedShimmerUI() {
   return (
@@ -15,6 +22,37 @@ export function ProblemSolvedShimmerUI() {
       <div className="flex justify-between items-center mb-6">
         <Skeleton className="h-8 w-48" />
       </div>
+
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Target className="h-5 w-5" />
+            Progress Overview
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col justify-center items-center gap-6">
+            {/* Circular Progress Shimmer */}
+            <div className="w-32 h-32 flex-shrink-0">
+              <Skeleton className="w-32 h-32 rounded-full" />
+            </div>
+
+            {/* Text Content Shimmer */}
+            <div className="flex flex-col items-center text-center md:text-left gap-2">
+              {/* Main progress text */}
+              <Skeleton className="h-8 w-20" />
+
+              {/* "Problems Completed" label */}
+              <Skeleton className="h-4 w-32" />
+
+              {/* Remaining problems text */}
+              <div className="mt-2">
+                <Skeleton className="h-3 w-36" />
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">

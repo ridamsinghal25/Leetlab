@@ -11,6 +11,7 @@ export const useProblemStore = create((set, get) => ({
   problems: [],
   problem: null,
   solvedProblems: [],
+  totalProblems: 0,
   problemsCount: null,
 
   getAllProblems: async (skip, take) => {
@@ -56,7 +57,10 @@ export const useProblemStore = create((set, get) => ({
       const res = await axiosInstance.get("/problem/get-solved-problems");
 
       if (res.data.success) {
-        set({ solvedProblems: res.data.problems });
+        set({
+          solvedProblems: res.data.problems,
+          totalProblems: res.data.totalProblems,
+        });
       }
     } catch (error) {
       toast.error(
