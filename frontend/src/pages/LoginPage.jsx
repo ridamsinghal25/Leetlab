@@ -97,20 +97,30 @@ export default function LoginPage() {
                     </Button>
                   </div>
 
-                  <Button
-                    type="submit"
-                    className="w-full mt-6"
-                    disabled={isLoggingIn}
-                  >
-                    {isLoggingIn ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Signing in...
-                      </>
-                    ) : (
-                      "Sign in"
-                    )}
-                  </Button>
+                  <div className="flex justify-between">
+                    <Button
+                      type="button"
+                      disabled={isLoggingIn}
+                      onClick={() =>
+                        loginForm.reset({
+                          email: "user@gmail.com",
+                          password: "user1234",
+                        })
+                      }
+                    >
+                      Demo
+                    </Button>
+                    <Button type="submit" disabled={isLoggingIn}>
+                      {isLoggingIn ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Signing in...
+                        </>
+                      ) : (
+                        "Sign in"
+                      )}
+                    </Button>
+                  </div>
                 </form>
               </Form>
             </CardContent>
